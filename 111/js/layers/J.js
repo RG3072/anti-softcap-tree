@@ -165,6 +165,7 @@ addLayer("J", {
             effectDescription: "bp/ss^^ is much cheaper,unlock more rank eff.",
         },
     },
+    resetsNothing(){return mil('J',9)},
     autoPrestige() {return ((mil('J', 9)&&player.J.auto3))},
     canBuyMax() {return ((mil('J', 9)&&player.J.auto3))},
     automate(){
