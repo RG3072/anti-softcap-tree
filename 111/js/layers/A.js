@@ -4,25 +4,25 @@ addLayer("A", {
     position: 0, // Horizontal position within a row. By default it uses the layer id and sorts in alphabetical order
     startData() { return {
         unlocked: true,
-		points: new Decimal(0),
+		points: n(0),
     }},
     passiveGeneration(){
-        let pg=0
-        if (upg("B",23)||mil('I',1)) pg=Decimal.add(pg,1)
-        if (mil("C", 1))  pg=Decimal.mul(pg,100)
-        if (mil("C", 2))  pg=Decimal.mul(pg,100)
-        if (mil("D", 1))  pg=Decimal.mul(pg,100)
-        if (mil("D", 2))  pg=Decimal.mul(pg,1e4)
-        return pg},
+        let p=n(0)
+        if (upg("B",23)||mil('I',1)) p=p.add(1)
+        if (mil("C", 1))  p=p.mul(100)
+        if (mil("C", 2))  p=p.mul(100)
+        if (mil("D", 1))  p=p.mul(100)
+        if (mil("D", 2))  p=p.mul(1e4)
+        return p},
     color: "#4BDC13",
-    requires: new Decimal(10), // Can be a funct}ion that takes requirement increases into account
+    requires: n(10), // Can be a funct}ion that takes requirement increases into account
     resource: "A", // Name of prestige currency
     baseResource: "points", // Name of resource prestige is based on
     baseAmount() {return player.points}, // Get the current amount of baseResource
     type: "normal", // normal: cost to gain currency depends on amount gained. static: cost depends on how much you already have
     exponent: n(0.5), // Prestige currency exponent
     gainExp() {// Calculate the exponent on main currency from bonuses
-        return new Decimal(1)
+        return n(1)
     },
     row: 0, // Row the layer is in on the tree (0 is the first row)
     hotkeys: [
@@ -30,7 +30,7 @@ addLayer("A", {
     ],
     layerShown(){return true},
     gainMult() { // Calculate the multiplier for main currency from bonuses
-        mult = new Decimal(1)
+        mult = n(1)
         mult = mult.mul(upg(this.layer,22)?3:1)
         mult = mult.mul(hasChallenge("A", 22)?20:1)
         mult = mult.mul(hasChallenge("A", 31)?20:1)
@@ -39,12 +39,11 @@ addLayer("A", {
         mult = mult.mul(buyableEffect("E",11))
         mult = mult.mul(mil("F",0)?10:1)
         mult = mult.mul(mil("I",0)?5:1)
-        //if (mil('G',14)&&mult.gte('10^^4'))  mult=n(10).pow(n(10).pow(n(10).pow(n(10).pow(mult.log(10).log(10).log(10).log(10).add(tmp.G.gsre)))))
-        if(mil('G',14)) mult=mult.mul(player.points)
+        if(mil('G',14)) mult=mult.mul(player.points.max(1))
         return mult
     },
-    softcap(){return new Decimal(Infinity)},
-	softcapPower(){return new Decimal(1)},
+    softcap(){return n(Infinity)},
+	softcapPower(){return n(1)},
     doReset(layer){
         if (layer=="F") {        
             let keep = [];
@@ -94,30 +93,30 @@ addLayer("A", {
                 ef=ef.pow(buyableEffect("B",22))
                 return ef
             },
-            cost:new Decimal(1),
+            cost:n(1),
         },
         12: {
             title:'A2',
             description: "2x points.",
-            cost: new Decimal(1),
+            cost: n(1),
             unlocked() { return (upg(this.layer, 11))},
         },
         13: {
             title:'A3',
             description: "2x points.",
-            cost: new Decimal(2),
+            cost: n(2),
             unlocked() { return (upg(this.layer, 12))},
         },
         14: {
             title:'A4',
             description: "2x points.",
-            cost: new Decimal(4),
+            cost: n(4),
             unlocked() { return (upg(this.layer, 13))},
         },
         15: {
             title:'A5',
             description: "point/s^1.1.",
-            cost: new Decimal(10),
+            cost: n(10),
             unlocked() { return (upg(this.layer, 14))},
             effect()  {let ef=n(0.1)
                 if (upg('B', 32))  ef = ef.add(0.05)
@@ -132,25 +131,25 @@ addLayer("A", {
         21: {
             title:'A6',
             description: "3x points.",
-            cost:new Decimal(20),
+            cost:n(20),
             unlocked() { return (upg(this.layer, 15))},
         },
         22: {
             title:'A7',
             description: "3x A.",
-            cost: new Decimal(30),
+            cost: n(30),
             unlocked() { return (upg(this.layer, 21))},
         },
         23: {
             title:'A8',
             description: "3x points.",
-            cost:new Decimal(100),
+            cost:n(100),
             unlocked() { return (upg(this.layer, 22))},
         },
         24: {
             title:'A9',
             description: "lg(points) mults point/s.",
-            cost: new Decimal(200),
+            cost: n(200),
             unlocked() { return (upg(this.layer, 23))},
             effect()  { 
                 let ef = player.points.add(10).log(10)
@@ -164,8 +163,7 @@ addLayer("A", {
                 if (upg('A',52)) ef = ef.pow(1.15)
 
                 if (inChallenge("A",12)) ef = ef.pow(0.25)
-                if (inChallenge("A",22)) ef = n(1)
-                if (inChallenge("A",31)) ef = n(1)
+                if (inChallenge("A",22)||inChallenge("A",31)) ef = n(1)
                 return ef;          
             },
             effectDisplay() { return format(this.effect())+"x" }, 
@@ -173,37 +171,37 @@ addLayer("A", {
         25: {
             title:'A10',
             description: "5x points.",
-            cost:new Decimal(400),
+            cost:n(400),
             unlocked() { return (upg(this.layer, 24))},
         },
         31: {
             title:'A11',
             description: "A9 x5.",
-            cost:new Decimal(800),
+            cost:n(800),
             unlocked() { return (upg(this.layer, 25))},
         },
         32: {
             title:'A12',
             description: "A9 x5.",
-            cost:new Decimal(2000),
+            cost:n(2000),
             unlocked() { return (upg(this.layer, 31))},
         },
         33: {
             title:'A13',
             description: "A9^1.3.",
-            cost:new Decimal(5000),
+            cost:n(5000),
             unlocked() { return (upg(this.layer, 32))},
         },
         34: {
             title:'A14',
             description: "A9^1.03.",
-            cost:new Decimal(1.5e4),
+            cost:n(1.5e4),
             unlocked() { return (upg(this.layer, 33))},
         },
         35: {
             title:'A15',
             description: "A^0.2 boost points. unlock B.",
-            cost: new Decimal(2e4),
+            cost: n(2e4),
             unlocked() { return (upg(this.layer, 34))},
             effect()  { 
                 let ef=n(0.2)
@@ -215,67 +213,67 @@ addLayer("A", {
         41: {
             title:'A16',
             description: "300x points.",
-            cost:new Decimal('3e30'),
+            cost:n('3e30'),
             unlocked() { return (hasChallenge(this.layer, 31))},
         },
         42: {
             title:'A17',
             description: "A15 ^1.25.",
-            cost:new Decimal('1e33'),
+            cost:n('1e33'),
             unlocked() { return (upg(this.layer, 41))},
         },
         43: {
             title:'A18',
             description: "500x points.",
-            cost:new Decimal('2e36'),
+            cost:n('2e36'),
             unlocked() { return (upg(this.layer, 42))},
         },
         44: {
             title:'A19',
             description: "A9 ^1.25.",
-            cost:new Decimal('2e38'),
+            cost:n('2e38'),
             unlocked() { return (upg(this.layer, 43))},
         },
         45: {
             title:'A20',
             description: "1000x points,C ^1.1.",
-            cost:new Decimal('1e41'),
+            cost:n('1e41'),
             unlocked() { return (upg(this.layer, 44))},
         },
         51: {
             title:'A21',
             description: "4000x points.",
-            cost:new Decimal('2e74'),
+            cost:n('2e74'),
             unlocked() { return (hasChallenge('C', 11))},
         },
         52: {
             title:'A22',
             description: "D x2,A9^1.15,unlock a chal.",
-            cost:new Decimal('1e78'),
+            cost:n('1e78'),
             unlocked() { return (upg(this.layer, 51))},
         },
         53: {
             title:'A23',
             description: "B26 x10.",
-            cost:new Decimal('5e264'),
+            cost:n('5e264'),
             unlocked() { return (upg('B', 62))},
         },
         54: {
             title:'A24',
             description: "B26 x10,x3e4 pts.",
-            cost:new Decimal('2e277'),
+            cost:n('2e277'),
             unlocked() { return (upg(this.layer, 53))},
         },
         55: {
             title:'A25',
             description: "Bb3-4 are stronger.",
-            cost:new Decimal('1e322'),
+            cost:n('1e322'),
             unlocked() { return (upg(this.layer, 54))},
         },
         61: {
             title:'A26',
             description: "mult to C based on Bb1 eff.",
-            cost:new Decimal('1e1896'),
+            cost:n('1e1896'),
             effect()  { 
                 let ef = buyableEffect('B',11).pow(0.02).times(buyableEffect('B',11).add(10).log(10).pow(1.5))
                 return ef},
@@ -285,7 +283,7 @@ addLayer("A", {
         62: {
             title:'A27',
             description: "mult to B26 based on Bb1 eff.",
-            cost:new Decimal('1e2020'),
+            cost:n('1e2020'),
             effect()  { 
                 let ef = buyableEffect('B',11).add(10).log(10).pow(1.2)
                 return ef;},
@@ -295,13 +293,13 @@ addLayer("A", {
         63: {
             title:'A28',
             description: "Bb5 x1.02.",
-            cost:new Decimal('1e2391'),
+            cost:n('1e2391'),
             unlocked() { return (upg(this.layer, 62))},
         },
         64: {
             title:'A29',
             description: "mult to D based on Bb1 eff.",
-            cost:new Decimal('1e2488'),
+            cost:n('1e2488'),
             effect()  { 
                 let ef = buyableEffect('B',11).pow(0.006).times(buyableEffect('B',11).add(10).log(10).pow(1.25))
                 return ef;},
@@ -311,7 +309,7 @@ addLayer("A", {
         65: {
             title:'A30',
             description: "nerf Bb1-5's cost scaling.",
-            cost:new Decimal('1e2541'),
+            cost:n('1e2541'),
             unlocked() { return (upg(this.layer, 64))},
         },
     },
@@ -372,16 +370,11 @@ addLayer("A", {
         },
         41: {//codes are edited at v0.7.2
             name: "Ac7",
-            completionLimit: 5,
+            completionLimit:n(5),
             challengeDescription: function() {
-                return "Bb3-5 are disabled <br> Completion: " +challengeCompletions(this.layer,this.id) + "/5"},
+                return "Bb3-5 are disabled <br> Completion: " +ccomp(this.layer,this.id) + "/5"},
             unlocked() { return (mil('B',4))},
             goal(){
-                // if (challengeCompletions("A", 41) == 0) return Decimal.pow(10,777);
-                // if (challengeCompletions("A", 41) == 1) return Decimal.pow(10,1325);
-                // if (challengeCompletions("A", 41) == 2) return Decimal.pow(10,1540);
-                // if (challengeCompletions("A", 41) == 3) return Decimal.pow(10,2024);
-                // if (challengeCompletions("A", 41) >= 4) return Decimal.pow(10,2600);
                 let a=[n('e777'),n('e1325'),n('e1540'),n('e2024'),n('e2600'),n(0)]
                 return a[(challengeCompletions(this.layer,this.id))]
             },            
@@ -389,13 +382,13 @@ addLayer("A", {
             canComplete() {return player.points.gte(this.goal())},
             rewardDescription: "boost to pts base on Bb1-2.",
             rewardEffect() {
-                let b=n(challengeCompletions("A", 41)).pow(1.25)
+                let b=ccomp("A", 41).pow(1.25)
                 let ef1 = n(buyableEffect('B',11)).pow(n(0.12).add(b.div(40)))
                 let ef2 = n(buyableEffect('B',12)).pow(n(0.12).add(b.div(40)))
                 let ef = ef1.mul(ef2)
                 if (upg('E',52)) ef=ef.pow(upgradeEffect('E',52))
-                if (n(challengeCompletions("A", 41)).gte(1))  return ef
-                else return new Decimal(1)
+                if (ccomp("A", 41).gte(1))  return ef
+                else return n(1)
             },
             rewardDisplay() {return format(this.rewardEffect())+"x"},
         },

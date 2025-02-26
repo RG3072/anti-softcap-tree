@@ -15,6 +15,10 @@ function gba(a,b) {
   return getBuyableAmount(a,b)
 }
 
+function ccomp(a,b) {
+  return n(challengeCompletions(a,b))
+}
+
 function upg(a,b) {
   return hasUpgrade(a,b)
 }

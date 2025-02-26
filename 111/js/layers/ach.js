@@ -1,15 +1,12 @@
-
-// A side layer with achievements, with no prestige
+// side layers
 addLayer("ac", {
     startData() { return {
         unlocked: true,
-        //points: new Decimal(0),
+        //points: n(0),
     }},
     color: "yellow",
     row: "side",
-    tooltip() { // Optional, tooltip displays when the layer is locked
-        return ("Achievements")
-    },
+    tooltip() {return "Achievements"},
     achievementPopups: true,
     achievements: {
         11: {
@@ -19,12 +16,12 @@ addLayer("ac", {
         },
         12: {
             name: "2.constant",
-            done() {return (hasUpgrade("A", 14))},
+            done() {return (upg("A", 14))},
             tooltip: "get A1-A4", 
         },
         13: {
             name: "3.self boost",
-            done() {return (hasUpgrade("A", 15))},
+            done() {return (upg("A", 15))},
             tooltip: "get A5",
         },
         14: {
@@ -34,7 +31,7 @@ addLayer("ac", {
         },
         15: {
             name: "5.logged",
-            done() {return (hasUpgrade("A", 24))},
+            done() {return (upg("A", 24))},
             tooltip: "get A9",
         },
         16: {
@@ -44,17 +41,17 @@ addLayer("ac", {
         },
         21: {
             name: "7.constant^2",
-            done() {return (hasUpgrade("B", 15))},
+            done() {return (upg("B", 15))},
             tooltip: "get B1-B5",
         },
         22: {
             name: "8.primary automation",
-            done() {return (hasUpgrade("B", 23))},
+            done() {return (upg("B", 23))},
             tooltip: "get B8", 
         },
         23: {
             name: "9.challenging",
-            done() {return (hasUpgrade("B", 25))},
+            done() {return (upg("B", 25))},
             tooltip: "unlock A chal", 
         },
         24: {
@@ -69,7 +66,7 @@ addLayer("ac", {
         },
         26: {
             name: "12.Row 1 full",
-            done() {return (hasUpgrade("B", 35))},
+            done() {return (upg("B", 35))},
             tooltip: "get B15", 
         },
         31: {
@@ -79,17 +76,17 @@ addLayer("ac", {
         },
         32: {
             name: "14.hidden upg",
-            done() {return (hasUpgrade("A", 41))},
+            done() {return (upg("A", 41))},
             tooltip: "get A16", 
         },
         33: {
             name: "15.a set of timewall",
-            done() {return (hasUpgrade("A", 45))},
+            done() {return (upg("A", 45))},
             tooltip: "get A20", 
         },
         34: {
             name: "16.clickable",
-            done() {return (hasUpgrade("C", 25))},
+            done() {return (upg("C", 25))},
             tooltip: "get C10", 
         },
         35: {
@@ -99,42 +96,42 @@ addLayer("ac", {
         },
         36: {
             name: "18.constant^3",
-            done() {return (hasUpgrade("D", 14))},
+            done() {return (upg("D", 14))},
             tooltip: "get D1-D4", 
         },
         41: {
             name: "19.hidden upg^2",
-            done() {return (hasUpgrade("A", 52))},
+            done() {return (upg("A", 52))},
             tooltip: "get A22", 
         },
         42: {
             name: "20.perfect exponential",
-            done() {return (hasUpgrade("D", 21))},
+            done() {return (upg("D", 21))},
             tooltip: "get D6", 
         },
         43: {
             name: "21.first buyable",
-            done() { return hasMilestone('D',2)},
+            done() { return mil('D',2)},
             tooltip: "unlock B buyable",
         },
         44: {
             name: "22.Row 1 boost",
-            done() { return hasUpgrade('B',41)},
+            done() { return upg('B',41)},
             tooltip: "unlock Bb2",
         },
         45: {
             name: "23.discount",
-            done() { return hasUpgrade('B',43)},
+            done() { return upg('B',43)},
             tooltip: "get B18",
         },
         46: {
             name: "24.multieffect",
-            done() { return hasUpgrade('B',52)},
+            done() { return upg('B',52)},
             tooltip: "get B22",
         },
         51: {
             name: "25.remarkable",
-            done() { return hasMilestone('B',0)},
+            done() { return mil('B',0)},
             tooltip: "get a B milestone",
         },
         52: {
@@ -149,22 +146,22 @@ addLayer("ac", {
         },
         54: {
             name: "28.feel free",
-            done() { return hasMilestone('B',2)},
+            done() { return mil('B',2)},
             tooltip: "autobuy B buyable",
         },
         55: {
             name: "29.constant^4",
-            done() {return (hasUpgrade("B", 72))},
+            done() {return (upg("B", 72))},
             tooltip: "get B32", 
         },
         56: {
             name: "30.4x auto",
-            done() { return hasMilestone('B',4)},
+            done() { return mil('B',4)},
             tooltip: "D passive gain",
         },
         61: {
             name: "31.year in A",
-            done() { return (challengeCompletions("A", 41) >= 4)},
+            done() { return (ccomp("A", 41).gte(4))},
             tooltip: "get 1e2024 pts in Ac7",
         },
         62: {
@@ -174,12 +171,12 @@ addLayer("ac", {
         },
         63: {
             name: "33.a set of timewall^2",
-            done() {return (hasUpgrade("A", 65))},
+            done() {return (upg("A", 65))},
             tooltip: "get A30", 
         },
         64: {
             name: "34.inflation here",
-            done() {return (hasUpgrade("B", 82))},
+            done() {return (upg("B", 82))},
             tooltip: "get B37", 
         },
         65: {
@@ -194,7 +191,7 @@ addLayer("ac", {
         },
         71: {
             name: "37.4 ingredients",
-            done() {return (hasMilestone("E", 2))},
+            done() {return (mil("E", 2))},
             tooltip: "unlock E chal", 
         },
         72: {
@@ -204,12 +201,12 @@ addLayer("ac", {
         },
         73: {
             name: "39.just for E",
-            done() { return (challengeCompletions("E", 11) >= 3)},
+            done() { return (ccomp("E", 11).gte(3))},
             tooltip: "complete Ec1x3",
         },
         74: {
             name: "40.a bigger timewall",
-            done() {return (challengeCompletions("E", 12) >= 2)},
+            done() {return (ccomp("E", 12).gte(2))},
             tooltip: "complete Ec2x2", 
         },
         75: {
@@ -219,22 +216,22 @@ addLayer("ac", {
         },
         76: {
             name: "42.3 'antimatter galaxies'",
-            done() {return (hasUpgrade("E", 45))},
+            done() {return (upg("E", 45))},
             tooltip: "get E20", 
         },
         81: {
             name: "43.'985'",
-            done() {return (hasUpgrade("E", 54))},
+            done() {return (upg("E", 54))},
             tooltip: "get E24", 
         },
         82: {
             name: "44.challenging^2",
-            done() {return (challengeCompletions("E", 22) >= 1)},
+            done() {return (ccomp("E", 22).gte(1))},
             tooltip: "complete Ec4x1", 
         },
         83: {
             name: "45.hidden upg^4",
-            done() {return (hasUpgrade("E", 64))},
+            done() {return (upg("E", 64))},
             tooltip: "get E29", 
         },
         84: {
@@ -244,12 +241,12 @@ addLayer("ac", {
         },
         85: {
             name: "47.no more clicks?",
-            done() {return (hasMilestone('E',10))},
+            done() {return (mil('E',10))},
             tooltip: "get 10x E pas", 
         },
         86: {
             name: "48.Emmm...",
-            done() {return (hasMilestone('E',11))},
+            done() {return (mil('E',11))},
             tooltip: "unlock Em", 
         },
         91: {
@@ -264,22 +261,22 @@ addLayer("ac", {
         },
         93: {
             name: "51.back",
-            done() {return (hasUpgrade("E", 92))},
+            done() {return (upg("E", 92))},
             tooltip: "get E42", 
         },
         94: {
             name: "52.linear",
-            done() {return (challengeCompletions("E", 32) >= 1)},
+            done() {return (ccomp("E", 32).gte(1))},
             tooltip: "complete Ec6x1", 
         },
         95: {
             name: "53.Ek ruby",
-            done() {return (hasMilestone('E',15))},
+            done() {return (mil('E',15))},
             tooltip: "unlock Ek", 
         },
         96: {
             name: "54.hidden upg^5",
-            done() {return (hasUpgrade("E", 101))},
+            done() {return (upg("E", 101))},
             tooltip: "get E46", 
         },
         101: {
@@ -289,22 +286,22 @@ addLayer("ac", {
         },
         102: {
             name: "56.inflation again",
-            done() {return (hasUpgrade("E", 104))},
+            done() {return (upg("E", 104))},
             tooltip: "get E49", 
         },
         103: {
             name: "57.raising exp",
-            done() {return (challengeCompletions("E", 42) >= 2)},
+            done() {return (ccomp("E", 42).gte(2))},
             tooltip: "complete Ec8x2", 
         },
         104: {
             name: "58.50 upgs",
-            done() {return (hasUpgrade("E", 105))},
+            done() {return (upg("E", 105))},
             tooltip: "get E50", 
         },
         105: {
             name: "59.10 babs",
-            done() {return (hasMilestone("E", 18))},
+            done() {return (mil("E", 18))},
             tooltip: "unlock Eb10", 
         },
         106: {
@@ -314,7 +311,7 @@ addLayer("ac", {
         },
         111: {
             name: "61.complicated",
-            done() {return (challengeCompletions("E", 42) >= 5)},
+            done() {return (ccomp("E", 42).gte(5))},
             tooltip: "complete Ec8x5", 
         },
         112: {
@@ -354,32 +351,32 @@ addLayer("ac", {
         },
         123: {
             name: "69.no wait",
-            done() {return (hasMilestone("F", 4))},
+            done() {return (mil("F", 4))},
             tooltip: "keep E upg", 
         },
         124: {
             name: "70.no clicks",
-            done() {return (hasMilestone("F", 5))},
+            done() {return (mil("F", 5))},
             tooltip: "keep E chal", 
         },
         125: {
             name: "71.fluorine",
-            done() {return (hasUpgrade("F", 24))},
+            done() {return (upg("F", 24))},
             tooltip: "get F9", 
         },
         126: {
             name: "72.AT inflation",
-            done() {return (hasMilestone("F", 7))},
+            done() {return (mil("F", 7))},
             tooltip: "get F mil 7", 
         },
         131: {
             name: "73.hidden upg^6",
-            done() {return (hasUpgrade("C", 41))},
+            done() {return (upg("C", 41))},
             tooltip: "get C16", 
         },
         132: {
             name: "74.real chal",
-            done() {return (challengeCompletions("F", 11) >= 1)},
+            done() {return (ccomp("F", 11).gte(1))},
             tooltip: "complete Fc1x1", 
         },
         133: {
@@ -389,7 +386,7 @@ addLayer("ac", {
         },
         134: {
             name: "76.super surge",
-            done() {return (hasUpgrade("F", 34))},
+            done() {return (upg("F", 34))},
             tooltip: "get F14", 
         },
         135: {
@@ -399,12 +396,12 @@ addLayer("ac", {
         },
         136: {
             name: "78.restricted",
-            done() {return (challengeCompletions("F", 11) >= 3)},
+            done() {return (ccomp("F", 11).gte(3))},
             tooltip: "complete Fc1x3", 
         },
         141: {
             name: "79.so quick?",
-            done() {return (hasMilestone("F", 9))},
+            done() {return (mil("F", 9))},
             tooltip: "get F passive generation", 
         },
         142: {
@@ -414,12 +411,12 @@ addLayer("ac", {
         },
         143: {
             name: "81.real AD",
-            done() {return (getBuyableAmount('F',11))>=1},
+            done() {return (gba('F',11)).gte(1)},
             tooltip: "get F dim 1", 
         },
         144: {
             name: "82.iteration",
-            done() {return (getBuyableAmount('F',13))>=1},
+            done() {return (gba('F',13)).gte(1)},
             tooltip: "get F dim 3", 
         },
         145: {
@@ -429,12 +426,12 @@ addLayer("ac", {
         },
         146: {
             name: "84.no dimboosts?",
-            done() {return (getBuyableAmount('F',22))>=1},
+            done() {return (gba('F',22)).gte(1)},
             tooltip: "get F dim 5.<br>in AD,1 dimboost is required to unlock AD5", 
         },
         151: {
             name: "85.obedient?",
-            done() {return (getBuyableAmount('F',32))>=1},
+            done() {return (gba('F',32)).gte(1)},
             tooltip: "get F dim 8.", 
         },
         152: {
@@ -449,12 +446,12 @@ addLayer("ac", {
         },
         154: {
             name: "88.just wait",
-            done() {return (challengeCompletions("F", 12) >= 3)},
+            done() {return (ccomp("F", 12).gte(3))},
             tooltip: "complete Fc2x3", 
         },
         155: {
             name: "89.similar to a galaxy...",
-            done() {return (getBuyableAmount('F',102)>=1)},
+            done() {return (gba('F',102).gte(1))},
             tooltip: "get a tickboost",
         },
         156: {
@@ -464,7 +461,7 @@ addLayer("ac", {
         },
         161: {
             name: "91.quitting control",
-            done() {return (hasUpgrade("F", 63))},
+            done() {return (upg("F", 63))},
             tooltip: "get F28", 
         },
         162: {
@@ -489,12 +486,12 @@ addLayer("ac", {
         },
         166: {
             name: "96.scaled galaxy",
-            done() {return (getBuyableAmount('F',102)>=5)},
+            done() {return (gba('F',102).gte(5))},
             tooltip: "get 5 tickboost",
         },
         171: {
             name: "97.remove a scale",
-            done() {return (hasUpgrade("G", 15))},
+            done() {return (upg("G", 15))},
             tooltip: "get G5", 
         },
         172: {
@@ -504,22 +501,22 @@ addLayer("ac", {
         },
         173: {
             name: "99.x2 IP",
-            done() {return (getBuyableAmount('G',11)>=1)},
+            done() {return (gba('G',11).gte(1))},
             tooltip: "get a Gc1<br>in AD,there is a x2 IP buyable below 16 infinity upgs.<br>cost is x10(x1e10 between e3e6 and e6e6) and eff is x2.", 
         },
         174: {
             name: "100.privileged",
-            done() {return (hasUpgrade("F", 71))},
+            done() {return (upg("F", 71))},
             tooltip: "get F31", 
         },
         175: {
             name: "101.G power",
-            done() {return (challengeCompletions("G", 11) >= 3)},
+            done() {return (ccomp("G", 11).gte(3))},
             tooltip: "complete Gc1x3", 
         },
         176: {
             name: "102.true unscaled",
-            done() {return (hasUpgrade("G", 32))},
+            done() {return (upg("G", 32))},
             tooltip: "get G12", 
         },
         181: {
@@ -529,22 +526,22 @@ addLayer("ac", {
         },
         182: {
             name: "104.return?",
-            done() {return (hasUpgrade("F", 81))},
+            done() {return (upg("F", 81))},
             tooltip: "get F36", 
         },
         183: {
             name: "105.true unscaled^2",
-            done() {return (challengeCompletions("G", 12) >= 3)},
+            done() {return (ccomp("G", 12).gte(3))},
             tooltip: "complete Gc2x3", 
         },
         184: {
             name: "106.cubic?",
-            done() {return (getBuyableAmount('F',102)>=10)},
+            done() {return (gba('F',102).gte(10))},
             tooltip: "get 10 tickboost",
         },
         185: {
             name: "107.dilation",
-            done() {return (challengeCompletions("G", 12) >= 5)},
+            done() {return (ccomp("G", 12).gte(5))},
             tooltip: "complete Gc2x5", 
         },
         186: {
@@ -554,12 +551,12 @@ addLayer("ac", {
         },
         191: {
             name: "109.inf in inf",
-            done() {return (hasUpgrade("G", 35))},
+            done() {return (upg("G", 35))},
             tooltip: "get G15", 
         },
         192: {
             name: "110.expensive!",
-            done() {return (challengeCompletions("G", 21) >= 3)},
+            done() {return (ccomp("G", 21).gte(3))},
             tooltip: "complete Gc3x3", 
         },
         193: {
@@ -569,17 +566,17 @@ addLayer("ac", {
         },
         194: {
             name: "112.gigasurge",
-            done() {return (challengeCompletions("G", 21) >= 5)},
+            done() {return (ccomp("G", 21).gte(5))},
             tooltip: "complete Gc3x5", 
         },
         195: {
             name: "113.logged galaxy",
-            done() {return (challengeCompletions("G", 22) >= 1)},
+            done() {return (ccomp("G", 22).gte(1))},
             tooltip: "complete Gc4x1", 
         },
         196: {
             name: "114.unscale for F1",
-            done() {return (hasUpgrade("G", 44))},
+            done() {return (upg("G", 44))},
             tooltip: "get G19", 
         },
         201: {
@@ -594,12 +591,12 @@ addLayer("ac", {
         },
         203: {
             name: "117.ID but a bit different",
-            done() {return (hasMilestone("G", 8))},
+            done() {return (mil("G", 8))},
             tooltip: "unlock F2.<br>in AD,ID is multiplicative instead of exponential.", 
         },
         204: {
             name: "118.we still need G chal?",
-            done() {return (hasUpgrade("G", 52))},
+            done() {return (upg("G", 52))},
             tooltip: "get G22", 
         },
         205: {
@@ -614,12 +611,12 @@ addLayer("ac", {
         },
         211: {
             name: "121.balance failure",
-            done() {return (hasUpgrade("G", 55))},
+            done() {return (upg("G", 55))},
             tooltip: "get G25", 
         },
         212: {
             name: "122.another 'anti'",
-            done() {return (hasMilestone("G", 14))},
+            done() {return (mil("G", 14))},
             tooltip: "unlock Gs.<br>Gs part is inspired by plague tree.some currencies are named as 'anti-xxx' in PT.", 
         },
         213: {
@@ -629,27 +626,27 @@ addLayer("ac", {
         },
         214: {
             name: "124.exp-exp-booster",
-            done() {return (getBuyableAmount('G',23)>=1)},
+            done() {return (gba('G',23).gte(1))},
             tooltip: "get a Gsb3",
         },
         215: {
             name: "125.PrPsc?",
-            done() {return (hasUpgrade("G", 83))},
+            done() {return (upg("G", 83))},
             tooltip: "unlock Gsi", 
         },
         216: {
             name: "126.still isnt a softcap",
-            done() {return (getBuyableAmount('G',21)>=500)},
+            done() {return (gba('G',21).gte(500))},
             tooltip: "get 500 Gsb1",
         },
         221: {
             name: "127.eternity here",
-            done() {return (hasUpgrade("G", 101))},
+            done() {return (upg("G", 101))},
             tooltip: "unlock Gse", 
         },
         222: {
             name: "128.mysterious?",
-            done() {return (hasUpgrade("G", 104))},
+            done() {return (upg("G", 104))},
             tooltip: "get G49", 
         },
         223: {
@@ -664,7 +661,7 @@ addLayer("ac", {
         },
         225: {
             name: "131.d1lated",
-            done() {return (hasMilestone('G',19))},
+            done() {return (mil('G',19))},
             tooltip: "unlock Gsb11-12",
         },
         226: {
@@ -674,7 +671,7 @@ addLayer("ac", {
         },
         231: {
             name: "133.world n+1",
-            done() {return (hasUpgrade("G", 115))},
+            done() {return (upg("G", 115))},
             tooltip: "unlock GG", 
         },
         232: {
@@ -779,7 +776,7 @@ addLayer("ac", {
         },
         264: {
             name: "154.a safe boost",
-            done() {return n(getBuyableAmount("H",63)).gte(1)},
+            done() {return n(gba("H",63)).gte(1)},
             tooltip: "get Hy6", 
         },
         265: {
@@ -909,12 +906,12 @@ addLayer("ac", {
         },
         305: {
             name: "179.iniskiped",
-            done() {return n(challengeCompletions('I',11)).gte(10)},
+            done() {return n(ccomp('I',11)).gte(10)},
             tooltip: "complete Ic1x10", 
         },
         306: {
             name: "180.shift",
-            done() {return n(challengeCompletions('I',22)).gte(1)},
+            done() {return n(ccomp('I',22)).gte(1)},
             tooltip: "complete Ic4x1", 
         },
         311: {
@@ -987,10 +984,389 @@ addLayer("ac", {
             done() {return player.I.qolpoints.gte('e9e15')},
             tooltip: "get e9e15 Qol points", 
         },
+        333: {
+            name: "195.FF 2.0",
+            done() {return player.points.gte('10^^1e10')},
+            tooltip: "get F1e10 points.", 
+        },
+        334: {
+            name: "196.solidity",
+            done() {return player.I.hi.gte('500')},
+            tooltip: "get 500 harden I", 
+        },
+        335: {
+            name: "197.inflated^4",
+            done() {return gba('I',41).gte(1000)},
+            tooltip: "get 1000 Ib10", 
+        },
+        336: {
+            name: "198.most dilated thing",
+            done() {return player.J.bp.gte('eee10')},
+            tooltip: "get ee1e10 break points.", 
+        },
     },
     tabFormat: ["blank", ["display-text", function() {
-        return "<h3 style='color: yellow;'>Achievements: " + player.ac.achievements.length + "/194 </h4>"
+        return "<h3 style='color: yellow;'>Achievements: " + player.ac.achievements.length + "/198 </h4>"
     }
     ], "blank", "blank", "achievements", ],
 },
+)
+
+addLayer("?", {
+    name: "Others",
+    symbol: "?",
+    startData() { return {
+        unlocked: true,
+    }},
+    tooltip() {return "Others"},
+    color: "#rgb(91, 122, 129)",
+    row: "side",
+    type: "none", 
+    clickables:{
+        11: {
+            title(){ let s='Pause'
+                if(gcs(this.layer,this.id)) s='Resume'
+                return s},
+            //display(){return "set devspeed to 0"},
+            style() { return {'background-color': gcs(this.layer,this.id)?"#rgb(38, 108, 123)":"#rgb(91, 122, 129)"}},
+            canClick() {return true},
+            onClick() {
+                if(gcs(this.layer,this.id)) scs(this.layer,this.id,0)
+                else scs(this.layer,this.id,1)
+                //scs(this.layer,this.id,n(1).sub((this.layer,this.id)))
+            },
+            unlocked() {return true},
+        },
+        12: {
+            title(){ let s='x0.5 speed'
+                if(gcs(this.layer,this.id)) s='Resume'
+                return s},
+            style() { return {'background-color': gcs(this.layer,this.id)?"#rgb(38, 108, 123)":"#rgb(91, 122, 129)"}},
+            canClick() {return !gcs('?',11)},
+            onClick() {
+                if(gcs(this.layer,this.id)) scs(this.layer,this.id,0)
+                else scs(this.layer,this.id,1)
+            },
+            unlocked() {return true},
+        },
+        // 101: {
+        //     title(){return "B autoUpgrade"},
+        //     display(){ let s='ON'
+        //         if(gcs(this.layer,this.id)) s='OFF'
+        //         return s},
+        //     style() { return {'background-color':"#7AAA2C"}},
+        //     canClick() {return true},
+        //     onClick() {
+        //         if(gcs(this.layer,this.id)) scs(this.layer,this.id,0)
+        //         else scs(this.layer,this.id,1)
+        //     },
+        //     unlocked() {return upg("F",13)},
+        // },
+        102: {
+            title(){return "B buyables"},
+            display(){ let s='ON'
+                if(gcs(this.layer,this.id)) s='OFF'
+                return s},
+            style() { return {'background-color':"#7AAA2C"}},
+            canClick() {return true},
+            onClick() {
+                player.B.auto = !player.B.auto
+                if(gcs(this.layer,this.id)) scs(this.layer,this.id,0)
+                    else scs(this.layer,this.id,1)
+            },
+            unlocked() {return upg("F",13)},
+        },
+        111: {
+            title(){return "main Ebs"},
+            display(){ let s='ON'
+                if(gcs(this.layer,this.id)) s='OFF'
+                return s},
+            style() { return {'background-color':"#789A89"}},
+            canClick() {return true},
+            onClick() {
+                player.E.auto1 = !player.E.auto1
+                player.E.auto2 = !player.E.auto2
+                player.E.auto5 = !player.E.auto5
+                if(gcs(this.layer,this.id)) scs(this.layer,this.id,0)
+                    else scs(this.layer,this.id,1)
+            },
+            unlocked() {return mil('E',19)},
+        },
+        112: {
+            title(){return "Em/Ek buyables"},
+            display(){ let s='ON'
+                if(gcs(this.layer,this.id)) s='OFF'
+                return s},
+            style() { return {'background-color':"#789A89"}},
+            canClick() {return true},
+            onClick() {
+                player.E.auto3 = !player.E.auto3
+                player.E.auto4 = !player.E.auto4
+                if(gcs(this.layer,this.id)) scs(this.layer,this.id,0)
+                    else scs(this.layer,this.id,1)
+            },
+            unlocked() {return mil('E',17)},
+        },
+        121: {
+            title(){return "F dims"},
+            display(){ let s='ON'
+                if(gcs(this.layer,this.id)) s='OFF'
+                return s},
+            style() { return {'background-color':"#264321"}},
+            canClick() {return true},
+            onClick() {
+                player.F.auto1 = !player.F.auto1
+                if(gcs(this.layer,this.id)) scs(this.layer,this.id,0)
+                    else scs(this.layer,this.id,1)
+            },
+            unlocked() {return mil('F',15)},
+        },
+        122: {
+            title(){return "tickspeed"},
+            display(){ let s='ON'
+                if(gcs(this.layer,this.id)) s='OFF'
+                return s},
+            style() { return {'background-color':"#264321"}},
+            canClick() {return true},
+            onClick() {
+                player.F.auto2 = !player.F.auto2
+                if(gcs(this.layer,this.id)) scs(this.layer,this.id,0)
+                    else scs(this.layer,this.id,1)
+            },
+            unlocked() {return mil('F',16)},
+        },
+        123: {
+            title(){return "tickboost"},
+            display(){ let s='ON'
+                if(gcs(this.layer,this.id)) s='OFF'
+                return s},
+            style() { return {'background-color':"#264321"}},
+            canClick() {return true},
+            onClick() {
+                player.G.auto1 = !player.G.auto1
+                if(gcs(this.layer,this.id)) scs(this.layer,this.id,0)
+                    else scs(this.layer,this.id,1)
+            },
+            unlocked() {return mil('G',0)},
+        },
+        124: {
+            title(){return "F2 dims"},
+            display(){ let s='ON'
+                if(gcs(this.layer,this.id)) s='OFF'
+                return s},
+            style() { return {'background-color':"#C037A5"}},
+            canClick() {return true},
+            onClick() {
+                player.G.auto3 = !player.G.auto3
+                if(gcs(this.layer,this.id)) scs(this.layer,this.id,0)
+                    else scs(this.layer,this.id,1)
+            },
+            unlocked() {return mil('G',9)},
+        },
+        125: {
+            title(){return "Gb1-3"},
+            display(){ let s='ON'
+                if(gcs(this.layer,this.id)) s='OFF'
+                return s},
+            style() { return {'background-color':"#695735"}},
+            canClick() {return true},
+            onClick() {
+                player.G.auto2 = !player.G.auto2
+                if(gcs(this.layer,this.id)) scs(this.layer,this.id,0)
+                    else scs(this.layer,this.id,1)
+            },
+            unlocked() {return mil('G',4)},
+        },
+        131: {
+            title(){return "Gs buyables<br>(1-3)"},
+            display(){ let s='ON'
+                if(gcs(this.layer,this.id)) s='OFF'
+                return s},
+            style() { return {'background-color':"#695735"}},
+            canClick() {return true},
+            onClick() {
+                player.G.auto4 = !player.G.auto4
+                if(gcs(this.layer,this.id)) scs(this.layer,this.id,0)
+                    else scs(this.layer,this.id,1)
+            },
+            unlocked() {return mil('G',4)},
+        },
+        132: {
+            title(){return "Gsi buyables<br>(4-6)"},
+            display(){ let s='ON'
+                if(gcs(this.layer,this.id)) s='OFF'
+                return s},
+            style() { return {'background-color':"#FF00F1"}},
+            canClick() {return true},
+            onClick() {
+                player.G.auto5 = !player.G.auto5
+                player.G.auto8 = !player.G.auto8
+                if(gcs(this.layer,this.id)) scs(this.layer,this.id,0)
+                    else scs(this.layer,this.id,1)
+            },
+            unlocked() {return mil('G',34)},
+        },
+        133: {
+            title(){return "Gse buyables<br>(7-12)"},
+            display(){ let s='ON'
+                if(gcs(this.layer,this.id)) s='OFF'
+                return s},
+            style() { return {'background-color':"#14FFF3"}},
+            canClick() {return true},
+            onClick() {
+                player.G.auto6 = !player.G.auto6
+                player.H.auto1 = !player.H.auto1
+                if(gcs(this.layer,this.id)) scs(this.layer,this.id,0)
+                    else scs(this.layer,this.id,1)
+            },
+            unlocked() {return mil('H',0)},
+        },
+        134: {
+            title(){return "GG gain"},
+            display(){ let s='ON'
+                if(gcs(this.layer,this.id)) s='OFF'
+                return s},
+            style() { return {'background-color':"#695735"}},
+            canClick() {return true},
+            onClick() {
+                player.G.auto7 = !player.G.auto7
+                if(gcs(this.layer,this.id)) scs(this.layer,this.id,0)
+                    else scs(this.layer,this.id,1)
+            },
+            unlocked() {return mil('G',25)},
+        },
+        135: {
+            title(){return "GsR buyables"},
+            display(){ let s='ON'
+                if(gcs(this.layer,this.id)) s='OFF'
+                return s},
+            style() { return {'background-color':"#6DA462"}},
+            canClick() {return true},
+            onClick() {
+                player.H.auto5 = !player.H.auto5
+                player.H.auto7 = !player.H.auto7
+                player.H.auto9 = !player.H.auto9
+                if(gcs(this.layer,this.id)) scs(this.layer,this.id,0)
+                    else scs(this.layer,this.id,1)
+            },
+            unlocked() {return mil('H',15)},
+        },
+        136: {
+            title(){return "auto G upg"},
+            display(){ let s='ON'
+                if(gcs(this.layer,this.id)) s='OFF'
+                return s},
+            style() { return {'background-color':"#695735"}},
+            canClick() {return true},
+            onClick() {
+                scs(this.layer,this.id,!gcs(this.layer,this.id))
+            },
+            unlocked() {return mil('I',2)},
+        },
+        141: {
+            title(){return "harsh&hyper buyables"},
+            display(){ let s='ON'
+                if(gcs(this.layer,this.id)) s='OFF'
+                return s},
+            style() { return {'background-color':"#747EC8"}},
+            canClick() {return true},
+            onClick() {
+                player.H.auto2 = !player.H.auto2
+                player.H.auto3 = !player.H.auto3
+                player.H.auto4 = !player.H.auto4              
+                player.H.auto6 = !player.H.auto6
+                player.H.auto8 = !player.H.auto8
+                if(gcs(this.layer,this.id)) scs(this.layer,this.id,0)
+                    else scs(this.layer,this.id,1)
+            },
+            unlocked() {return mil('H',13)},
+        },
+        142: {
+            title(){return "dH points buyables"},
+            display(){ let s='ON'
+                if(gcs(this.layer,this.id)) s='OFF'
+                return s},
+            style() { return {'background-color':"#3D3A3F"}},
+            canClick() {return true},
+            onClick() {
+                player.H.auto7 = !player.H.auto7
+                if(gcs(this.layer,this.id)) scs(this.layer,this.id,0)
+                    else scs(this.layer,this.id,1)
+            },
+            unlocked() {return mil('I',2)},
+        },
+        143: {
+            title(){return "auto gain dH"},
+            display(){ let s='ON'
+                if(gcs(this.layer,this.id)) s='OFF'
+                return s},
+            style() { return {'background-color':"#F3FF34"}},
+            canClick() {return true},
+            onClick() {
+                player.I.auto1 = !player.I.auto1  
+                if(gcs(this.layer,this.id)) scs(this.layer,this.id,0)
+                    else scs(this.layer,this.id,1)  
+            },
+            unlocked() {return mil('H',9)},
+        },
+        144: {
+            title(){return "auto gain H"},
+            display(){ let s='ON'
+                if(gcs(this.layer,this.id)) s='OFF'
+                return s},
+            style() { return {'background-color':"#747EC8"}},
+            canClick() {return true},
+            onClick() {
+                player.H.auto2 = !player.H.auto2
+                player.H.auto3 = !player.H.auto3
+                player.H.auto4 = !player.H.auto4              
+                player.H.auto6 = !player.H.auto6
+                player.H.auto8 = !player.H.auto8
+                if(gcs(this.layer,this.id)) scs(this.layer,this.id,0)
+                    else scs(this.layer,this.id,1)
+            },
+            unlocked() {return mil('H',9)},
+        },
+        145: {
+            title(){return "auto H upg"},
+            display(){ let s='ON'
+                if(gcs(this.layer,this.id)) s='OFF'
+                return s},
+            style() { return {'background-color':"#747EC8"}},
+            canClick() {return true},
+            onClick() {
+                scs(this.layer,this.id,!gcs(this.layer,this.id))
+            },
+            unlocked() {return mil('I',2)},
+        },
+        151: {
+            title(){return "I buyables"},
+            display(){ let s='ON'
+                if(gcs(this.layer,this.id)) s='OFF'
+                return s},
+            style() { return {'background-color':"#4F4F4F"}},
+            canClick() {return true},
+            onClick() {
+                player.I.auto2 = !player.I.auto2    
+                player.I.auto4 = !player.I.auto4   
+                if(gcs(this.layer,this.id)) scs(this.layer,this.id,0)
+                    else scs(this.layer,this.id,1) 
+            },
+            unlocked() {return mil('I',2)},
+        },
+    },
+    tabFormat: {
+        //["raw-html", () => `<h3 style="opacity:.5"Other things...<br></h4>`],"blank",
+        "DevSpeed":{
+            unlocked() {return true},
+            content: [
+                ["clickables",[1]]]
+        },
+        "Automation":{
+            unlocked() {return true},
+            content: [
+                ["clickables",[10,11,12,13,14,15]]]
+        },
+    },
+}
 )

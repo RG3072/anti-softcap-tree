@@ -7,21 +7,23 @@ let modInfo = {
 
 	discordName: "",
 	discordLink: "",
-	initialStartPoints: new Decimal (10), // Used for hard resets and new players
+	initialStartPoints: n(10), // Used for hard resets and new players
 	offlineLimit: 8760,  // In hours
 }
 
 // Set your version in num and name
 let VERSION = {
-	num: "0.7.2",
-	name: "more about break infinity",
+	num: "0.7.3",
+	name: "tower-exponent",//more about break infinity
 }
 
 let changelog = `<h2>Changelog:</h2><br>
+    <h4>v0.7.32 (250210)</h4>
+		- the same. E:F1e42. <br>
     <h4>v0.7.2 (250210)</h4>
-		- add slog speeder. E:F4e10+. <br>
+		- add slog speeder. E:F4e10. <br>
     <h4>v0.7.1 (250129)</h4>
-		- add layer J,break infinity and challenge 'curse' E:1F32768+. <br>
+		- add layer J,break infinity and challenge 'curse' E:1F32768. <br>
     <h3>--HAPPY NEW 2025---<h3>
     <h4>v0.7.0.1 (241209)</h4>
 		- fix dH part's bug and achievements bug. <br>
@@ -85,7 +87,7 @@ let changelog = `<h2>Changelog:</h2><br>
 		- Added layer E. E:1e7100<br> 
 	project started at Mar,2024 `
 
-let winText = `Congratulations! You have reached the end and beaten this game, but for now...`
+let winText = `Congratulations! You have reached the end and beaten this game, but for now...<br> The game is approaching the F1e308 limit,help plz`//
 
 // If you add new functions anywhere inside of a layer, and those functions have an effect when called, add them here.
 // (The ones here are examples, all official functions are already taken care of)
@@ -103,63 +105,63 @@ function canGenPoints(){
 // Calculate points/sec!
 function getPointGen() {
 	if(!canGenPoints())
-		return new Decimal(0)
+		return n(0)
         
-	let gain = new Decimal(1)
-	gain = gain.mul(hasUpgrade("A",11)?upgradeEffect("A",11):1)
-	gain = gain.mul(hasUpgrade("A",15)?upgradeEffect("A",15):1)
-	gain = gain.mul(hasUpgrade("A",24)?upgradeEffect("A",24):1)
-	gain = gain.mul(hasUpgrade("A",35)?upgradeEffect("A",35):1)
-	gain = gain.mul(hasUpgrade("B",11)?upgradeEffect("B",11):1)
-	gain = gain.mul(hasUpgrade("B",21)?upgradeEffect("B",21):1)
-	gain = gain.mul(hasUpgrade("B",44)?upgradeEffect("B",44):1)
+	let a = n(1)
+	if(upg("A",11)) a=a.mul(upgradeEffect("A",11))
+	if(upg("A",15)) a=a.mul(upgradeEffect("A",15))
+	if(upg("A",24)) a=a.mul(upgradeEffect("A",24))
+	if(upg("A",35)) a=a.mul(upgradeEffect("A",35))
+	a = a.mul(upg("B",11)?upgradeEffect("B",11):1)
+	a = a.mul(upg("B",21)?upgradeEffect("B",21):1)
+	a = a.mul(upg("B",44)?upgradeEffect("B",44):1)
 
-	gain = gain.mul(hasUpgrade("C",11)?upgradeEffect("C",11):1)
-	gain = gain.mul(hasUpgrade("C",13)?upgradeEffect("C",13):1)
-	gain = gain.mul(hasUpgrade("D",11)?upgradeEffect("D",11):1)
-	gain = gain.mul(hasUpgrade("D",15)?upgradeEffect("D",15):1)
-	gain = gain.mul(hasUpgrade("D",21)?upgradeEffect("D",21):1)
-	gain = gain.mul(hasUpgrade("D",24)?upgradeEffect("D",24):1)
-	gain = gain.mul(hasUpgrade("D",32)?upgradeEffect("D",32):1)
-	gain = gain.mul(hasUpgrade("E",11)?upgradeEffect("E",11):1)
-	gain = gain.mul(hasUpgrade("E",12)?upgradeEffect("E",12):1)
-	gain = gain.mul(hasUpgrade("E",22)?upgradeEffect("E",22):1)
-	gain = gain.mul(hasUpgrade("C",33)?upgradeEffect("C",33):1)
-	gain = gain.mul(hasUpgrade("D",43)?upgradeEffect("D",43):1)
-	gain = gain.mul(hasUpgrade("E",85)?upgradeEffect("E",85):1)
-	gain = gain.mul(hasUpgrade("E",104)?upgradeEffect("E",104):1)
-	gain = gain.mul(hasUpgrade("F",11)?upgradeEffect("F",11):1)
+	a = a.mul(upg("C",11)?upgradeEffect("C",11):1)
+	a = a.mul(upg("C",13)?upgradeEffect("C",13):1)
+	a = a.mul(upg("D",11)?upgradeEffect("D",11):1)
+	a = a.mul(upg("D",15)?upgradeEffect("D",15):1)
+	a = a.mul(upg("D",21)?upgradeEffect("D",21):1)
+	a = a.mul(upg("D",24)?upgradeEffect("D",24):1)
+	a = a.mul(upg("D",32)?upgradeEffect("D",32):1)
+	a = a.mul(upg("E",11)?upgradeEffect("E",11):1)
+	a = a.mul(upg("E",12)?upgradeEffect("E",12):1)
+	a = a.mul(upg("E",22)?upgradeEffect("E",22):1)
+	a = a.mul(upg("C",33)?upgradeEffect("C",33):1)
+	a = a.mul(upg("D",43)?upgradeEffect("D",43):1)
+	a = a.mul(upg("E",85)?upgradeEffect("E",85):1)
+	a = a.mul(upg("E",104)?upgradeEffect("E",104):1)
+	a = a.mul(upg("F",11)?upgradeEffect("F",11):1)
 
-	if (inChallenge("A", 11))  gain = gain.pow(0.75)
-	if (inChallenge("A", 21))  gain = gain.pow(0.55)
-	if (inChallenge("A", 31))  gain = gain.pow(0.5)
-	if (inChallenge("C", 11))  gain = gain.pow(0.45)
-	if (inChallenge("E", 22))  gain = gain.pow(player.points.add(10).log(10).pow(-0.06).max('1e-100'))
-	if (inChallenge("E", 32))  gain = gain.pow(player.E.Em.add(10).log(10).pow(-0.2).max('1e-100'))
-	if (inChallenge("E", 42))  gain = gain.pow(player.points.add(10).log(10).pow(-0.12).max('1e-100'))
-	if (inChallenge("F", 12))  gain = Decimal.pow(10,gain.add(10).log(10).pow(0.8).max('1e-100'))
+	if (inChallenge("A", 11))  a = a.pow(0.75)
+	if (inChallenge("A", 21))  a = a.pow(0.55)
+	if (inChallenge("A", 31))  a = a.pow(0.5)
+	if (inChallenge("C", 11))  a = a.pow(0.45)
+	if (inChallenge("E", 22))  a = a.pow(player.points.add(10).log(10).pow(-0.06).max('1e-100'))
+	if (inChallenge("E", 32))  a = a.pow(player.E.Em.add(10).log(10).pow(-0.2).max('1e-100'))
+	if (inChallenge("E", 42))  a = a.pow(player.points.add(10).log(10).pow(-0.12).max('1e-100'))
+	if (inChallenge("F", 12))  a = n(10).pow(a.add(10).log(10).pow(0.8).max('1e-100'))
 
-	if (hasChallenge("A", 21))  gain = gain.mul(50)
-	if (hasChallenge("A", 22))  gain = gain.mul(100)
-	if (hasChallenge("C", 11))  gain = gain.mul(2000)
-	if (hasChallenge("C", 12))  gain = gain.mul(8000)
-	if (hasChallenge("A", 41))  gain = gain.mul(challengeEffect('A',41))
+	if (hasChallenge("A", 21))  a = a.mul(50)
+	if (hasChallenge("A", 22))  a = a.mul(100)
+	if (hasChallenge("C", 11))  a = a.mul(2000)
+	if (hasChallenge("C", 12))  a = a.mul(8000)
+	if (hasChallenge("A", 41))  a = a.mul(challengeEffect('A',41))
 
-	if (hasChallenge("A", 32))  gain = gain.pow(1.01)
-	if (hasChallenge("C", 11))  gain = gain.pow(1.01)
-	if (hasUpgrade("F", 11))  gain = gain.pow(1.0016)
-	if (hasUpgrade("F", 14))  gain = gain.pow(1.0012)
-	if (hasUpgrade("F", 52))  gain = gain.pow(1.002)
-	if (hasUpgrade("F", 65))  gain = gain.pow(1.006)
-	if (mil("I",0))  gain = gain.pow(1.01)
-	if (mil("I",1))  gain = gain.pow(1.02)
-	if (mil('I',3))  gain = gain.pow(buyableEffect('I',12))
-	if(n(challengeCompletions('I',22)).gte(1))  gain = gain.pow(1.25)
+	if (hasChallenge("A", 32))  a = a.pow(1.01)
+	if (hasChallenge("C", 11))  a = a.pow(1.01)
+	if (upg("F", 11))  a = a.pow(1.0016)
+	if (upg("F", 14))  a = a.pow(1.0012)
+	if (upg("F", 52))  a = a.pow(1.002)
+	if (upg("F", 65))  a = a.pow(1.006)
+	if (mil("I",0))  a = a.pow(1.01)
+	if (mil("I",1))  a = a.pow(1.02)
+	if (mil('I',3))  a = a.pow(buyableEffect('I',12))
+	if(n(challengeCompletions('I',22)).gte(1))  a = a.pow(1.25)
 
-	if (hasChallenge("E", 21))  gain = gain.mul(challengeEffect('E',21))
-	if (hasChallenge("E", 22))  gain = gain.mul(challengeEffect('E',22))
+	if (hasChallenge("E", 21))  a = a.mul(challengeEffect('E',21))
+	if (hasChallenge("E", 22))  a = a.mul(challengeEffect('E',22))
 
-	if (mil('G',14)&&gain.gte('10^^5'))  gain=n(10).pow(n(10).pow(n(10).pow(n(10).pow(gain.log(10).log(10).log(10).log(10).add(tmp.G.gsre)))))
+	if (mil('G',14)&&a.gte('10^^5'))  a=n(10).pow(n(10).pow(n(10).pow(n(10).pow(a.log(10).log(10).log(10).log(10).add(tmp.G.gsre)))))
 		
 	let tet=n(0)
 	if(gcs('I',124))  tet=tet.add(0.3)
@@ -168,13 +170,13 @@ function getPointGen() {
 	if(mil('J',8)) tet=tet.mul(2)
 	if(mil('J',11)) tet=tet.mul(tmp.J.ssef)
 	if(mil('I',23)) tet=tet.mul(tmp.I.hief[4])
-	if(gcs('I',311)) {if(gain.gte('10^^25')&&mil('I',21)) gain=n(10).tetrate(gain.max(10).slog().add(tet))
-		else if(gain.gte('10^^10')&&gba('J',101).gte(23)) gain=n(10).tetrate(gain.max(10).slog().add(tet))
-		else gain=n(10).tetrate(gain.max(10).slog().sub(tmp.I.resv[0]).max(0))}
-	else{if(gain.gte('10^^10'))  gain=n(10).tetrate(gain.max(10).slog().add(tet))}
+	if(gcs('I',311)) {if(a.gte('10^^25')&&mil('I',21)) a=n(10).tetrate(a.max(10).slog().add(tet))
+		else if(a.gte('10^^10')&&gba('J',101).gte(23)) a=n(10).tetrate(a.max(10).slog().add(tet))
+		else a=n(10).tetrate(a.max(10).slog().sub(tmp.I.resv[0]).max(0))}
+	else{if(a.gte('10^^10'))  a=n(10).tetrate(a.max(10).slog().add(tet))}
 //
-	gain=gain.min(tmp.H.php)
-	return gain
+	a=a.min(tmp.H.php)
+	return a
 }
 
 // You can add non-layer related variables that should to into "player" and be saved here, along with default values
@@ -184,13 +186,13 @@ function addedPlayerData() { return {
 // Display extra things at the top of the page
 var displayThings = [
 	function() {
-		let s='current endgame:F4e10 hardcap.<br> Too easy? go to play  NG-10(aast) by qqqe308!'
+		let s='current endgame:F1e42 hardcap.<br> Too easy? Go to play NG-10(aast) by QqQe308!'
 		if(upg('G',155)||mil('I',0)) s=s+"<br><h4 style='color: #C52C14'>points gain is hardcapped at "+format(tmp.H.php)+"."
 		return s},//<br> points is hardcapped at 1F100.
 ]
 // Determines when the game "ends"
 function isEndgame() {
-	return tmp.H.phpb.gte(4e10)
+	return tmp.H.phpb.gte('1e42')
 }
 
 //<br> bilibili: @bili_50929957100

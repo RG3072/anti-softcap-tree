@@ -7,9 +7,10 @@ addLayer("J", {
 		points:n(0),
         bp:n(0),
         ss:n(0),
+        rankstate:n(1),
     }},
-    passiveGeneration(){    let pg=0
-        return pg},
+    passiveGeneration(){    let p=n(0)
+        return p},
     color: "#B2D0EF",
     requires: n('1e27'), 
     resource: "J", 
@@ -24,21 +25,22 @@ addLayer("J", {
     exponent() {
         let b=n(1.6)
         if(gba('J',101).gte(17)) b=b.sub(0.1)
+        if(gba('J',102).gte(1)) b=b.sub(0.3)
+        if(gba('J',102).gte(4)) b=b.div(n(1.01).pow(gba('J',102)))
+        b=b.div(buyableEffect('J',42))
         return b
     }, 
-    gainExp() {return n(1)},
+    aExp() {return n(1)},
     row: 3, 
     hotkeys: [
         {key: "j", description: "J: Reset for J points", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
     ],
     layerShown(){return ((mil('I',13))||player[this.layer].unlocked)},
-    gainMult() { 
+    aMult() { 
         mult = n(1)
         return mult
     },
     branches: ['F','I'],
-    // milestones: {
-    // },
     softcap(){return n(Infinity)},
 	softcapPower(){return n(1)},
     microtabs: {
@@ -49,8 +51,8 @@ addLayer("J", {
             "Break infinity": {
                 unlocked() {return true},
                 content: [["display-text", function() { 
-                    let s="You have <h3 style='color: #589887; text-shadow: 0 0 2px #c2b280'>" + format(player.J.bp) + "</h3> Break points"
-                    s=s+",add pts hardcap slog by <h3 style='color: #589887; text-shadow: 0 0 2px #c2b280'>" + format(tmp.J.bpef) 
+                    let s="You have <h3 style='color: #589887'>" + format(player.J.bp) + "</h3> Break points"
+                    s=s+",add pts hardcap slog by <h3 style='color: #589887'>" + format(tmp.J.bpef) 
                     s=s+"<br><h4>current gain:"+format(tmp.J.bpg)+"^"+format(tmp.J.bppow)+"="+format(tmp.J.bpg.pow(tmp.J.bppow))
                     if(gba('J',15).gte(1)) s=s+"<br><h4>BP slog +"+format(tmp.J.slogs[0],3)
                     return s}]
@@ -58,15 +60,21 @@ addLayer("J", {
                 ,["buyables",[10]],["display-text", function() { 
                     let s="Rank effects:<br>"
                     s=s+"R1-edit bp1-4 eff<br>R2-J^ is cheaper<br>R3-unlock a SS bab,edit HI eff and ss2<br>R4-SS is much stronger,edit bp2/ss2<br>R6-bulk H has no req,auto max dH<br>R8-edit bp1,3,4,ss3,4 eff<br>R9-J exp to SS is 1,J^ x1.5<br>R11-unlock 2 BP bab,J^ base is 0.02,cop limit +5<br>"
-                    if(mil('J',15)) s=s+"R17-J req exp -0.1,edit HI 1st eff<br>R20-unlock a BP bab,rank raise BP to 1.25 beyond 20<br>R23-start Gse at e200 i,cop1 x0.75<br>R27-cop1-2 lim +5"//if(gba('J',101).gte(1)) complete curse at F5 Gse
-                    if(mil('J',13)) return s}]
+                    if(mil('J',15)) s=s+"R17-J req exp -0.1,edit HI 1st eff<br>R20-unlock a BP bab,rank raise BP to 1.25 beyond 20<br>R23-start Gse at e200 i,cop1 x0.75<br>R27-cop1-2 lim +5<br>R29-r^2 ^1.2,^^ is cheaper<br>"//if(gba('J',101).gte(1)) complete curse at F5 Gse
+                    if(mil('I',28)) s=s+"R100-b2b+ ^1.25,BP/SS slog +0.01<br>R111-remove 'J^' scaling,cop5 x0.9<br>R128-R^,R^2 is buffed,cop5 exp -0.05<br>R225-add an eff to Ib1,buy max 'J-',unlock Anti-replicanti(coming soon).<br>"//,cop3/5 +100
+                    if(mil('J',13)&&player.J.rankstate.eq(1)) return s}]
+                ,["display-text", function() { 
+                    let s="R^2 effects:<br>"
+                    s=s+"2R1-qp^ base x2,Ib3 boost Gsi at x0.8 slog,cops lim +15,J req exp -0.3<br>2R2-cop2-3 lim +30,unlock a new HI eff,edit ef1,3,5<br>2R3-J- is much cheaper,BP slog +0.012<br>2R4-r1/2^2 ^2,R^2 div J exp by 1.01<br>2R5-edit bp3,4,J^ ^1.25,unlock a new bab<br>"
+                    if(mil('I',26)&&player.J.rankstate.eq(2)) return s}]
+                ,['clickables',[1]]
                 ]
             },
             "Slog speeder": {
                 unlocked() {return true},
                 content: [["display-text", function() { 
-                    let s="You have <h3 style='color: #C490FF; text-shadow: 0 0 2px #c2b280'>" + format(player.J.ss) + "</h3> Slog speeders"
-                    s=s+",speed up pts slog after 1F10 by <h3 style='color: #C490FF; text-shadow: 0 0 2px #c2b280'>" + format(tmp.J.ssef) + "</h3>x"
+                    let s="You have <h3 style='color: #C490FF'>" + format(player.J.ss) + "</h3> Slog speeders"
+                    s=s+",speed up pts slog after 1F10 by <h3 style='color: #C490FF'>" + format(tmp.J.ssef) + "</h3>x"
                     s=s+"<br><h4>current gain:"+format(tmp.J.ssg)+"^"+format(tmp.J.sspow)+"="+format(tmp.J.ssg.pow(tmp.J.sspow))
                     if(gba('J',65).gte(1)) s=s+"<br><h4>SS slog +"+format(tmp.J.slogs[1],3)
                     return s}]
@@ -135,7 +143,7 @@ addLayer("J", {
         },
         9: {requirementDescription: "100 J (10",
             done() {return player.J.best.gte(100)},
-            effectDescription: "auto gain J.",
+            effectDescription: "auto a J.",
             toggles: [ ['J',"auto3"] ]
         },
         10: {requirementDescription: "e1e9 BP (11",
@@ -164,6 +172,11 @@ addLayer("J", {
             done() {return player.J.best.gte(1e5)},
             effectDescription: "bp/ss^^ is much cheaper,unlock more rank eff.",
         },
+        16: {requirementDescription: "1e48 J (16",
+            done() {return player.J.best.gte(1e48)}, 
+            effectDescription: "autobuy row3 BP and next 4 SS bab,remove 'ssb+' scaling.",
+            toggles: [ ['J',"auto6"] ]
+        },
     },
     resetsNothing(){return mil('J',9)},
     autoPrestige() {return ((mil('J', 9)&&player.J.auto3))},
@@ -173,13 +186,16 @@ addLayer("J", {
         if (player.J.auto2)  buyBuyable("J",11),buyBuyable("J",13),buyBuyable("J",14)
         if (player.J.auto4)  buyBuyable("J",21),buyBuyable("J",24),buyBuyable("J",25)
         if (player.J.auto5)  buyBuyable("J",61),buyBuyable("J",62),buyBuyable("J",63),buyBuyable("J",64)
-        if (player.I.auto2)  buyBuyable("J",22),buyBuyable("J",23)
-    },
+        if (player.I.auto3)  buyBuyable("J",22),buyBuyable("J",23),buyBuyable("J",74)
+        if (player.J.auto6)  buyBuyable("J",31),buyBuyable("J",32),buyBuyable("J",33),buyBuyable("J",34),buyBuyable("J",35),buyBuyable("J",71),buyBuyable("J",81),buyBuyable("J",85)
+        if(gba('J',101).gte(225))  buyBuyable("J",42)
+    }, 
     buyables:{
         11: {
             title: function(){
                 let s=''
                 if(gba(this.layer,this.id).gte(1e12)) s='sc '
+                if(gba(this.layer,this.id).gte(1e15)) s='sc2 '
                 s=s+'bp1'
                 return s
             },  
@@ -187,12 +203,14 @@ addLayer("J", {
                 let c=n(10).pow(n(2).mul(x.pow(1.2))).mul('1e27')
                 if(mil('J',8)) c=n(10).pow(n(2).mul(x.pow(1.2)))
                 if(x.gte(1e12)) c=n(10).pow(n(10).pow(x.pow(0.09)))
+                if(x.gte(1e15)) c=n(10).pow(n(10).pow(x.pow(0.15).div(5)))
                 return c
             },
             bulk(){
                 let t=n(gba(this.layer,this.id))
                 if(mil('J',8)&&player.J.auto2)   t=player.I.qolpoints.add(10).log(10).div(2).pow(5/6).sub(1).ceil().max(gba(this.layer,this.id))
                 if(t.gte(1e12)) t=player.I.qolpoints.add(10).log(10).add(10).log(10).pow(100/9).sub(1).ceil().max(gba(this.layer,this.id)).max(1e12)
+                if(t.gte(1e15)) t=player.I.qolpoints.add(10).log(10).add(10).log(10).mul(5).pow(20/3).sub(1).ceil().max(gba(this.layer,this.id)).max(1e15)
                 let c=this.cost(t)
                 if (player.I.qolpoints.gte(c)) player[this.layer].buyables[this.id]=t
             },
@@ -243,7 +261,8 @@ addLayer("J", {
                 let e=n(0.25)   
                 if(gba('J',101).gte(1)) e=e.add(0.05)
                 if(gba('J',101).gte(4)) e=e.add(0.03)   
-                e=e.add(buyableEffect('J',71))             
+                e=e.add(buyableEffect('J',71))   
+                if(mil('I',26)) e=e.add(buyableEffect('J',71)) 
                 if(mil('J',5)) b=player.J.bp.max(1).log(10).max(1).pow(e)
                 return b},
             effect(x) { 
@@ -261,7 +280,7 @@ addLayer("J", {
         13: { 
             title: function(){
                 let s=''
-                //if(gba(this.layer,this.id).gte(300)) s=s+'sc '
+                //if(gba(this.layer,this.id).gte(300)) s='sc '
                 s=s+'bp3'
                 return s
             }, 
@@ -282,8 +301,9 @@ addLayer("J", {
                 if(mil('I',17)) b=player.I.total.max(1).log(2).max(1).pow(3).mul(2)   
                 if(mil('J',5)) b=b.max(player.I.total.max(1).log(2).pow(5)) 
                 if(mil('J',8)) b=b.max(n(10).pow(player.I.total.add(1).log(10).pow(0.8).mul(3))) 
-                if(gba('J',101).gte(1)) b=b.max(n(10).pow(player.I.total.add(1).log(10).pow(0.9).mul(3))) 
-                if(gba('J',101).gte(8)) b=b.max(n(10).pow(player.I.total.add(1).log(10).pow(1.25).mul(3))) 
+                if(gba('J',101).gte(1)) b=n(10).pow(player.I.total.add(1).log(10).pow(0.9).mul(3))
+                if(gba('J',101).gte(8)) b=n(10).pow(player.I.total.add(1).log(10).pow(1.25).mul(3))
+                if(gba('J',101).gte(128)) b=b.max(n(10).pow(player.I.total.add(1).log(10).pow(1.6))) 
                 return b},
             effect(x) { 
                 let e=n(1)
@@ -300,7 +320,7 @@ addLayer("J", {
         14: { 
             title: function(){
                 let s=''
-                if(gba(this.layer,this.id).gte(100)) s=s+'sc '
+                if(gba(this.layer,this.id).gte(100)) s='sc '
                 s=s+'bp4'
                 return s
             },  
@@ -322,6 +342,7 @@ addLayer("J", {
                 if(gba('J',101).gte(1)) b=b.max(n(10).pow(player.I.si.max(1).log(10).pow(0.8)))
                 if(gba('J',101).gte(8)) b=b.max(n(10).pow(player.I.si.max(1).log(10).pow(0.95)))
                 if(mil('I',25)) b=b.max(n(10).pow(player.I.si.max(1).log(10).pow(1.05)))
+                if(gba('J',102).gte(5))  b=b.max(n(10).pow(player.I.si.max(1).log(10).pow(1.3)))
                 return b},
             effect(x) { 
                 let e=n(1)
@@ -338,13 +359,15 @@ addLayer("J", {
         15: { 
             title: function(){
                 let s=''
-                //if(gba(this.layer,this.id).gte(300)) s=s+'sc '
+                //if(gba(this.layer,this.id).gte(300)) s='sc '
                 s=s+'bp^^'
                 return s
             },  
             cost(x) { 
                 let c=n(10).tetrate(x.mul(0.01).add(2.5))
                 if(mil('J',15)) c=n(10).tetrate(x.mul(0.008).add(2.3))
+                if(gba('J',101).gte(29)) c=n(10).tetrate(x.mul(0.0075).add(2.1))
+                if(gba('J',102).gte(5))  c=n(10).tetrate(x.mul(0.007).add(2.1))
                 return c
             },
             canAfford() { return player.J.bp.gte(this.cost()) },
@@ -366,23 +389,24 @@ addLayer("J", {
         21: { 
             title: function(){
                 let s=''
-                //if(gba(this.layer,this.id).gte(300)) s=s+'sc '
+                if(gba(this.layer,this.id).gte(1e10)) s='sc '
                 s=s+'qp^'
                 return s
             },  
             cost(x) { 
                 let c=n(10).pow(n(5).mul(x.pow(1.5))).mul('1e250')
                 if(mil('J',11)) c=n(10).pow(n(5).mul(x.pow(1.5)))
+                if(x.gte(1e10)) c=n(10).pow(n(10).pow(x.pow(0.12)))
                 return c
             },
             bulk(){
-                let t=n(0)
-                if(mil('J',11)&&player.J.auto4)   t=player.I.qolpoints.add(10).log(10).div(5).pow(2/3).sub(gba(this.layer,this.id)).sub(1).ceil().max(1)
-                let c=this.cost(gba(this.layer, this.id).add(t))
-                if (player.I.qolpoints.gte(c)) player[this.layer].buyables[this.id]=player[this.layer].buyables[this.id].add(t)
-            },
+                let t=player.I.qolpoints.add(10).log(10).div(5).pow(2/3).sub(1).ceil().max(1)
+                if(t.gte(1e10)) t=player.I.qolpoints.add(10).log(10).add(10).log(10).pow(25/3).ceil().max(gba(this.layer, this.id)).max(1e10)
+                let c=this.cost(t)
+                if(player.J.auto4) setBuyableAmount(this.layer,this.id,t)
+            },//player.I.qolpoints.gte(c)
             canAfford() { return player.I.qolpoints.gte(this.cost()) },
-            buy() { setBuyableAmount(this.layer, this.id, gba(this.layer, this.id).add(1))},
+            buy() { setBuyableAmount(this.layer,this.id,gba(this.layer, this.id).add(1))},
             base(){   let b=player.I.qolpoints.max(1).log(10).max(1).pow(0.5).div(2)    
                 if(mil('J',10)) b=player.I.qolpoints.max(1).log(10).max(1).pow(0.55) 
                 return b},
@@ -401,19 +425,21 @@ addLayer("J", {
         22: { 
             title: function(){
                 let s=''
-                //if(gba(this.layer,this.id).gte(300)) s=s+'sc '
+                //if(gba(this.layer,this.id).gte(300)) s='sc '
                 s=s+'r1^'
                 return s
             },  
             cost(x) { 
                 let c=n(10).tetrate(x.add(10).log(10).pow(0.65).add(1.4).max(1))
                 if(mil('I',25)) c=n(10).tetrate(x.add(10).log(10).pow(0.48).add(1))
+                if(gba('J',101).gte(128)) c=n(10).tetrate(x.add(10).log(10).pow(0.32).add(1))
                 return c
             },
             bulk(){
                 let t=n(10).pow(player.J.bp.add(10).slog().sub(1).pow(25/12)).sub(1).ceil().max(gba(this.layer,this.id))
+                if(gba('J',101).gte(128)) t=n(10).pow(player.J.bp.add(10).slog().sub(1).pow(25/8)).sub(1).ceil().max(gba(this.layer,this.id))
                 let c=this.cost(t)
-                if (player.I.auto2) setBuyableAmount(this.layer,this.id,t)
+                if (player.I.auto3) setBuyableAmount(this.layer,this.id,t)
             },//player.J.bp.gte(c)&&
             canAfford() { return player.J.bp.gte(this.cost()) },
             buy() { setBuyableAmount(this.layer, this.id, gba(this.layer, this.id).add(1))},
@@ -424,6 +450,7 @@ addLayer("J", {
                 let e=n(1)
                 if(mil('I',22)) e=e.add(0.05).add(buyableEffect('J',32))
                 let ef=this.base().pow(x.pow(e))
+                ef=n(10).tetrate(ef.max(1).slog().add(buyableEffect('J',72)))
                 return ef},
             display() { 
                 return "Ib2-3 eff ^"+ format(this.base()) + " \n\
@@ -436,19 +463,21 @@ addLayer("J", {
         23: { 
             title: function(){
                 let s=''
-                //if(gba(this.layer,this.id).gte(300)) s=s+'sc '
+                //if(gba(this.layer,this.id).gte(300)) s='sc '
                 s=s+'r2^'
                 return s
             },  
             cost(x) { 
                 let c=n(10).tetrate(x.add(10).log(10).pow(0.7).add(1.5).max(1))
                 if(mil('I',25)) c=n(10).tetrate(x.add(10).log(10).pow(0.5).add(1))
+                if(gba('J',101).gte(128)) c=n(10).tetrate(x.add(10).log(10).pow(0.35).add(1))
                 return c
             },
             bulk(){
                 let t=n(10).pow(player.J.bp.add(10).slog().sub(1).pow(2)).sub(1).ceil().max(gba(this.layer,this.id))
+                if(gba('J',101).gte(128)) t=n(10).pow(player.J.bp.add(10).slog().sub(1).pow(20/7)).sub(1).ceil().max(gba(this.layer,this.id))
                 let c=this.cost(t)
-                if (player.I.auto2) player[this.layer].buyables[this.id]=t
+                if (player.I.auto3) player[this.layer].buyables[this.id]=t
             },//player.J.bp.gte(c)&&
             canAfford() { return player.J.bp.gte(this.cost()) },
             buy() { setBuyableAmount(this.layer, this.id, gba(this.layer, this.id).add(1))},
@@ -459,6 +488,7 @@ addLayer("J", {
                 let e=n(1)
                 if(mil('I',22)) e=e.add(0.05).add(buyableEffect('J',33))
                 let ef=this.base().pow(x.pow(e))
+                ef=n(10).tetrate(ef.max(1).slog().add(buyableEffect('J',72)))
                 return ef},
             display() { 
                 return "Ib5-8 eff ^"+ format(this.base()) + " \n\
@@ -471,7 +501,7 @@ addLayer("J", {
         24: { 
             title: function(){
                 let s=''
-                //if(gba(this.layer,this.id).gte(300)) s=s+'sc '
+                //if(gba(this.layer,this.id).gte(300)) s='sc '
                 s=s+'bpb+'
                 return s
             },  
@@ -503,7 +533,7 @@ addLayer("J", {
         25: { 
             title: function(){
                 let s=''
-                if(gba(this.layer,this.id).gte(300)) s=s+'sc '
+                if(gba(this.layer,this.id).gte(300)) s='sc '
                 s=s+'si^'
                 return s
             },  
@@ -514,12 +544,11 @@ addLayer("J", {
             },
             bulk(){
                 let t=player.I.qolpoints.add(10).log(10).mul(100).pow(1/3).sub(51).ceil().max(gba(this.layer, this.id))
-                if(t.gte(301)) t=player.I.qolpoints.add(10).log(10).add(10).log(10).pow(10/3).add(159).ceil().max(gba(this.layer, this.id)).max(300)
-                let c=this.cost(t)
-                if(player.I.qolpoints.gte(c)&&mil('J',11)&&player.J.auto4) player[this.layer].buyables[this.id]=t
-            },
+                if(t.gte(301)) t=player.I.qolpoints.add(10).log(10).add(10).log(10).pow(20/7).add(159).ceil().max(gba(this.layer, this.id)).max(300)
+                if(player.J.auto4) setBuyableAmount(this.layer,this.id,t)
+            },//player.I.qolpoints.gte(c)&& mil('J',11)&&               let c=this.cost(t)
             canAfford() { return player.I.qolpoints.gte(this.cost()) },
-            buy() { setBuyableAmount(this.layer, this.id, gba(this.layer, this.id).add(1))},
+            buy() { setBuyableAmount(this.layer,this.id,gba(this.layer, this.id).add(1))},
             base(){   let b=n(0.01)  
                 return b},
             effect(x) { 
@@ -537,22 +566,21 @@ addLayer("J", {
         31: {
             title: function(){
                 let s=''
-                //if(gba(this.layer,this.id).gte(300)) s='sc '
+                if(gba(this.layer,this.id).gte(160)&&!gba('J',101).gte(111)) s='sc '
                 s=s+'J^'
                 return s
             },  
             cost(x) { 
                 let c=n(10).pow(n(10).pow(x.add(10).pow(0.66).add(1)))
                 if(gba('J',101).gte(2)) c=n(10).pow(n(10).pow(x.add(10).pow(0.6)))
-                //c=n(10).pow(n(10).pow(x.add(10).pow(0.6)))
+                if(x.gte(160)&&!gba('J',101).gte(111)) c=n(10).pow(n(10).pow(x.sub(100).pow(0.8)))
                 return c
             },
-            // bulk(){
-            //     let t=n(0)
-            //     if(mil('J',8)&&player.J.auto2)   t=player.I.qolpoints.add(10).log(10).div(2).pow(5/6).sub(gba(this.layer,this.id)).sub(1).ceil().max(1)
-            //     let c=this.cost(gba(this.layer, this.id).add(t))
-            //     if (player.I.qolpoints.gte(c)) player[this.layer].buyables[this.id]=player[this.layer].buyables[this.id].add(t)
-            // },
+            bulk(){
+                let t=player.I.qolpoints.max(10).log(10).max(10).log(10).pow(5/4).add(99).ceil().max(gba(this.layer,this.id))
+                if(gba('J',101).gte(111)) t=player.I.qolpoints.max(10).log(10).max(10).log(10).pow(5/3).sub(11).ceil().max(gba(this.layer,this.id))
+                if(player.J.auto6) setBuyableAmount(this.layer,this.id,t)
+            },
             canAfford() { return player.I.qolpoints.gte(this.cost()) },
             buy() { setBuyableAmount(this.layer, this.id, gba(this.layer, this.id).add(1))},
             base(){   let b=n(0.01)
@@ -561,6 +589,7 @@ addLayer("J", {
                 return b},
             effect(x) { 
                 let e=n(1)
+                if(gba('J',102).gte(5)) e=e.add(0.25)
                 let ef=this.base().mul(x.pow(e))
                 return ef},
             display() { 
@@ -574,14 +603,21 @@ addLayer("J", {
         32: { 
             title: function(){
                 let s=''
-                //if(gba(this.layer,this.id).gte(300)) s=s+'sc '
+                //if(gba(this.layer,this.id).gte(300)) s='sc '
                 s=s+'r1^2'
                 return s
             },  
             cost(x) { 
-                let c=n(10).tetrate(x.add(10).log(10).pow(0.8).add(2).max(1))
-                if(gba('J',101).gte(11)) c=n(10).tetrate(x.add(10).log(10).pow(0.65).add(2).max(1))
+                let c=n(10).tetrate(x.add(10).log(10).pow(0.8).add(2))
+                if(gba('J',101).gte(11)) c=n(10).tetrate(x.add(10).log(10).pow(0.65).add(2))
+                if(gba('J',102).gte(5)) c=n(10).tetrate(x.add(10).log(10).pow(0.55).add(2))
+                if(gba('J',101).gte(128)) c=n(10).tetrate(x.add(10).log(10).pow(0.4).add(1.5))
                 return c
+            },
+            bulk(){
+                let t=n(10).pow(player.J.bp.max(10).slog().sub(2).pow(20/11)).sub(11).ceil().max(gba(this.layer,this.id))
+                if(gba('J',101).gte(128)) t=n(10).pow(player.J.bp.max(10).slog().sub(1.5).pow(5/2)).sub(11).ceil().max(gba(this.layer,this.id))
+                if(player.J.auto6) setBuyableAmount(this.layer,this.id,t)
             },
             canAfford() { return player.J.bp.gte(this.cost()) },
             buy() { setBuyableAmount(this.layer, this.id, gba(this.layer, this.id).add(1))},
@@ -590,6 +626,8 @@ addLayer("J", {
                 return b},
             effect(x) { 
                 let e=n(1)
+                if(gba('J',101).gte(29)) e=e.add(0.2)
+                if(gba('J',102).gte(4)) e=e.add(0.8)
                 let ef=this.base().mul(x.pow(e))
                 return ef},
             display() { 
@@ -603,14 +641,21 @@ addLayer("J", {
         33: { 
             title: function(){
                 let s=''
-                //if(gba(this.layer,this.id).gte(300)) s=s+'sc '
+                //if(gba(this.layer,this.id).gte(300)) s='sc '
                 s=s+'r2^2'
                 return s
             },  
             cost(x) { 
                 let c=n(10).tetrate(x.add(10).log(10).pow(0.82).add(2).max(1))
                 if(gba('J',101).gte(11)) c=n(10).tetrate(x.add(10).log(10).pow(0.66).add(2).max(1))
+                if(gba('J',102).gte(5)) c=n(10).tetrate(x.add(10).log(10).pow(0.6).add(2).max(1))
+                if(gba('J',101).gte(128)) c=n(10).tetrate(x.add(10).log(10).pow(0.4).add(1.6))
                 return c
+            },
+            bulk(){
+                let t=n(10).pow(player.J.bp.max(10).slog().sub(2).pow(5/3)).sub(11).ceil().max(gba(this.layer,this.id))
+                if(gba('J',101).gte(128)) t=n(10).pow(player.J.bp.max(10).slog().sub(1.6).pow(5/2)).sub(11).ceil().max(gba(this.layer,this.id))
+                if(player.J.auto6) setBuyableAmount(this.layer,this.id,t)
             },
             canAfford() { return player.J.bp.gte(this.cost()) },
             buy() { setBuyableAmount(this.layer, this.id, gba(this.layer, this.id).add(1))},
@@ -619,6 +664,8 @@ addLayer("J", {
                 return b},
             effect(x) { 
                 let e=n(1)
+                if(gba('J',101).gte(29)) e=e.add(0.2)
+                if(gba('J',102).gte(4)) e=e.add(0.8)
                 let ef=this.base().mul(x.pow(e))
                 return ef},
             display() { 
@@ -632,13 +679,20 @@ addLayer("J", {
         34: { 
             title: function(){
                 let s=''
-                //if(gba(this.layer,this.id).gte(300)) s=s+'sc '
+                if(gba(this.layer,this.id).gte(40)) s='sc '
+                if(gba(this.layer,this.id).gte(120)) s='sc2 '
                 s=s+'C-'
                 return s
             },  
             cost(x) { 
                 let c=n(10).tetrate(x.add(10).log(10).pow(0.6).add(2).max(1))
+                if(x.gte(40)) c=n(10).tetrate(x.pow(0.3).mul(0.1).add(3).max(1))
+                if(x.gte(120)) c=n(10).tetrate(x.pow(0.5).mul(0.04).add(3).max(1))
                 return c
+            },
+            bulk(){
+                let t=player.J.bp.max(10).slog().sub(3).mul(25).pow(2).sub(1).ceil().max(gba(this.layer,this.id))
+                if(player.J.auto6) setBuyableAmount(this.layer,this.id,t)
             },
             canAfford() { return player.J.bp.gte(this.cost()) },
             buy() { setBuyableAmount(this.layer, this.id, gba(this.layer, this.id).add(1))},
@@ -659,7 +713,7 @@ addLayer("J", {
         35: { 
             title: function(){
                 let s=''
-                //if(gba(this.layer,this.id).gte(300)) s=s+'sc '
+                //if(gba(this.layer,this.id).gte(300)) s='sc '
                 s=s+'GsC'
                 return s
             },  
@@ -667,36 +721,47 @@ addLayer("J", {
                 let c=n(10).tetrate(x.add(10).log(10).pow(0.45).add(2.1).max(1))
                 return c
             },
+            bulk(){
+                let t=n(10).pow(player.J.bp.max(10).slog().sub(2.1).pow(20/9)).sub(11).ceil().max(gba(this.layer,this.id))
+                if(player.J.auto6) setBuyableAmount(this.layer,this.id,t)
+            },
             canAfford() { return player.J.bp.gte(this.cost()) },
             buy() { setBuyableAmount(this.layer, this.id, gba(this.layer, this.id).add(1))},
             base(){   let b=n(2)  
                 return b},
             effect(x) { 
                 let e=n(1)
-                let ef=this.base().pow(x.pow(e))
+                let ef=[n(0),n(0)]
+                ef[0]=this.base().pow(x.pow(e))
+                ef[1]=n(10).pow(ef[0].max(1).log(10).pow(0.33))
                 return ef},
             display() { 
-                return "Gs/i/e/r gain after curse's nerf x"+ format(this.base()) + " \n\
+                let s=''
+                if(mil('I',29)) s=s+'<br><h4 style="color:rgb(65, 14, 14)">(and '+ format(this.effect()[1])+' for I)'
+                return "Gs/i/e/r a after curse's nerf x"+ format(this.base()) + " \n\
                 Cost: " + format(this.cost()) + " BP \n\
                 Amount: " + format(player[this.layer].buyables[this.id])  +" \n\
-                Effect: x" + format(this.effect())},
+                Effect: x" + format(this.effect()[0])+s},
             unlocked() {return (gba('J',101).gte(11))},
             style: {'width':'130px','height':'130px'},
         },
         41: { 
             title: function(){
                 let s=''
-                //if(gba(this.layer,this.id).gte(300)) s=s+'sc '
+                if(gba(this.layer,this.id).gte(10)&&!mil('I',30)) s='sc '
                 s=s+'qp^2'
                 return s
             },  
             cost(x) { 
                 let c=n(10).tetrate(x.add(10).log(10).pow(0.9).add(2.1).max(1))
+                if(x.gte(10)&&!mil('I',30)) c=n(10).tetrate(x.pow(0.6).mul(0.1).add(3).max(1))
                 return c
             },
+            
             canAfford() { return player.J.bp.gte(this.cost()) },
             buy() { setBuyableAmount(this.layer, this.id, gba(this.layer, this.id).add(1))},
             base(){   let b=n(0.1)  
+                if(gba('J',102).gte(1)) b=b.mul(2)
                 return b},
             effect(x) { 
                 let e=n(1)
@@ -708,6 +773,128 @@ addLayer("J", {
                 Amount: " + format(player[this.layer].buyables[this.id])  +" \n\
                 Effect: +" + format(this.effect())},
             unlocked() {return gba('J',101).gte(20)},
+            style: {'width':'130px','height':'130px'},
+        },
+        42: { 
+            title: function(){
+                let s=''
+                //if(gba(this.layer,this.id).gte(10)) s='sc '
+                s=s+'J-'
+                return s
+            },  
+            cost(x) { 
+                let c=n(10).tetrate(x.pow(0.7).mul(0.1).add(3))
+                if(gba('J',102).gte(3)) c=n(10).tetrate(x.pow(0.66).mul(0.07).add(3))
+                if(gba('J',102).gte(5)) c=n(10).tetrate(x.pow(0.6).mul(0.06).add(3))
+                if(mil('I',30)) c=n(10).tetrate(x.pow(0.5).mul(0.05).add(3))
+                return c 
+            },
+            bulk(){
+                let t=player.J.bp.max(10).slog().sub(3).mul(20).pow(2).sub(1).ceil().max(gba(this.layer,this.id))
+                if(gba('J',101).gte(225)) setBuyableAmount(this.layer,this.id,t)
+            },            
+            canAfford() { return player.J.bp.gte(this.cost()) },
+            buy() { setBuyableAmount(this.layer, this.id, gba(this.layer, this.id).add(1))},
+            base(){   let b=n(1.02)  
+                return b},
+            effect(x) { 
+                let e=n(1)
+                e=e.add(buyableEffect('J',75))
+                let ef=this.base().pow(x.pow(e))
+                return ef},
+            display() { 
+                return "J req exp /"+ format(this.base()) + " \n\
+                Cost: " + format(this.cost()) + " BP \n\
+                Amount: " + format(player[this.layer].buyables[this.id])  +" \n\
+                Effect: /" + format(this.effect())},
+            unlocked() {return mil('I',27)},
+            style: {'width':'130px','height':'130px'},
+        },
+        43: { 
+            title: function(){
+                let s=''
+                //if(gba(this.layer,this.id).gte(10)) s='sc '
+                s=s+'G^^'
+                return s
+            },  
+            cost(x) { 
+                let c=n(10).tetrate(x.pow(0.75).mul(0.12).add(3).max(1))
+                if(gba('J',102).gte(5)) c=n(10).tetrate(x.pow(0.66).mul(0.12).add(3).max(1))
+                if(mil('I',30)) c=n(10).tetrate(x.pow(0.6).mul(0.1).add(3))
+                return c
+            },
+            canAfford() { return player.J.bp.gte(this.cost()) },
+            buy() { setBuyableAmount(this.layer, this.id, gba(this.layer, this.id).add(1))},
+            base(){   let b=n(0.02)  
+                if(upg('H',51)) b=b.add(0.01)
+                if(upg('H',55)) b=b.add(0.02)
+                return b},
+            effect(x) { 
+                let e=n(1)
+                let ef=this.base().mul(x.pow(e))
+                return ef},
+            display() { 
+                return "Gs/i/e/r slog +"+ format(this.base()) + " \n\
+                Cost: " + format(this.cost()) + " BP \n\
+                Amount: " + format(player[this.layer].buyables[this.id])  +" \n\
+                Effect: +" + format(this.effect())},
+            unlocked() {return mil('I',27)},
+            style: {'width':'130px','height':'130px'},
+        },
+        44: { 
+            title: function(){
+                let s=''
+                //if(gba(this.layer,this.id).gte(10)) s='sc '
+                s=s+'qpb2'
+                return s
+            },  
+            cost(x) { 
+                let c=n(10).tetrate(x.pow(0.75).mul(0.15).add(3).max(1))
+                if(mil('I',30)) c=n(10).tetrate(x.pow(0.7).mul(0.1).add(3))
+                return c
+            },
+            canAfford() { return player.J.bp.gte(this.cost()) },
+            buy() { setBuyableAmount(this.layer, this.id, gba(this.layer, this.id).add(1))},
+            base(){   let b=n(1.01)  
+                return b},
+            effect(x) { 
+                let e=n(1)
+                let ef=this.base().pow(x.pow(e))
+                return ef},
+            display() { 
+                return "Ib1 base x"+ format(this.base()) + " \n\
+                Cost: " + format(this.cost()) + " BP \n\
+                Amount: " + format(player[this.layer].buyables[this.id])  +" \n\
+                Effect: x" + format(this.effect())},
+            unlocked() {return mil('I',27)},
+            style: {'width':'130px','height':'130px'},
+        },
+        45: { 
+            title: function(){
+                let s=''
+                //if(gba(this.layer,this.id).gte(10)) s='sc '
+                s=s+'I^'
+                return s
+            },  
+            cost(x) { 
+                let c=n(10).tetrate(x.pow(0.8).mul(0.15).add(3.2).max(1))
+                if(mil('I',30)) c=n(10).tetrate(x.pow(0.75).mul(0.15).add(3))
+                return c
+            },
+            canAfford() { return player.J.bp.gte(this.cost()) },
+            buy() { setBuyableAmount(this.layer, this.id, gba(this.layer, this.id).add(1))},
+            base(){   let b=n(1.01)  
+                return b},
+            effect(x) { 
+                let e=n(1)
+                let ef=this.base().pow(x.pow(e))
+                return ef},
+            display() { 
+                return "I gain ^"+ format(this.base()) + " \n\
+                Cost: " + format(this.cost()) + " BP \n\
+                Amount: " + format(player[this.layer].buyables[this.id])  +" \n\
+                Effect: ^" + format(this.effect())},
+            unlocked() {return gba('J',102).gte(5)},
             style: {'width':'130px','height':'130px'},
         },
         61: {
@@ -734,6 +921,7 @@ addLayer("J", {
             buy() { setBuyableAmount(this.layer, this.id, gba(this.layer, this.id).add(1))},
             base(){   let b=n(2).pow(tmp.J.bpef.max(2).log(2).pow(1.25).sub(30).max(0)) 
                 if(mil('I',25)) b=n(2).pow(tmp.J.bpef.max(2).log(2).pow(1.3).max(0))
+                if(gba('J',101).gte(128)) n(2).pow(tmp.J.bpef.max(2).log(2).pow(2).max(0))
                 return b},
             effect(x) { 
                 let e=n(1)
@@ -812,6 +1000,7 @@ addLayer("J", {
             buy() { setBuyableAmount(this.layer, this.id, gba(this.layer, this.id).add(1))},
             base(){   let b=player.I.si.max(1).log(2).pow(1.75).div(100).max(2)
                 if(gba('J',101).gte(8)) b=b.max(n(10).pow(player.I.si.max(1).log(10).pow(0.75)))
+                if(gba('J',102).gte(5)) b=b.max(n(10).pow(player.I.si.max(1).log(10).pow(1.1)))
                 return b},
             effect(x) { 
                 let e=n(1)
@@ -838,15 +1027,15 @@ addLayer("J", {
                 return c
             },
             bulk(){
-                let t=n(10).pow(player.J.bp.max(10).slog().sub(2).pow(10/3)).sub(1).ceil().max(gba(this.layer,this.id))
-                let c=this.cost(t)
-                if (player.J.bp.gte(c)&&mil('J',14)&&player.J.auto5) player[this.layer].buyables[this.id]=t
+                let t=n(10).pow(player.J.bp.max(10).slog().sub(2).pow(10/3)).sub(11).ceil().max(gba(this.layer,this.id))
+                if(player.J.auto5) setBuyableAmount(this.layer,this.id,t)
             },
             canAfford() { return player.J.bp.gte(this.cost()) },
-            buy() { setBuyableAmount(this.layer, this.id, gba(this.layer, this.id).add(1))},
+            buy() { setBuyableAmount(this.layer,this.id,gba(this.layer, this.id).add(1))},
             base(){   let b=n(10).pow(n(10).pow(player.J.bp.max(10).slog().max(1).pow(4).div(100)))
                 if(gba('J',101).gte(8)) b=b.max(player.J.bp.max(10).log(10).max(1))//.pow(0.8)
                 if(mil('I',25)) b=player.J.bp.max(10).log(10).pow(1.2).max(1)
+                if(gba('J',102).gte(5)) b=player.J.bp.max(10).log(10).pow(n(1.5).add(buyableEffect('J',71))).max(1)
                 return b},
             effect(x) { 
                 let e=n(1)
@@ -865,13 +1054,15 @@ addLayer("J", {
         65: { 
             title: function(){
                 let s=''
-                //if(gba(this.layer,this.id).gte(300)) s=s+'sc '
+                //if(gba(this.layer,this.id).gte(300)) s='sc '
                 s=s+'ss^^'
                 return s
             },  
             cost(x) { 
                 let c=n(10).tetrate(x.mul(0.01).add(2.3))
                 if(mil('J',15)) c=n(10).tetrate(x.mul(0.008).add(2.2))
+                if(gba('J',101).gte(29)) c=n(10).tetrate(x.mul(0.0075).add(2))
+                if(gba('J',102).gte(5))  c=n(10).tetrate(x.mul(0.007).add(2))
                 return c
             },
             canAfford() { return player.J.ss.gte(this.cost()) },
@@ -900,22 +1091,24 @@ addLayer("J", {
                 return s
             },  
             cost(x) { 
-                let c=n(10).tetrate(x.pow(1.05).mul(0.02).add(3.15).max(1))
-                if(mil('I',25)) c=n(10).tetrate(x.pow(0.9).mul(0.01).add(3).max(1))
+                let c=n(10).tetrate(x.pow(1.05).mul(0.02).add(3.15))
+                if(mil('I',25)) c=n(10).tetrate(x.pow(0.9).mul(0.01).add(3))
+                if(gba('J',102).gte(5)) c=n(10).tetrate(x.pow(0.9).mul(0.006).add(2))
+                if(gba('J',101).gte(128)) c=n(10).tetrate(x.pow(0.6).mul(0.01).add(2))
                 return c
             },
-            // bulk(){
-            //     let t=n(0)
-            //     if(mil('J',11)&&player.J.auto4)   t=n(10).pow(player.J.bp.add(10).slog().sub(1.5).pow(2.5).sub(gba(this.layer,this.id))).sub(1).ceil().max(1)
-            //     let c=this.cost(gba(this.layer, this.id).add(t))
-            //     if (player.J.bp.gte(c)) player[this.layer].buyables[this.id]=player[this.layer].buyables[this.id].add(t)
-            // },
+            bulk(){
+                let t=player.J.ss.max(10).slog().sub(2).mul(500/3).pow(10/9).sub(1).ceil().max(gba(this.layer,this.id))
+                if(gba('J',101).gte(128)) t=player.J.ss.max(10).slog().sub(2).mul(100).pow(5/3).sub(1).ceil().max(gba(this.layer,this.id))
+                if(player.J.auto6) setBuyableAmount(this.layer,this.id,t)
+            },
             canAfford() { return player.J.ss.gte(this.cost()) },
             buy() { setBuyableAmount(this.layer, this.id, gba(this.layer, this.id).add(1))},
             base(){   let b=n(0.01)  
                 return b},
             effect(x) { 
                 let e=n(1)
+                if(gba('J',101).gte(100)) e=e.add(0.25)
                 let ef=this.base().mul(x.pow(e))
                 return ef},
             display() { 
@@ -928,24 +1121,89 @@ addLayer("J", {
                 if(this.canAfford()) s="#C490FF"
                 return {'width':'130px','height':'130px','background-color':s}},        
         },
+        72: { 
+            title: function(){
+                let s=''
+                //if(gba(this.layer,this.id).gte(400)) s='sc '
+                s=s+'r^^'
+                return s
+            },  
+            cost(x) { 
+                let c=n(10).tetrate(x.pow(0.95).mul(0.05).add(3.5))
+                return c
+            },
+            // bulk(){
+            //     let t=player.J.ss.max(10).slog().sub(2).mul(500/3).pow(10/9).sub(1).ceil().max(gba(this.layer,this.id))
+            //     if(player.J.auto6) setBuyableAmount(this.layer,this.id,t)
+            // },
+            canAfford() { return player.J.ss.gte(this.cost()) },
+            buy() { setBuyableAmount(this.layer, this.id, gba(this.layer, this.id).add(1))},
+            base(){   let b=n(0.05)  
+                return b},
+            effect(x) { 
+                let e=n(1)
+                let ef=this.base().mul(x.pow(e))
+                return ef},
+            display() { 
+                return "r1/2^ slog +"+ format(this.base()) + " \n\
+                Cost: " + format(this.cost()) + " SS \n\
+                Amount: " + format(player[this.layer].buyables[this.id])  +" \n\
+                Effect: +" + format(this.effect())},
+            unlocked() {return mil('I',30)},
+            style: function() {let s="#BF8F8F"
+                if(this.canAfford()) s="#C490FF"
+                return {'width':'130px','height':'130px','background-color':s}},        
+        },
+        73: { 
+            title: function(){
+                let s=''
+                //if(gba(this.layer,this.id).gte(400)) s='sc '
+                s=s+'cl+'
+                return s
+            },  
+            cost(x) { 
+                let c=n(10).tetrate(x.pow(0.9).mul(0.03).add(3.5))//3.6
+                return c
+            },
+            // bulk(){
+            //     let t=player.J.ss.max(10).slog().sub(2).mul(500/3).pow(10/9).sub(1).ceil().max(gba(this.layer,this.id))
+            //     if(player.J.auto6) setBuyableAmount(this.layer,this.id,t)
+            // },
+            canAfford() { return player.J.ss.gte(this.cost()) },
+            buy() { setBuyableAmount(this.layer, this.id, gba(this.layer, this.id).add(1))},
+            base(){   let b=n(2)  
+                return b},
+            effect(x) { 
+                let e=n(1)
+                let ef=this.base().mul(x.pow(e))
+                return ef},
+            display() { 
+                return "curse option 1-5 limit +"+ format(this.base()) + " \n\
+                Cost: " + format(this.cost()) + " SS \n\
+                Amount: " + format(player[this.layer].buyables[this.id])  +" \n\
+                Effect: +" + format(this.effect())},
+            unlocked() {return mil('I',30)},
+            style: function() {let s="#BF8F8F"
+                if(this.canAfford()) s="#C490FF"
+                return {'width':'130px','height':'130px','background-color':s}},        
+        },
         74: { 
             title: function(){
                 let s=''
-                if(gba(this.layer,this.id).gte(400)) s='sc '
+                if(gba(this.layer,this.id).gte(400)&&!mil('J',16)) s='sc '
                 s=s+'ssb+'
                 return s
             },  
             cost(x) { 
                 let c=n(10).tetrate(x.add(10).log(10).pow(0.45).add(1.6).max(1))
-                if(x.gte(400)) c=n(10).tetrate(x.add(10).log(10).pow(0.6).add(1.35).max(1))
+                if(x.gte(400)&&!mil('J',16)) c=n(10).tetrate(x.add(10).log(10).pow(0.6).add(1.35).max(1))
                 return c
             },
-            // bulk(){
-            //     let t=n(0)
-            //     if(mil('J',11)&&player.J.auto4)   t=n(10).pow(player.J.bp.add(10).slog().sub(1.5).pow(2.5).sub(gba(this.layer,this.id))).sub(1).ceil().max(1)
-            //     let c=this.cost(gba(this.layer, this.id).add(t))
-            //     if (player.J.bp.gte(c)) player[this.layer].buyables[this.id]=player[this.layer].buyables[this.id].add(t)
-            // },
+            bulk(){
+                let t=n(10).pow(player.J.ss.add(10).slog().sub(1.35).pow(5/3)).sub(1).ceil().max(gba(this.layer,this.id))
+                if(mil('J',16)) t=n(10).pow(player.J.ss.add(10).slog().sub(1.6).pow(20/9)).sub(1).ceil().max(gba(this.layer,this.id))
+                if(player.I.auto3) setBuyableAmount(this.layer,this.id,t)
+            },//player.J.ss.gte(t)&&mil('I',25)&&
             canAfford() { return player.J.ss.gte(this.cost()) },
             buy() { setBuyableAmount(this.layer, this.id, gba(this.layer, this.id).add(1))},
             base(){   let b=n(0.02)  
@@ -964,30 +1222,63 @@ addLayer("J", {
                 if(this.canAfford()) s="#C490FF"
                 return {'width':'130px','height':'130px','background-color':s}},        
         },
+        75: { 
+            title: function(){
+                let s=''
+                //if(gba(this.layer,this.id).gte(400)) s='sc '
+                s=s+'J-^'
+                return s
+            },  
+            cost(x) { 
+                let c=n(10).tetrate(x.pow(0.75).mul(0.16).add(3.5))
+                return c
+            },
+            // bulk(){
+            //     let t=player.J.ss.max(10).slog().sub(2).mul(500/3).pow(10/9).sub(1).ceil().max(gba(this.layer,this.id))
+            //     if(player.J.auto6) setBuyableAmount(this.layer,this.id,t)
+            // },
+            canAfford() { return player.J.ss.gte(this.cost()) },
+            buy() { setBuyableAmount(this.layer, this.id, gba(this.layer, this.id).add(1))},
+            base(){   let b=n(0.01)  
+                return b},
+            effect(x) { 
+                let e=n(1)
+                let ef=this.base().mul(x.pow(e))
+                return ef},
+            display() { 
+                return "J- exp +"+ format(this.base()) + " \n\
+                Cost: " + format(this.cost()) + " SS \n\
+                Amount: " + format(player[this.layer].buyables[this.id])  +" \n\
+                Effect: +" + format(this.effect())},
+            unlocked() {return mil('I',30)},
+            style: function() {let s="#BF8F8F"
+                if(this.canAfford()) s="#C490FF"
+                return {'width':'130px','height':'130px','background-color':s}},        
+        },
         81: {
             title: function(){
                 let s=''
-                //if(gba(this.layer,this.id).gte(300)) s='sc '
+                if(gba(this.layer,this.id).gte(200)&&!gba('J',101).gte(111)) s='sc '
                 s=s+'J^s'
                 return s
             },  
             cost(x) { 
                 let c=n(10).pow(n(10).pow(x.add(10).pow(0.6).add(2)))
+                if(x.gte(200)&&!gba('J',101).gte(111)) c=n(10).pow(n(10).pow(x.sub(100).pow(0.8).mul(0.75)))
                 return c
             },
-            // bulk(){
-            //     let t=n(0)
-            //     if(mil('J',8)&&player.J.auto2)   t=player.I.qolpoints.add(10).log(10).div(2).pow(5/6).sub(gba(this.layer,this.id)).sub(1).ceil().max(1)
-            //     let c=this.cost(gba(this.layer, this.id).add(t))
-            //     if (player.I.qolpoints.gte(c)) player[this.layer].buyables[this.id]=player[this.layer].buyables[this.id].add(t)
-            // },
+            bulk(){
+                let t=player.I.qolpoints.max(10).log(10).max(10).log(10).sub(2).mul(4/3).pow(5/4).add(99).ceil().max(gba(this.layer,this.id))
+                if(gba('J',101).gte(111)) t=player.I.qolpoints.max(10).log(10).max(10).log(10).sub(2).pow(5/3).sub(11).ceil().max(gba(this.layer,this.id))
+                if(player.J.auto6) setBuyableAmount(this.layer,this.id,t)
+            },
             canAfford() { return player.I.qolpoints.gte(this.cost()) },
             buy() { setBuyableAmount(this.layer, this.id, gba(this.layer, this.id).add(1))},
             base(){   let b=n(0.01)
-                //if(gba('J',101).gte(9)) b=b.mul(1.5)
                 return b},
             effect(x) { 
                 let e=n(1)
+                if(gba('J',102).gte(5)) e=e.add(0.25)
                 let ef=this.base().mul(x.pow(e))
                 return ef},
             display() { 
@@ -1010,14 +1301,13 @@ addLayer("J", {
             cost(x) { 
                 let c=n(10).tetrate(x.add(10).log(10).pow(0.58).add(2).max(1))
                 if(mil('I',25)) c=n(10).tetrate(x.add(10).log(10).pow(0.5).add(1.8).max(1))
+                if(gba('J',102).gte(5)) c=n(10).tetrate(x.add(10).log(10).pow(0.5).add(1.5).max(1))
                 return c
             },
-            // bulk(){
-            //     let t=n(0)
-            //     if(mil('J',8)&&player.J.auto2)   t=player.I.qolpoints.add(10).log(10).div(2).pow(5/6).sub(gba(this.layer,this.id)).sub(1).ceil().max(1)
-            //     let c=this.cost(gba(this.layer, this.id).add(t))
-            //     if (player.I.qolpoints.gte(c)) player[this.layer].buyables[this.id]=player[this.layer].buyables[this.id].add(t)
-            // },
+            bulk(){
+                let t=n(10).pow(player.I.qolpoints.max(10).slog().sub(1.5).pow(2)).sub(11).ceil().max(gba(this.layer,this.id))
+                if(player.J.auto6) setBuyableAmount(this.layer,this.id,t)
+            },
             canAfford() { return player.I.qolpoints.gte(this.cost()) },
             buy() { setBuyableAmount(this.layer, this.id, gba(this.layer, this.id).add(1))},
             base(){   let b=n(1.01)
@@ -1027,7 +1317,7 @@ addLayer("J", {
                 let ef=this.base().pow(x.pow(e))
                 return ef},
             display() { 
-                return "Gs/i/e/r gain after curse's nerf ^"+ format(this.base()) + " \n\
+                return "Gs/i/e/r a after curse's nerf ^"+ format(this.base()) + " \n\
                 Cost: " + format(this.cost()) + " QP \n\
                 Amount: " + format(player[this.layer].buyables[this.id])  +" \n\
                 Effect: ^" + format(this.effect())},
@@ -1039,7 +1329,7 @@ addLayer("J", {
         101: { 
             title: function(){
                 let s=''
-                s=s+'BP rank '+player[this.layer].buyables[this.id]//IMR lol
+                s=s+'BP Rank '+gba(this.layer, this.id)//IMR lol
                 return s
             },  
             cost(x) { 
@@ -1053,20 +1343,50 @@ addLayer("J", {
             //     if (player.I.si.gte(c)) player[this.layer].buyables[this.id]=player[this.layer].buyables[this.id].add(t)
             // },
             canAfford() { return player.J.bp.gte(this.cost()) },
-            buy() { setBuyableAmount(this.layer, this.id, gba(this.layer, this.id).add(1))},
+            buy() { setBuyableAmount(this.layer,this.id,gba(this.layer, this.id).add(1))},
             display() { 
                 return "Need: " + format(this.cost()) + " BP"},
             unlocked() {return mil('J',13)},
-            style: {'width':'210px','height':'140px'},
+            style: {'width':'200px','height':'140px'},
+        },
+        102: { 
+            title: function(){
+                let s=''
+                s=s+'BP R^2 '+gba(this.layer, this.id)
+                return s
+            },  
+            cost(x) { 
+                let c=x.add(20).pow(4.2).div(8400).ceil()//10,3.6,120
+                return c
+            },
+            canAfford() { return gba('J',101).gte(this.cost()) },
+            buy() { setBuyableAmount(this.layer, this.id, gba(this.layer, this.id).add(1))},
+            display() { 
+                return "Need: " + format(this.cost()) + " Rank"},
+            unlocked() {return mil('I',26)},
+            style: {'width':'200px','height':'140px'},
+        },
+    },
+    clickables:{
+        11:{
+            display(){return "<<"},
+            style() {return {'background-color': layers[this.layer].clickables[this.id].canClick()?"#B2D0EF":"#BF8F8F",'width':'50px','height':'50px','min-height':'50px'}},
+            canClick() {return player.J.rankstate.gte(2)},
+            onClick() {player.J.rankstate=player.J.rankstate.sub(1)},
+            unlocked() {return mil('I',26)},
+        },
+        12:{
+            display(){return ">>"},
+            style() {return {'background-color': layers[this.layer].clickables[this.id].canClick()?"#B2D0EF":"#BF8F8F",'width':'50px','height':'50px','min-height':'50px'}},
+            canClick() {return !player.J.rankstate.gte(2)},
+            onClick() {player.J.rankstate=player.J.rankstate.add(1)},
+            unlocked() {return mil('I',26)},
         },
     },
     bpg(){
         let ef=n(10)
-        let tet=n(0)
-        if(gba('J',101).gte(3)) tet=tet.add(buyableEffect('J',15))
-        if(mil('I',23)) tet=tet.add(tmp.I.hief[5])
         ef=ef.mul(buyableEffect('J',11)).mul(buyableEffect('J',12)).mul(buyableEffect('J',13)).mul(buyableEffect('J',14))
-        ef=n(10).tetrate(ef.max(10).slog().add(tet))
+        ef=n(10).tetrate(ef.max(10).slog().add(tmp.J.slogs[0]))
         return ef
     },
     bppow(){
@@ -1078,6 +1398,7 @@ addLayer("J", {
         if(mil('I',18)) ef=ef.add(tmp.I.hief[1])
         if(mil('J',12)) ef=ef.mul(tmp.I.hief[3])
         if(gba('J',101).gte(20)) ef=ef.mul(n(1.25).pow(gba('J',101).sub(20)))
+        //if(gba('J',101).gte(225)) ef=ef.pow(n(10).pow(player.J.best.max(1).slog().pow(2.2)))
         return ef
     },
     bpef(){
@@ -1090,20 +1411,16 @@ addLayer("J", {
     },
     ssg(){
         let ef=n(10)
-        let tet=n(0)
-        if(gba('J',101).gte(3)) tet=tet.add(buyableEffect('J',65))
-        if(mil('I',23)) tet=tet.add(tmp.I.hief[5])
         ef=ef.mul(buyableEffect('J',61)).mul(buyableEffect('J',62)).mul(buyableEffect('J',63)).mul(buyableEffect('J',64))
-        ef=n(10).tetrate(ef.max(10).slog().add(tet))
+        ef=n(10).tetrate(ef.max(10).slog().add(tmp.J.slogs[1]))
         return ef
     },
     sspow(){
         let e=n(0.5)
         if(gba('J',101).gte(9)) e=e.add(0.5)
         if(mil('I',23)) e=e.add(buyableEffect('J',81))
-        // if(mil('J',7)) e=e.add(0.04)
-        //if(!player.J.best.gte(600)) return n(1)
         let ef=player.J.best.div(600).pow(e).max(1)
+        //if(gba('J',101).gte(225)) ef=ef.pow(n(10).pow(player.J.best.max(1).slog().pow(2)))
         return ef
     },
     ssef(){
@@ -1118,6 +1435,8 @@ addLayer("J", {
     slogs(){
         let ef=[n(0),n(0)]
         ef[0]=ef[0].add(buyableEffect('J',15)).add(tmp.I.hief[5])
+        if(gba('J',102).gte(3)) ef[0]=ef[0].add(0.012)
+        if(gba('J',101).gte(100)) ef[0]=ef[0].add(0.01),ef[1]=ef[1].add(0.01)
         ef[1]=ef[1].add(buyableEffect('J',65)).add(tmp.I.hief[5])
         return ef
     },
