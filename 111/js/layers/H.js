@@ -35,7 +35,7 @@ addLayer("H", {
         if(mil('I',11)) min=min.sub(500)//1000
         if(gba('J',101).gte(6)) min=min.sub(800)//200
         if(player.H.points.gte(15)) exp=player.H.points.sub(6).min(min)
-        exp=exp.div(tmp.H.dhef[1]).min(1e-100)//if(upg('G',144)) 
+        exp=exp.div(tmp.H.dhef[1]).max(1e-100)//if(upg('G',144)) 
         return exp
     },
     base() {
