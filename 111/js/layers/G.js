@@ -964,7 +964,7 @@ addLayer("G", {
         },
         133: {
             title:'G63',
-            description: "b6/9 exp +0.02,GG2 provide 4 GG per buy.",         
+            description: "b6/9 exp +0.02.", //,GG2 provide 4 GG per buy        
             cost:n('e8.88e90'),
             currencyLocation() {return player[this.layer]}, 
             currencyDisplayName: "Gs",
@@ -2444,8 +2444,8 @@ addLayer("G", {
             // },
             buy() { 
                 setBuyableAmount(this.layer, this.id, gba(this.layer, this.id).add(1))
-                player.G.GG=player.G.GG.add(this.am().mul(3))
-                player.G.GGtot=player.G.GGtot.add(this.am().mul(3))},
+                player.G.GG=player.G.GG.add(this.am())//.mul(3).mul(3)
+                player.G.GGtot=player.G.GGtot.add(this.am())},
             effect(x) { 
                 let ef = n(x).mul(this.am())
                 return ef},
