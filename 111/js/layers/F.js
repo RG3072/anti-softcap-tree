@@ -169,7 +169,7 @@ addLayer("F", {
                 ,["raw-html", () => `<h4 style="opacity:.5">Tb's cost scaling past 10 and 20 before Gc3x3,jumps at 75 and scaling past 100 after 3x3.<br></h4>`]]}, 
             "F2": {
                 unlocked() {return (mil("G",8))},//false
-                content: [["display-text", () => "You have <h3 style='color: #C037A5'>" + format(player.F.F2) + "</h3> F2, raise F1 by ^<h3 style='color: #C037A5'> " + format(tmp.F.F2f,4) + "</h3>.<br>" + "<h4>" + format(tmp.F.f2g.mul(player.F.fdim2[0])) + " F2/s<h4> <br>"],
+                content: [["display-text", () => "You have <h3 style='color: #C037A5'>" + format(player.F.F2) + "</h3> F2, raise F1 by ^<h3 style='color: #C037A5'>" + format(tmp.F.F2f,4) + "</h3>.<br>" + "<h4>" + format(tmp.F.f2g.mul(player.F.fdim2[0])) + " F2/s<h4> <br>"],
                 ,["buyables",[11,12]]]},   
         }
     },
@@ -937,7 +937,7 @@ addLayer("F", {
             bulk(){
                 let t=player.F.F1.div(1e40).max(1).log(1e20).pow(0.82).sub(gba(this.layer,this.id).add(1)).ceil().max(1)
                 if(mil('F',18)) t=player.F.F1.add(10).log(10).pow(tmp.F.scaling.pow(-1)).div(20).sub(gba(this.layer, this.id)).ceil().sub(1).max(0)
-                if(inChallenge('G',21)) t=t.div(5).ceil().sub(1).max(0)
+                if(inChallenge('G',21)) t=player.F.F1.pow(0.2).add(10).log(10).pow(tmp.F.scaling.pow(-1)).div(20).sub(gba(this.layer, this.id)).ceil().sub(1).max(0)
                 let c = this.cost(gba(this.layer, this.id).add(t))
                 if (player[this.layer].F1.gte(c)&&player.F.auto1&&mil('G',3)) {setBuyableAmount(this.layer,this.id,gba(this.layer,this.id).add(t))
                     player.F.fdim[7] = player.F.fdim[7].add(t)}
@@ -984,7 +984,7 @@ addLayer("F", {
             display() { //  Mult per tickspeed: x" + format(this.base(),4) + " \n\
                 return "boost all FDs \n\
                 Need: " + format(this.cost()) + " F1 \n\
-                Amount: "+ player[this.layer].buyables[this.id]  +" \n\
+                Amount: "+ format(player[this.layer].buyables[this.id])  +" \n\
                 Effect: x" + format(this.effect())},
             unlocked() { if (gba('F',102).gte(1)) return true
                 else return mil('F',11) },
@@ -1033,7 +1033,7 @@ addLayer("F", {
             display() { 
                 return "reset for a tickboost <br>boost tickspeed mult \n\
                 Need: " + format(this.cost()) + " Fd8 \n\
-                Amount: "+ player[this.layer].buyables[this.id] },
+                Amount: "+ format(player[this.layer].buyables[this.id]) },
             unlocked() { return mil('F',13) },
             style: {'height':'150px'},
         },

@@ -2413,7 +2413,7 @@ addLayer("G", {
                 player.G.GG=player.G.GG.add(this.am())
                 player.G.GGtot=player.G.GGtot.add(this.am())},
             effect(x) { 
-                let ef = n(x)
+                let ef = n(x).mul(this.am())
                 return ef},
             display() { 
                 return "gain " + format(this.am()) + " GG  \n\
@@ -2825,7 +2825,7 @@ addLayer("G", {
         let exp=n(1)
         if (upg('G',62))  exp=exp.mul(2)
         exp=exp.mul(buyableEffect('G',22).add(1))
-        if (player.G.points.gte('ee1e500')) ef=player.G.points.log(10).log(10).log(10).sub(450).div(50).min('1e100000').pow(exp)
+        if(player.G.points.gte('ee1e500')) ef=player.G.points.log(10).log(10).log(10).sub(450).div(50).min('1e100000').pow(exp)
         let sc1=n(0.85)
         if (upg('G',101)) sc1=sc1.add(0.03)
         if (upg('G',103)) sc1=sc1.add(0.02)
@@ -2834,7 +2834,7 @@ addLayer("G", {
         if (mil('G',17)) sc2=sc2.add(0.02)
         if (ef.gte('1e100')) ef=n('1e100').mul(n(10).pow(ef.div('1e100').log(10).mul(sc1)))
         if (ef.gte('1e10000')) ef=n('1e10000').mul(n(10).pow(ef.div('1e10000').log(10).mul(sc2)))
-        ef=ef.min('e1e10')
+        if(!gba('J',103).gte(1)) ef=ef.min('e1e10')
         if(mil('I',0)) ef=ef.mul(100)
         if(gcs('I',64)) ef=ef.mul(1e4)
         if(n(ccomp('I',22)).gte(5))  ef=ef.mul('1e1000')

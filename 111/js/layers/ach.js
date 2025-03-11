@@ -1004,9 +1004,29 @@ addLayer("ac", {
             done() {return player.J.bp.gte('eee10')},
             tooltip: "get ee1e10 break points.", 
         },
+        341: {
+            name: "199.2^infinity",
+            done() {return gba('J',101).gte(225)},
+            tooltip: "unlock anti-replicanti.", 
+        },
+        342: {
+            name: "200.dont slow down?",
+            done() {return player.J.maxar.gte('1e4000')},
+            tooltip: "reach AR dilation.", 
+        },
+        343: {
+            name: "201.so slog up",
+            done() {return gba('J',211).gte(2)},
+            tooltip: "unlock AR's QP slog eff.", 
+        },
+        344: {
+            name: "202.capped slog",
+            done() {return tmp.I.hief[5].gte(0.5)},
+            tooltip: "get 0.5 HI's BP/SS slog eff.", 
+        },
     },
     tabFormat: ["blank", ["display-text", function() {
-        return "<h3 style='color: yellow;'>Achievements: " + player.ac.achievements.length + "/198 </h4>"
+        return "<h3 style='color: yellow;'>Achievements: " + player.ac.achievements.length + "/202 </h4>"
     }
     ], "blank", "blank", "achievements", ],
 },

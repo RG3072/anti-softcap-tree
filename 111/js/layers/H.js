@@ -211,15 +211,21 @@ addLayer("H", {
                 ,["display-text", function() {if(upg('G',154)) return "dH6-current: <h3 style='color: #339999'>" + format(player.H.dh[5]) + "</h3> (best:"+ format(player.H.dhmax[5]) + ")(next at "+ format(tmp.H.dhreq[5])+" Gsb6 eff) div hb3/y3 scaling by /<h3 style='color: #339999'>" + format(tmp.H.dhef[5],3) +"<h4>"}]
                 ,["display-text",() => "total dH:"+format(tmp.H.totdh)]
                 ,["display-text", function() {if(gcs('I',311)&&mil('I',18)) return "<h4 style='color: #C52C14'>the curse makes dHs effective count ^" + format(tmp.I.resv[3]) }]
-                ,["clickables",[1,10]]]},  
-            "dH points":{
-                unlocked() {return (mil("G",31))},
-                content: [["display-text", () => "You have <h3 style='color: #3D3A3F'>" + format(player.H.dhp) + "</h3> dH points,boost GsR by x<h3 style='color: #3D3A3F'>" + format(tmp.H.dhpef) +"<h4>"+ format(tmp.H.dhp) + " dH points/s <h4>"]
+                ,["clickables",[1,10]]
+                ,["display-text", () => "You have <h3 style='color: #3D3A3F'>" + format(player.H.dhp) + "</h3> dH points,boost GsR by x<h3 style='color: #3D3A3F'>" + format(tmp.H.dhpef) +"<h4>"+ format(tmp.H.dhp) + " dH points/s <h4>"]
                 ,["display-text",() => "gain formula:5*[(mult of dH base)^exp]*mults<h4>"]
                 ,["display-text",() => "best dHs:"+format(player.H.dhmax[0])+","+format(player.H.dhmax[1])+","+format(player.H.dhmax[2])+","+format(player.H.dhmax[3])+","+format(player.H.dhmax[4])+","+format(player.H.dhmax[5])]
                 ,["display-text",() => "current base:"+format(tmp.H.dhbs[0])+","+format(tmp.H.dhbs[1])+","+format(tmp.H.dhbs[2])+","+format(tmp.H.dhbs[3])+","+format(tmp.H.dhbs[4])+","+format(tmp.H.dhbs[5])]
-                ,["buyables",[8]]],
-            }                                                                                                                                                                                                                                   
+                ,["buyables",[8]]
+            ]},  
+            // "dH points":{
+            //     unlocked() {return (mil("G",31))},
+            //     content: [["display-text", () => "You have <h3 style='color: #3D3A3F'>" + format(player.H.dhp) + "</h3> dH points,boost GsR by x<h3 style='color: #3D3A3F'>" + format(tmp.H.dhpef) +"<h4>"+ format(tmp.H.dhp) + " dH points/s <h4>"]
+            //     ,["display-text",() => "gain formula:5*[(mult of dH base)^exp]*mults<h4>"]
+            //     ,["display-text",() => "best dHs:"+format(player.H.dhmax[0])+","+format(player.H.dhmax[1])+","+format(player.H.dhmax[2])+","+format(player.H.dhmax[3])+","+format(player.H.dhmax[4])+","+format(player.H.dhmax[5])]
+            //     ,["display-text",() => "current base:"+format(tmp.H.dhbs[0])+","+format(tmp.H.dhbs[1])+","+format(tmp.H.dhbs[2])+","+format(tmp.H.dhbs[3])+","+format(tmp.H.dhbs[4])+","+format(tmp.H.dhbs[5])]
+            //     ,["buyables",[8]]],
+            // }                                                                                                                                                                                                                                   
         }//C3FFDE
     },
     tabFormat: [
@@ -1894,6 +1900,7 @@ addLayer("H", {
     phpb(){
         let ef=n(100)
         if(player.J.best.gte(1)) ef=ef.add(tmp.J.bpef)
+        ef=ef.min('1e308')
         return ef    
     },
     php(){

@@ -13,13 +13,15 @@ let modInfo = {
 
 // Set your version in num and name
 let VERSION = {
-	num: "0.7.3",
-	name: "tower-exponent",//more about break infinity
+	num: "0.7.4",
+	name: "replicanti",//tower-exponent,more about break infinity
 }
 
 let changelog = `<h2>Changelog:</h2><br>
-    <h4>v0.7.32 (250210)</h4>
-		- the same. E:F1e42. <br>
+    <h4>v0.7.4 (250311)</h4>
+		- add anti-replicanti. E:F1e105. <br>
+    <h4>v0.7.3 (250225)</h4>
+		- add a side layer for automation and pause. E:F1e42. <br>
     <h4>v0.7.2 (250210)</h4>
 		- add slog speeder. E:F4e10. <br>
     <h4>v0.7.1 (250129)</h4>
@@ -186,13 +188,13 @@ function addedPlayerData() { return {
 // Display extra things at the top of the page
 var displayThings = [
 	function() {
-		let s='current endgame:F1e42 hardcap.<br> Too easy? Go to play NG-10(aast) by QqQe308!'
+		let s='current endgame:ee100 Anti-replicanti.<br> Too easy? Go to play NG-10(aast) by QqQe308!'
 		if(upg('G',155)||mil('I',0)) s=s+"<br><h4 style='color: #C52C14'>points gain is hardcapped at "+format(tmp.H.php)+"."
 		return s},//<br> points is hardcapped at 1F100.
 ]
 // Determines when the game "ends"
 function isEndgame() {
-	return tmp.H.phpb.gte('1e42')
+	return player.J.maxar.gte('ee100')//tmp.H.phpb.gte('1e42')
 }
 
 //<br> bilibili: @bili_50929957100

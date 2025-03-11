@@ -47,6 +47,8 @@ addLayer("I", {
     gainExp() {
         let ef=n(1)
         ef=ef.mul(buyableEffect('J',45))
+        if(mil('J',20)) ef=ef.add(0.03)
+        if(gba('J',211).gte(1)) ef=ef.add(tmp.J.repef[1])
         return ef},
     row: 4, 
     hotkeys: [
@@ -179,7 +181,7 @@ addLayer("I", {
         },
         27: {requirementDescription: "600 Ib10 (28",
             done() {return gba('I',41).gte(600)}, 
-            effectDescription: "autobuy Ic10,unlock 3 bab,nerf cop2-3.",
+            effectDescription: "autobuy Ib10,unlock 3 bab,nerf cop2-3.",
             toggles: [ ['I',"auto4"] ]
         },
         28: {requirementDescription: "1e24 total I (29",
@@ -193,6 +195,20 @@ addLayer("I", {
         30: {requirementDescription: "1640 harden I (31",
             done() {return player.I.hi.gte(1640)}, 
             effectDescription: "row4 BP babs are massively cheaper,remove 'qp^2' scaling,unlock 3 SS bab.",
+        },
+        31: {requirementDescription: "1e444 total I (32",
+            done() {return player[this.layer].total.gte('1e444')}, 
+            effectDescription: "nerf ar1/2 and buy max,unlock a SS bab.",
+            toggles: [ ['I',"auto5"] ]
+        },
+        32: {requirementDescription: "1e4 Ib10 (33",
+            done() {return gba('I',41).gte(1e4)}, 
+            effectDescription: "autobuy bp/ss^^,qp2,G^^,qpb2 and BP Rank,qp2 ^2,AR mult ^2,unlock BP R^3.",
+            toggles: [ ['I',"auto6"] ]
+        },
+        33: {requirementDescription: "e1e1024 QP (34",
+            done() {return player[this.layer].qolpoints.gte('ee1024')}, 
+            effectDescription: "ar3 ^1.25 and dont divide AR and auto buy max,ard ^1.1.",
         },
     },
     m10ef(){
@@ -237,13 +253,13 @@ addLayer("I", {
             "Curse": {
                 unlocked() {return mil('J',3)},
                 content: [["display-text", function() { 
-                    let s="You have <h3 style='color: #9B1F41'>" + format(player.I.hi) + "</h3> harden I.current effect:<br>"
+                    let s="You have <h3 style='color: #9B1F41'>" + format(player.I.hi) + "</h3> harden I,which:<br>"
                     s=s+"raise QP gain by ^<h3 style='color: #9B1F41'>" + format(tmp.I.hief[0],3) + "</h3><br>"
                     if(mil('I',18)) s=s+"BP formula exp +<h3 style='color: #9B1F41'>" + format(tmp.I.hief[1],3) + "</h3><br>"
                     if(mil('I',20)) s=s+"SI exp +<h3 style='color: #9B1F41'>" + format(tmp.I.hief[2],3) + "</h3><br>"
                     if(mil('J',12)) s=s+"BP formula exp x<h3 style='color: #9B1F41'>" + format(tmp.I.hief[3],3) + "</h3><br>"
                     if(mil('I',23)) s=s+"pts slog speed x<h3 style='color: #9B1F41'>" + format(tmp.I.hief[4],3) + "</h3><br>"
-                    if(mil('I',24)) s=s+"BP/SS slog +<h3 style='color: #9B1F41'>" + format(tmp.I.hief[5],3) + "</h3>(start at 200)<br>"
+                    if(mil('I',24)) s=s+"BP/SS slog +<h3 style='color: #9B1F41'>" + format(tmp.I.hief[5],3) + "</h3>(start at 200)(capped at 0.5)<br>"
                     if(gba('J',102).gte(2)) s=s+"I gain x<h3 style='color: #9B1F41'>" + format(tmp.I.hief[6],3) + "</h3>(start at 400)<br>"
                     s=s+"<h4>current options value:" + format(tmp.I.ressum)
                     return s}],["clickables",[20]]
@@ -1250,11 +1266,12 @@ addLayer("I", {
                 b=b.mul(buyableEffect('J',44))
                 return b},
             effect(x) { //.add(this.extra()) if(!upg('G',141))
-                let e=n(1)
+                let e=[n(1),n(0.08)]
+                if(mil('J',18)) e[1]=e[1].add(0.02)
                 //e=e.mul(buyableEffect('J',22))
                 let ef=[n(1),n(1)]
-                ef[0]=this.base().pow(x.pow(e))
-                ef[1]=ef[0].add(10).log(10).pow(0.08)//n(10).tetrate(ef[0].max(1).slog().mul(0.5))
+                ef[0]=this.base().pow(x.pow(e[0]))
+                ef[1]=ef[0].add(10).log(10).pow(e[1])//n(10).tetrate(ef[0].max(1).slog().mul(0.5))
                 return ef},
             display() { 
                 let s=''
@@ -1353,6 +1370,7 @@ addLayer("I", {
                 return b},
             effect(x) { //.add(this.extra()) if(!upg('G',141))
                 let ef = this.base().mul(x)
+                if(gba('J',101).gte(330)) ef=n(10).tetrate(ef.max(10).slog().mul(1.5))
                 return ef},
             display() { 
                 return "Gc3-4p gain exp +"+ format(this.base()) + " \n\
@@ -1443,6 +1461,7 @@ addLayer("I", {
                 return b},
             effect(x) { //.add(this.extra()) if(!upg('G',141))
                 let ef = this.base().mul(x)
+                if(gba('J',101).gte(330)) ef=n(10).tetrate(ef.max(10).slog().mul(1.5))
                 return ef},
             display() { 
                 return "hy3 base +"+ format(this.base()) + " \n\
@@ -1521,6 +1540,7 @@ addLayer("I", {
                 if(gba(this.layer,this.id).gte(180)) s='sc3 '
                 if(gba(this.layer,this.id).gte(320)) s='sc4 '
                 if(gba(this.layer,this.id).gte(600)) s='sc5 '//550
+                if(gba(this.layer,this.id).gte(1e4)) s='sc6 '
                 s=s+'Ib10'
                 return s
             },  
@@ -1531,11 +1551,13 @@ addLayer("I", {
                 if(x.gte(180)) c=n(10).pow(n(10).pow(x.sub(10).pow(0.55).div(2)))
                 if(x.gte(320)) c=n(10).pow(n(10).pow(x.pow(0.83).div(10)))
                 if(x.gte(600)) c=n(10).pow(n(10).pow(x.pow(1.2).div(100)))
+                if(x.gte(1e4)) c=n(10).tetrate(x.log(10).pow(0.44).mul(2))
                 return c
             },
             canAfford() { return player[this.layer].qolpoints.gte(this.cost()) },
             buy() {setBuyableAmount(this.layer,this.id,gba(this.layer, this.id).add(1))},
             bulk(){let t=player[this.layer].qolpoints.max(1).log(10).max(1).log(10).mul(100).pow(5/6).sub(1).ceil().max(gba(this.layer,this.id))
+                if(t.gte(1e4)) t=n(10).pow(player[this.layer].qolpoints.max(10).slog().div(2).pow(25/11)).sub(1).ceil().max(gba(this.layer,this.id)).max(1e4)
                 if(player[this.layer].auto3) setBuyableAmount(this.layer,this.id,t)},    
             base(){   
                 let b=n(1.05)
@@ -1681,13 +1703,17 @@ addLayer("I", {
         let b=n(3)
         if(mil('J',0)) b=b.add(0.2)
         if(gba('J',101).gte(20)) b=b.add(buyableEffect('J',41))
-        if(mil('I',12)) ef=ef.max(n(b).pow(player.I.total.pow(0.9)))
+        let e=n(0.9)
+        if(mil('J',17)) e=e.add(0.05)
+        if(gba('J',101).gte(330))  e=e.add(0.1)
+        if(mil('I',12)) ef=ef.max(n(b).pow(player.I.total.pow(e)))
         if(n(challengeCompletions('I',22)).gte(4)) ef=ef.pow(1.05)
         if(mil('I',3))  ef=ef.mul(buyableEffect('I',11)[0])
         if(mil('I',10))  ef=ef.mul(tmp.I.m10ef)
         ef=ef.mul(buyableEffect('J',21))
         if(player.I.hi.gte(1)) ef=ef.pow(tmp.I.hief[0])
         if(gba('J',101).gte(225)) ef=ef.pow(buyableEffect('I',11)[1])
+        if(gba('J',211).gte(2)) ef=n(10).tetrate(ef.max(10).slog().add(tmp.J.repef[2]))
         return ef
     },
     resv(){
@@ -1765,7 +1791,7 @@ addLayer("I", {
         ef[2]=player.I.hi.max(0).pow(e[2]).div(200)
         ef[3]=player.I.hi.add(2).log(2).pow(e[3]).div(5000).add(1).max(1)
         ef[4]=player.I.hi.max(0).pow(e[4]).div(50).add(1)
-        ef[5]=player.I.hi.sub(200).max(0).pow(e[5]).div(1e3)
+        ef[5]=player.I.hi.sub(200).max(0).pow(e[5]).div(1e3).min(0.5)
         ef[6]=n(10).pow(player.I.hi.sub(400).max(0).pow(e[6]).mul(0.02))
         return ef
     },
