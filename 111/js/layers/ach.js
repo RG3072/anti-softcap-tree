@@ -1024,9 +1024,44 @@ addLayer("ac", {
             done() {return tmp.I.hief[5].gte(0.5)},
             tooltip: "get 0.5 HI's BP/SS slog eff.", 
         },
+        345: {
+            name: "203.uncapped slog",
+            done() {return tmp.I.hief[5].gte(0.51)},
+            tooltip: "get 0.51 HI's BP/SS slog eff.", 
+        },
+        346: {
+            name: "204.so close",
+            done() {return player.points.gte('10^^1e100')},
+            tooltip: "get F1e100 points", 
+        },
+        351: {
+            name: "205.long time no see",
+            done() {return upg('I',11)},
+            tooltip: "get an I upg", 
+        },
+        352: {
+            name: "206.stop the explosion",
+            done() {return player.J.arep.gte('eee6')},
+            tooltip: "get ee1e6 AR", 
+        },
+        353: {
+            name: "207.double replicanti?",
+            done() {return player.J.pr.gte('308')},
+            tooltip: "get 308 PR", 
+        },
+        354: {
+            name: "208.almost here",
+            done() {return player.points.gte('10^^1e200')},
+            tooltip: "get F1e200 points", 
+        },
+        355: {
+            name: "209.that's normal",
+            done() {return player.J.pr.gte('1e1000')},
+            tooltip: "get 1e1000 PR", 
+        },
     },
     tabFormat: ["blank", ["display-text", function() {
-        return "<h3 style='color: yellow;'>Achievements: " + player.ac.achievements.length + "/202 </h4>"
+        return "<h3 style='color: yellow;'>Achievements: " + player.ac.achievements.length + "/209 </h4>"
     }
     ], "blank", "blank", "achievements", ],
 },

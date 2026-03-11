@@ -39,9 +39,9 @@ addLayer("G", {
     layerShown(){return ((upg('F',65))||player[this.layer].unlocked)},
     gainMult() { 
         mult=n(1)
-        mult=mult.mul(buyableEffect('G',11))
-        if (upg('F',72))  mult=mult.mul(upgradeEffect('F',72))
-        if (upg('F',74))  mult=mult.mul(upgradeEffect('F',74)[1])
+        mult=mult.mul(bef('G',11))
+        if (upg('F',72))  mult=mult.mul(uef('F',72))
+        if (upg('F',74))  mult=mult.mul(uef('F',74)[1])
         mult=mult.mul(tmp.G.gc2ef)
         if(mil('I',0)) mult=mult.mul(5)
         let br=n('eee10')
@@ -371,7 +371,7 @@ addLayer("G", {
                 if(mil('G',2)) exp2=exp2.add(0.05)
                 if(mil('F',17)) exp2=exp2.add(0.05)
                 if(upg('G',32)) exp2=exp2.add(0.1)
-                let ef2= buyableEffect('E',22).pow(exp2)
+                let ef2= bef('E',22).pow(exp2)
                 return [ef1,ef2];
             },
             effectDisplay() { return 'F dim:x'+format(this.effect()[0])+'<br> Eb10 eff:x'+format(this.effect()[1]) },
@@ -414,7 +414,7 @@ addLayer("G", {
                 let exp=n(0.1)
                 if(mil('F',17)) exp=exp.add(0.025)
                 if(upg('G',32)) exp=exp.add(0.025)
-                let ef= buyableEffect('B',23).pow(exp)
+                let ef= bef('B',23).pow(exp)
                 return ef;
             },
             effectDisplay() { return 'x'+format(this.effect()) },
@@ -527,7 +527,7 @@ addLayer("G", {
             effect()  { 
                 let exp=n(0.25)
                 if(upg('G',55)) exp=exp.add(0.05)
-                let o=upgradeEffect('G',51)
+                let o=uef('G',51)
                 let ef=o.add(10).log(10).pow(exp).div(4).add(0.75)
                 return ef;
             },
@@ -797,7 +797,7 @@ addLayer("G", {
             currencyDisplayName: "Gse",
             currencyInternalName: "Gse",
             effect()  { 
-                let ba = upgradeEffect('G',95)
+                let ba = uef('G',95)
                 let exp=n(0.15)
                 if(upg('G',103)) exp=exp.add(0.05)
                 if(upg('G',104)) exp=exp.add(0.05)
@@ -824,7 +824,7 @@ addLayer("G", {
             currencyDisplayName: "Gs",
             currencyInternalName: "Gs",
             effect()  { 
-                let ba = upgradeEffect('G',65)
+                let ba = uef('G',65)
                 let exp=n(0.3)
                 let ef=n(ba).pow(exp)
                 return ef;
@@ -964,7 +964,7 @@ addLayer("G", {
         },
         133: {
             title:'G63',
-            description: "b6/9 exp +0.02.", //,GG2 provide 4 GG per buy        
+            description: "b6/9 exp +0.02.",     //  ,GG2 provide 4 GG per buy  
             cost:n('e8.88e90'),
             currencyLocation() {return player[this.layer]}, 
             currencyDisplayName: "Gs",
@@ -1338,7 +1338,7 @@ addLayer("G", {
                 setClickableState(this.layer,this.id,1)
             },
             effect(){
-                let ef=n(10).pow(n(buyableEffect('G',31)).add(10).log(10).mul(0.75)).pow(0.003)
+                let ef=n(10).pow(n(bef('G',31)).add(10).log(10).mul(0.75)).pow(0.003)
                 if(upg('G',125)) ef=ef.pow('1.2')
                 if(gcs('G',81))  ef=ef.pow('1.2')
                 let sc=n(0.8)
@@ -1364,12 +1364,12 @@ addLayer("G", {
                 setClickableState(this.layer,this.id,1)
             },
             effect(){
-                let ef=n(10).pow(n(buyableEffect('G',41)).add(10).log(10).mul(1.8)).pow(80)
+                let ef=n(10).pow(n(bef('G',41)).add(10).log(10).mul(1.8)).pow(80)
                 let ef2=n(1)
                 if (upg('G',125))  ef=ef.pow('1.2')
                 let exp=n(0.125)
                 if(gcs('G',91)) exp=exp.add(0.005)
-                if(player.G.Gsetot.gte('e260000')) ef2=ef2.add(n(buyableEffect('G',41)).add(10).log(10).pow(exp).div(16))
+                if(player.G.Gsetot.gte('e260000')) ef2=ef2.add(n(bef('G',41)).add(10).log(10).pow(exp).div(16))
                 return [ef,ef2]
             },
             unlocked() {return upg('G',124)},
@@ -1389,7 +1389,7 @@ addLayer("G", {
                 if(upg('H',12)) exp=exp.add(0.011)
                 let t=n(25)
                 if(upg('H',12)) t=t.sub(10)
-                let ef=n(buyableEffect('G',21)).add(10).log(10).add(10).log(10).pow(exp).add(t.sub(1)).div(t)
+                let ef=n(bef('G',21)).add(10).log(10).add(10).log(10).pow(exp).add(t.sub(1)).div(t)
                 return ef
             },
             unlocked() {return mil('G',21)},
@@ -1632,7 +1632,7 @@ addLayer("G", {
             },
             buy() { setBuyableAmount(this.layer, this.id, gba(this.layer, this.id).add(1))},
             base(){   let base = n(2)              
-                if (upg('F',74))  base=base.add(upgradeEffect('F',74)[0])
+                if (upg('F',74))  base=base.add(uef('F',74)[0])
                 if (upg('G',33)) base=base.pow(2)
                 return base},
             effect(x) {
@@ -1668,9 +1668,9 @@ addLayer("G", {
             },
             buy() { setBuyableAmount(this.layer, this.id, gba(this.layer, this.id).add(1))},
             base(){   let base = n(2)              
-                if (upg('F',75))  base=base.add(upgradeEffect('F',75))
-                if (upg('F',82))  base=base.mul(upgradeEffect('F',82))
-                if (upg('F',84))  base=base.mul(upgradeEffect('F',84))
+                if (upg('F',75))  base=base.add(uef('F',75))
+                if (upg('F',82))  base=base.mul(uef('F',82))
+                if (upg('F',84))  base=base.mul(uef('F',84))
                 return base},
             effect(x) {
                 let exp=n(1)
@@ -1697,8 +1697,8 @@ addLayer("G", {
                 if (x.gte(500)) e=e.add(0.03)
                 let cost = bas.pow( x.pow(e)).times('100')
                 if (x.gte(1200)) cost = cost.mul(n(10).pow(n(2).pow(x.sub(1200).pow(this.sce())).mul(20)))
-                if (upg('G',65))  cost=cost.pow(upgradeEffect('G',65))
-                if (upg('G',81))  cost=cost.div(upgradeEffect('G',81))
+                if (upg('G',65))  cost=cost.pow(uef('G',65))
+                if (upg('G',81))  cost=cost.div(uef('G',81))
                 if (mil('G',17)) cost = cost.min(n(10).pow(n(2).pow(x.pow(this.sce())).mul(5)))
                 return cost
             },
@@ -1709,7 +1709,7 @@ addLayer("G", {
                 if (mil('G',18))  e=e.sub(0.01)
                 //if (mil('G',21))  e=e.sub(0.005)
                 if(mil('G',22)) e=n(0.285)
-                if(upg('H',14)) e=e.div(upgradeEffect('H',14))
+                if(upg('H',14)) e=e.div(uef('H',14))
                 return e
             },
             bulk(){
@@ -1736,8 +1736,8 @@ addLayer("G", {
                 if (upg('G',63)) base=base.mul(1.2) 
                 if (mil('G',15)) base=base.mul(13/12) 
                 if (upg('G',71)) base=base.mul(1.1) 
-                if (upg('G',74))  base=base.mul(upgradeEffect('G',74))
-                if (upg('G',75))  base=base.mul(upgradeEffect('G',75))
+                if (upg('G',74))  base=base.mul(uef('G',74))
+                if (upg('G',75))  base=base.mul(uef('G',75))
                 return base},
             effect(x) {
                 let exp=n(1)
@@ -1763,8 +1763,8 @@ addLayer("G", {
                 //let cost = bas.pow( n(10).pow(x.pow(0.3).mul(2))).times('1e219')
                 let cost = bas.pow( x.pow(e)).times('2e142')
                 if (x.gte(100)) cost = cost.mul(n(10).pow(n(3).pow(x.sub(100).pow(this.sce())).mul(20)))
-                if (upg('G',65))  cost=cost.pow(upgradeEffect('G',65))
-                if (upg('G',81))  cost=cost.div(upgradeEffect('G',81))
+                if (upg('G',65))  cost=cost.pow(uef('G',65))
+                if (upg('G',81))  cost=cost.div(uef('G',81))
                 if (upg('G',91))  cost=cost.div('2e142')
                 if (upg('G',113))  cost = cost.mul(n(10).pow(n(3).pow(this.sce()).mul(10)))
                 if(mil('G',21)) cost = n(10).pow(n(2).pow(x.pow(this.sce())).mul(10))
@@ -1782,7 +1782,7 @@ addLayer("G", {
                 if(mil('G',21)) e=n(0.45)
                 if(mil('G',22)) e=n(0.435)
                 if(mil('G',26)) e=n(0.43)
-                if(upg('H',14)) e=e.div(upgradeEffect('H',14)).max(1e-100)
+                if(upg('H',14)) e=e.div(uef('H',14)).max(1e-100)
                 return e
             },
             canAfford() { return player[this.layer].Gs.gte(this.cost()) },
@@ -1824,8 +1824,8 @@ addLayer("G", {
                 if (upg('G',104))  e=e.sub(0.1)
                 let cost = bas.pow(x.pow(e)).times('1e828')
                 if (x.gte(100)) cost = cost.mul(n(10).pow(n(3).pow(x.sub(100).pow(this.sce())).mul(20)))
-                if (upg('G',73))  cost=cost.pow(upgradeEffect('G',65))
-                if (upg('G',81))  cost=cost.div(upgradeEffect('G',81))
+                if (upg('G',73))  cost=cost.pow(uef('G',65))
+                if (upg('G',81))  cost=cost.div(uef('G',81))
                 if (upg('G',91))  cost=cost.div('1e828')
                 if(mil('G',25))  cost=cost.min(n(10).pow(n(3).pow(x.pow(this.sce())).mul(5)))
                 return cost
@@ -1836,7 +1836,7 @@ addLayer("G", {
                 if(mil('G',22)) e=n(0.61)
                 if(mil('G',25)) e=n(0.604)
                 if(mil('G',26)) e=n(0.6)
-                if(upg('H',14)) e=e.div(upgradeEffect('H',14))
+                if(upg('H',14)) e=e.div(uef('H',14))
                 return e
             },
             canAfford() { return player[this.layer].Gs.gte(this.cost()) },
@@ -1875,7 +1875,7 @@ addLayer("G", {
                 if (upg('G',112))  bas=n(3.5)
                 let cost = bas.pow(x.pow(e)).mul(10)
                 if (x.gte(1000)) cost=cost.mul(n(10).pow(n(2).pow(x.sub(1000).pow(this.sc())).mul(20)))
-                if (upg('G',104))  cost=cost.pow(upgradeEffect('G',104))
+                if (upg('G',104))  cost=cost.pow(uef('G',104))
                 if (upg('G',105))  cost=cost.div(400)
                 if (upg('G',115))  cost=cost.min(n(10).pow(n(2).pow(x.pow(this.sc())).mul(30)))
                 return cost
@@ -1910,7 +1910,7 @@ addLayer("G", {
                 return e
             },
             base(){   let base = player.G.Gsi.add(10).log(10).pow(1.1).mul(2)
-                if (upg('G',85))  base=base.mul(upgradeEffect('G',85))
+                if (upg('G',85))  base=base.mul(uef('G',85))
                 return base},
             effect(x) {
                 let exp=n(1)
@@ -1938,7 +1938,7 @@ addLayer("G", {
                 let cost = bas.pow( x.pow(e)).times('1e64')
                 if(upg('G',103)) cost=cost.div('1e64')
                 if (x.gte(500)) cost = cost.mul(n(10).pow(n(2).pow(x.sub(500).pow(this.sce())).mul(2)))
-                if (upg('G',104))  cost=cost.pow(upgradeEffect('G',104))
+                if (upg('G',104))  cost=cost.pow(uef('G',104))
                 if (mil('G',25)) cost=cost.min(n(10).pow(n(2).pow(x.pow(this.sce()))))
                 return cost
             },
@@ -1995,7 +1995,7 @@ addLayer("G", {
                 if (x.gte(160)) cost = n(10).pow(n(10).pow(x.sub(115).pow(n(2.1))))
                 if (x.gte(170)) cost = n(10).pow(n(10).pow(x.sub(106).pow(n(2.1))))
                 if (x.gte(2000)) cost = n(10).pow(n(10).pow(x.pow(n(2.25))))
-                if (upg('G',104))  cost=cost.pow(upgradeEffect('G',104))
+                if (upg('G',104))  cost=cost.pow(uef('G',104))
                 if (mil('G',24))  cost=cost.pow(0.5)
                 if (mil('G',26))  cost=cost.pow(0.1)
                 return cost
@@ -2027,7 +2027,7 @@ addLayer("G", {
                 let hp=n(0.6)
                 if(upg('G',123)) hp=hp.add(0.005)
                 if(mil('G',21)) hp=hp.add(0.005)
-                if(upg('G',125)) hp=hp.add(upgradeEffect('G',125))
+                if(upg('G',125)) hp=hp.add(uef('G',125))
                 if(gcs('G',102)) hp=hp.add(clickableEffect('G',102))
                 if(gcs('G',111)) hp=hp.add(clickableEffect('G',111))
                 if(gcs('G',121)) hp=hp.mul(1.06)
@@ -2268,7 +2268,7 @@ addLayer("G", {
             hardcap(){
                 let h=n(52)
                 if(gcs('G',103)) h=h.add(n(clickableEffect('G',111)).mul(2))
-                if(upg('H',41)) h=h.add(upgradeEffect('H',41)[0])
+                if(upg('H',41)) h=h.add(uef('H',41)[0])
                 return h
                 },
             effect(x) {
@@ -2536,7 +2536,7 @@ addLayer("G", {
             buy() { if(!mil('I',3)) player[this.layer].Gsr = player[this.layer].Gsr.sub(this.cost())
                 setBuyableAmount(this.layer, this.id, gba(this.layer, this.id).add(1))},
             base(){   let b = n(1.01)
-                b=b.add(buyableEffect('H',83)[0])
+                b=b.add(bef('H',83)[0])
                 return b},
             efxp(){let e=n(0.5)
                 if(upg('G',144)) e=e.add(0.02)
@@ -2581,7 +2581,7 @@ addLayer("G", {
             base(){   let e=n(1.5)
                 if(player[this.layer].Gsr.gte('5e1432')) e=e.add(0.25)
                 let b = player.G.Gsr.add(10).log(10).add(10).log(10).pow(e).div(10).add(0.1)
-                b=b.add(buyableEffect('G',74)[1])
+                b=b.add(bef('G',74)[1])
                 return b},
             effect(x) { 
                 let exp=n(0.9)
@@ -2737,7 +2737,7 @@ addLayer("G", {
         if(gcs('I',42)) exp=exp.add(0.01)
         if (inChallenge('G',11)){if (player.F.F1.gte('1e1080')) ef=n(10).pow(player.F.F1.div('1e1080').log(10).pow(exp))}
         if(mil('G',10)||gcs('I',65)) ef=n(10).pow(player.F.F1.pow(exp2).add(10).log(10).pow(exp))
-        if (upg('G',41)) ef=ef.pow(upgradeEffect('G',41))
+        if (upg('G',41)) ef=ef.pow(uef('G',41))
         return ef
     },
     gc2g(){
@@ -2753,7 +2753,7 @@ addLayer("G", {
         if(gcs('I',42)) exp=exp.add(0.01)
         if (inChallenge('G',12)){if (player.F.F1.gte('1e3050')) ef=n(10).pow(player.F.F1.div('1e3050').log(10).pow(exp))}
         if(mil('G',12)||gcs('I',65)) ef=n(10).pow(player.F.F1.pow(exp2).add(10).log(10).pow(exp))
-        if (upg('G',41)) ef=ef.pow(upgradeEffect('G',41))
+        if (upg('G',41)) ef=ef.pow(uef('G',41))
         return ef
     },
     gc3g(){
@@ -2761,7 +2761,7 @@ addLayer("G", {
         let exp=n(3)
         let exp2=n(0.2)
         if (upg('G',55)) exp2=exp2.add(0.05)
-        if (mil('I',6))  exp2=exp2.add(buyableEffect('I',21))
+        if (mil('I',6))  exp2=exp2.add(bef('I',21))
         if(gcs('I',45)&&player.G.points.gte('ee16')) exp2=exp2.add(0.05)
         if(gcs('I',55)&&player.G.points.gte('ee16')) exp2=exp2.add(0.03)
         if (upg('F',85)) exp=exp.mul(2)
@@ -2770,7 +2770,7 @@ addLayer("G", {
                 if (ccomp("G", 22).gte(4)) ef=n(10).pow(player.F.F1.div('1e168000').log(10).pow(exp2))
                 else ef=player.F.F1.div('1e168000').log(10).pow(exp)} }
         if(mil('G',13)) ef=n(10).pow(player.F.F1.pow(0.2).add(10).log(10).pow(exp))
-        if (upg('G',41)) ef=ef.pow(upgradeEffect('G',41))
+        if (upg('G',41)) ef=ef.pow(uef('G',41))
         return ef
     },
     gc4g(){
@@ -2778,7 +2778,7 @@ addLayer("G", {
         let exp=n(2)
         let exp2=n(0.14)
         if (upg('G',51)) exp2=exp2.add(0.01)
-        if (mil('I',6))  exp2=exp2.add(buyableEffect('I',21))
+        if (mil('I',6))  exp2=exp2.add(bef('I',21))
         if(gcs('I',45)&&player.G.points.gte('ee16')) exp2=exp2.add(0.05)
         if(gcs('I',55)&&player.G.points.gte('ee16')) exp2=exp2.add(0.03)
         if (inChallenge('G',22)){
@@ -2786,7 +2786,7 @@ addLayer("G", {
                 if (ccomp("G", 22).gte(5)) ef=n(10).pow(player.F.F1.div('e2.35e9').log(10).pow(exp2))
                 else ef=player.F.F1.div('e2.35e9').log(10).pow(exp)} }
         if(mil('G',13)) ef=n(10).pow(player.F.F1.pow(0.2).add(10).log(10).pow(exp))
-        if (upg('G',41)) ef=ef.pow(upgradeEffect('G',41))
+        if (upg('G',41)) ef=ef.pow(uef('G',41))
         return ef
     },
     gc1ef(){
@@ -2824,8 +2824,9 @@ addLayer("G", {
         let ef=n(0)
         let exp=n(1)
         if (upg('G',62))  exp=exp.mul(2)
-        exp=exp.mul(buyableEffect('G',22).add(1))
+        exp=exp.mul(bef('G',22).add(1))
         if(player.G.points.gte('ee1e500')) ef=player.G.points.log(10).log(10).log(10).sub(450).div(50).min('1e100000').pow(exp)
+        if(gba('J',103).gte(1)&&!gcs('I',311)) {ef=n(10).tetrate(player.G.points.slog().sub(2)).pow(exp)}
         let sc1=n(0.85)
         if (upg('G',101)) sc1=sc1.add(0.03)
         if (upg('G',103)) sc1=sc1.add(0.02)
@@ -2839,25 +2840,26 @@ addLayer("G", {
         if(gcs('I',64)) ef=ef.mul(1e4)
         if(n(ccomp('I',22)).gte(5))  ef=ef.mul('1e1000')
         if(upg('G',101)) ef=ef.pow(1.05)
-        ef=ef.mul(buyableEffect('G',21))
+        ef=ef.mul(bef('G',21))
         ef=ef.mul(tmp.G.gsir)
-        if(!upg('H',35)) {if (ef.gte('ee19')) ef=n('ee19').mul(n(10).pow(ef.div('ee19').log(10).mul(0.8)))}
-        ef=ef.pow(buyableEffect('G',51))
-        if (upg('G',72)) ef=ef.mul(upgradeEffect('G',72))
+        if(!upg('H',35)&&ef.gte('ee19')) ef=n('ee19').mul(n(10).pow(ef.div('ee19').log(10).mul(0.8)))
+        ef=ef.pow(bef('G',51))
+        if (upg('G',72)) ef=ef.mul(uef('G',72))
         if(gcs('G',44))  ef=ef.pow(clickableEffect('G',44))
         if(gcs('G',63))  ef=ef.pow(clickableEffect('G',63))
         if(gcs('G',73))  ef=ef.pow(clickableEffect('G',73))
         if(gcs('G',112))  ef=ef.pow(clickableEffect('G',112))
         if(gcs('G',122))  ef=ef.pow(1.8)
-        if(upg('H',13)) ef=ef.pow(upgradeEffect('H',13))
-        ef=ef.pow(buyableEffect('H',33))
-        if(mil('J',4)) ef=ef.pow(buyableEffect('I',13)[0])
+        if(upg('H',13)) ef=ef.pow(uef('H',13))
+        ef=ef.pow(bef('H',33))
+        if(mil('J',4)) ef=ef.pow(bef('I',13)[0])
         if(gcs('G',131)) ef=n(10).pow(ef.log(10).pow(1.008))
         if(gcs('I',311)) ef=n(10).tetrate(ef.max(10).slog().sub(tmp.I.resv[1]).max(0))
-        ef=n(10).tetrate(ef.max(10).slog().add(buyableEffect('J',43)).max(0))
-        ef=ef.mul(buyableEffect('J',35)[0])
-        ef=ef.pow(buyableEffect('J',85))
-        ef=ef.min(tmp.H.php)
+        ef=n(10).tetrate(ef.max(10).slog().add(bef('J',43)).max(0))
+        ef=ef.mul(bef('J',35)[0])
+        ef=ef.pow(bef('J',85))
+        if(ef.slog().gte(1e10)) ef=n(10).tetrate(ef.slog().div(1e10).pow(0.5).mul(1e10))
+        ef=ef.min(n(10).tetrate(tmp.H.hcap))
         return ef},
     gsef(){
         let exp=n(2)
@@ -2866,10 +2868,10 @@ addLayer("G", {
         if (upg('G',64))  exp=exp.add(0.4)
         if (upg('G',71))  exp=exp.add(0.4)
         if (upg('G',83))  exp=exp.add(0.3)
-        exp=exp.add(buyableEffect('G',23))
+        exp=exp.add(bef('G',23))
         let ef=player.G.Gs.add(10).log(10).pow(exp)
-        ef=ef.pow(buyableEffect('H',33))
-        if(upg('H',21)) ef=ef.pow(upgradeEffect('H',21))
+        ef=ef.pow(bef('H',33))
+        if(upg('H',21)) ef=ef.pow(uef('H',21))
         if(mil('I',0)&&player.G.points.gte('ee1e500')) ef=ef.mul(10)//ef.pow(1.05)
         if(gcs('I',54)&&player.G.points.gte('ee1e500')) ef=ef.mul(10)//ef.pow(1.05)
         if(n(ccomp('I',22)).gte(2)&&player.G.points.gte('ee1e500'))  ef=ef.mul(100)
@@ -2879,42 +2881,42 @@ addLayer("G", {
         return ef}, 
     gsre(){
         let ef=tmp.G.gsef
-        ef=ef.pow(buyableEffect('H',63)[0])        
+        ef=ef.pow(bef('H',63)[0])        
         return ef
     },
     gsib(){
         let ef=n(0)
         let exp=n(1.1)
-        exp=exp.mul(n(buyableEffect('G',32)).add(1))
+        exp=exp.mul(n(bef('G',32)).add(1))
         if (upg('G',94)) exp=exp.add(0.4)
         if (upg('G',105)) exp=exp.add(0.3)
         if (player.G.Gs.gte('1e2920')) ef=player.G.Gs.add(10).log(10).sub(2920).max(0).pow(exp).div(10)
         let sc1=n(0.85)
         if (ef.gte('1e100000')) ef=n('1e100000').mul(n(10).pow(ef.div('1e100000').log(10).mul(sc1)))
-        ef=ef.mul(buyableEffect('G',31))
+        ef=ef.mul(bef('G',31))
         ef=ef.mul(tmp.G.gser)
         ef=ef.min('ee1000')
         if(mil('I',0)) ef=ef.mul(100)
-        ef=ef.pow(buyableEffect('G',52))
-        if(upg('G',84))  ef=ef.mul(upgradeEffect('G',84))
-        if(upg('G',95))  ef=ef.mul(upgradeEffect('G',95))
+        ef=ef.pow(bef('G',52))
+        if(upg('G',84))  ef=ef.mul(uef('G',84))
+        if(upg('G',95))  ef=ef.mul(uef('G',95))
         if(gcs('G',62))  ef=ef.pow(clickableEffect('G',62))
         if(gcs('G',72))  ef=ef.mul(clickableEffect('G',72)[0])
         if(player.G.Gsetot.gte('e260000')) ef=ef.pow(clickableEffect('G',72)[1])
         if(gcs('G',122))  ef=ef.pow(1.5)
-        if(gba('J',102).gte(1)) ef=ef.pow(buyableEffect('I',13)[1])
+        if(gba('J',102).gte(1)) ef=ef.pow(bef('I',13)[1])
         if(gcs('G',131)) ef=n(10).pow(ef.log(10).pow(1.003))
         if(gcs('I',311)) ef=n(10).tetrate(ef.max(10).slog().sub(tmp.I.resv[2]).max(0))
-        let tet=n(buyableEffect('J',43))
-        if(upg('H',53)) tet=tet.add(upgradeEffect('H',53))
+        let tet=n(bef('J',43))
+        if(upg('H',53)) tet=tet.add(uef('H',53))
         ef=n(10).tetrate(ef.max(10).slog().add(tet).max(0))
-        ef=ef.mul(buyableEffect('J',35)[0])
-        ef=ef.pow(buyableEffect('J',85))
-        ef=ef.min(tmp.H.php)
+        ef=ef.mul(bef('J',35)[0])
+        ef=ef.pow(bef('J',85))
+        ef=ef.min(n(10).tetrate(tmp.H.hcap))
         return ef},
     gsief(){
         let exp=n(0.7)
-        exp=exp.add(buyableEffect('G',33))
+        exp=exp.add(bef('G',33))
         exp=exp.add(tmp.G.gser2)
         let sc=n(0.7).pow(exp.add(8).max(10).log(10).add(9).log(10))
         if (exp.gte(3)) exp=exp.div(3).pow(sc).mul(3) 
@@ -2964,15 +2966,15 @@ addLayer("G", {
         let ef=n(0)
         let exp=n(0.9)
         if (upg('G',105)) exp=exp.add(0.05)
-        exp=exp.mul(buyableEffect('G',42).add(1))
+        exp=exp.mul(bef('G',42).add(1))
         if(gcs('G',91)) exp=exp.mul(1.2)
         if(player.G.Gsi.gte('1e345')) ef=player.G.Gsi.add(10).log(10).sub(345).max(0).pow(exp).div(2)
         if(gba('J',101).gte(23)&&player.G.Gsi.gte('1e200')) ef=player.G.Gsi.add(10).log(10).sub(200).max(0).pow(exp)
-        ef=ef.mul(buyableEffect('G',41))
+        ef=ef.mul(bef('G',41))
         ef=ef.min('ee9')
         if(mil('I',0)) ef=ef.mul(100)
-        if(upg('G',102))  ef=ef.mul(upgradeEffect('G',102))
-        if(upg('G',105))  ef=ef.mul(upgradeEffect('G',105))
+        if(upg('G',102))  ef=ef.mul(uef('G',102))
+        if(upg('G',105))  ef=ef.mul(uef('G',105))
         if(gcs('G',21))  {if(upg('G',132)) ef=ef.pow(clickableEffect('G',21)[1])
             else ef=ef.mul(clickableEffect('G',21)[0])}
         if(gcs('G',33))  ef=ef.pow(clickableEffect('G',33))
@@ -2988,11 +2990,11 @@ addLayer("G", {
         if(upg('H',23)) sck=sck.add(0.4)
         let sc3=ef.max(10).log(10).max(10).log(10).sub(7.3).max(1).pow(sck)
         if(!upg('H',25)) {if(ef.gte('e2e8')) ef=ef.div('e2e8').pow(sc3).mul('e2e8')}//rem
-        if(mil('H',2)) ef=ef.pow(n(1).add(buyableEffect('H',21)))
-        if(upg('H',71)) ef=ef.pow(upgradeEffect('H',71))
-        if(upg('H',72)) ef=ef.pow(upgradeEffect('H',72))
+        if(mil('H',2)) ef=ef.pow(n(1).add(bef('H',21)))
+        if(upg('H',71)) ef=ef.pow(uef('H',71))
+        if(upg('H',72)) ef=ef.pow(uef('H',72))
         if(gcs('I',53)) ef=ef.pow(1.05)
-        if(mil('I',6))  ef=ef.pow(buyableEffect('I',22))
+        if(mil('I',6))  ef=ef.pow(bef('I',22))
         if(n(ccomp('I',22)).gte(2))  ef=ef.pow(1.25)
         let et=n(0.9)
         if(upg('G',134)) et=et.add(0.015)
@@ -3044,16 +3046,16 @@ addLayer("G", {
         if(ef.gte('ee1500')&&!n(ccomp('I',22)).gte(4)) ef=n(10).pow(n('1e1500').mul(ef.log(10).div('1e1500').pow(scx[3])))//rem
         if(ef.gte('ee2000')&&!(mil('I',0))) ef=n(10).pow(n('1e2000').mul(ef.log(10).div('1e2000').pow(scx[4])))//rem
         if(gcs('I',311)) ef=n(10).tetrate(ef.max(10).slog().sub(tmp.I.resv[2]).max(0))
-        let tet=n(buyableEffect('J',43))
-        if(upg('H',52)) tet=tet.add(upgradeEffect('H',52))
+        let tet=n(bef('J',43))
+        if(upg('H',52)) tet=tet.add(uef('H',52))
         ef=n(10).tetrate(ef.max(10).slog().add(tet).max(0))
-        ef=ef.mul(buyableEffect('J',35)[0])
-        ef=ef.pow(buyableEffect('J',85))
-        ef=ef.min(tmp.H.php)
+        ef=ef.mul(bef('J',35)[0])
+        ef=ef.pow(bef('J',85))
+        ef=ef.min(n(10).tetrate(tmp.H.hcap))
         return ef},
     gseef(){
         let exp=n(0.6)
-        exp=exp.add(buyableEffect('G',43))
+        exp=exp.add(bef('G',43))
         if(gcs('G',41)) exp=exp.add(0.03)
         let ef=player.G.Gse.add(10).log(10).pow(exp).sub(1)
         if(!upg('G',131)) {if (ef.gte('50')) ef=ef.div(50).pow(0.6).mul(50)}
@@ -3078,7 +3080,7 @@ addLayer("G", {
         if(gcs('G',41)) k=k.add(0.02)
         if(upg('G',124)) k=k.add(0.03)
         if(gcs('G',103)) k=k.add(0.01)
-        if(upg('G',111)) m=m.add(buyableEffect('G',44)).pow(k)
+        if(upg('G',111)) m=m.add(bef('G',44)).pow(k)
         let ef=player.G.Gse.add(10).log(10).pow(0.4).div(200).sub(0.005).max(0).mul(m)
         if(mil('G',17)) ef=ef.mul(1.5)
         if(ef.gte(8)) ef=ef.div(8).pow(0.66).mul(8)    
@@ -3091,38 +3093,38 @@ addLayer("G", {
         return ef},
     ehp(){
         let ef=n(42)
-        if(upg('H',35)) ef=ef.add(upgradeEffect('H',35))
-        if(upg('H',41)) ef=ef.add(upgradeEffect('H',41)[0])    
+        if(upg('H',35)) ef=ef.add(uef('H',35))
+        if(upg('H',41)) ef=ef.add(uef('H',41)[0])    
         return ef},
     gsrb(){
         let ef=n(0)
         let exp=n(1.5)
         if(upg('G',141)) exp=exp.add(0.5)
         if(upg('G',145)) exp=exp.add(0.25)
-        exp=exp.add(buyableEffect('G',73))
+        exp=exp.add(bef('G',73))
         if(player.G.Gsetot.gte('e2.5e26')) ef=player.G.Gsetot.log(10).log(10).sub(25).pow(exp)
         if(player.G.Gsr.gte('2e3536')&&mil('H',11)) ef=n(10).pow(ef.add(10).log(10).pow(1.05))
         if(upg('H',45)) ef=n(10).pow(ef.add(10).log(10).pow(1.15))
         if(mil('G',31)) ef=ef.pow(1.05)
-        ef=ef.mul(buyableEffect('G',71))
+        ef=ef.mul(bef('G',71))
         ef=ef.mul(tmp.H.dhef[0])
         ef=ef.mul(tmp.H.dhpef)
         if(mil('I',0)) ef=ef.mul(10)
         if(player.H.dhmax[1].gte(1)) ef=ef.mul(100)
         if(ch('I',12)) ef=ef.pow(challengeEffect('I',12))   
-        if(mil('I',9)) ef=ef.pow(buyableEffect('I',32))   
+        if(mil('I',9)) ef=ef.pow(bef('I',32))   
         if(gcs('I',311)) ef=n(10).tetrate(ef.max(10).slog().sub(tmp.I.resv[2]).max(0))
-        ef=n(10).tetrate(ef.max(10).slog().add(buyableEffect('J',43)).max(0))
-        ef=ef.mul(buyableEffect('J',35)[0])
-        ef=ef.pow(buyableEffect('J',85))
-        ef=ef.min(tmp.H.php)
+        ef=n(10).tetrate(ef.max(10).slog().add(bef('J',43)).max(0))
+        ef=ef.mul(bef('J',35)[0])
+        ef=ef.pow(bef('J',85))
+        ef=ef.min(n(10).tetrate(tmp.H.hcap))
         return ef
     },
     gsref(){
         let ef=n(0)
         let exp=n(0.3)
         if(upg('G',143)) exp=exp.add(0.1)
-        exp=exp.add(buyableEffect('G',74)[0])
+        exp=exp.add(bef('G',74)[0])
         ef=player.G.Gsr.add(10).log(10).pow(exp).div(20).add(0.95)
         return ef
     },
@@ -3130,7 +3132,7 @@ addLayer("G", {
         let ef=n(0)
         let exp=n(0.5)
         if(upg('G',143)) exp=exp.add(0.1)
-        exp=exp.add(buyableEffect('G',74)[0])
+        exp=exp.add(bef('G',74)[0])
         if(upg('H',45)) exp=exp.pow(1.2)
         ef=player.G.Gsr.add(10).log(10).pow(exp).div(10).add(0.9)
         return ef

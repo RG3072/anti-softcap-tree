@@ -15,6 +15,10 @@ function gba(a,b) {
   return getBuyableAmount(a,b)
 }
 
+function sba(a,b,c) {
+  return setBuyableAmount(a,b,c)
+}
+
 function ccomp(a,b) {
   return n(challengeCompletions(a,b))
 }
@@ -23,12 +27,32 @@ function upg(a,b) {
   return hasUpgrade(a,b)
 }
 
+function uef(a,b) {
+  return upgradeEffect(a,b)
+}
+
+function bef(a,b) {
+  return buyableEffect(a,b)
+}
+
+function cef(a,b) {
+  return challengeEffect(a,b)
+}
+
 function mil(a,b) {
   return hasMilestone(a,b)
 }
 
+function inc(a,b) {
+  return inChallenge(a,b)
+}
+
 function ch(a,b) {
   return hasChallenge(a,b)
+}
+
+function ac(a,b) {
+  return hasAchievement(a,b)
 }
 
 (function (global, factory) {

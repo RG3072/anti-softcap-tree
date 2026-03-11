@@ -24,7 +24,7 @@ addLayer("B", {
     hotkeys: [
         {key: "b", description: "B: Reset for B points", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
     ],
-    layerShown(){ return (upg('A',35)||player[this.layer].unlocked)},
+    layerShown(){return (upg('A',35)||player[this.layer].unlocked)},
     gainMult() { 
         mult = n(1)
         mult = mult.mul(upg(this.layer,14)?2:1)
@@ -147,9 +147,7 @@ addLayer("B", {
                 if (upg('B',64)) ef = ef.mul(5e4)
                 if (upg('B',72)) ef = ef.mul(5e4)
                 if (upg('B',81)) ef = ef.mul(1e5)
-
                 ef=ef.pow(buyableEffect("B",21))
-
                 return ef;          
             },
             cost:n(1),
@@ -481,8 +479,8 @@ addLayer("B", {
                 if (mil('B',1)) cost = cost.div(upgradeEffect('B',61))
 
                 if (x.gte(sc)) cost =cost.pow(x.sub(sc).div(t).add(1).pow(scpow))
-                if (upg('E',43)) cost = cost.pow( 0.992)
-                if (upg('E',73)) cost = cost.pow( 0.99)
+                if (upg('E',43)) cost = cost.pow(0.992)
+                if (upg('E',73)) cost = cost.pow(0.99)
                 if (hasChallenge('E',31)) cost = cost.pow( challengeEffect('E',31))
                 if(gcs('I',105)) cost=n(8).pow(x.pow(1.03))
                 return cost
@@ -546,13 +544,13 @@ addLayer("B", {
                 setBuyableAmount(this.layer, this.id, gba(this.layer, this.id).add(1))},
             effect(x) { 
                 let ef = x.div(1.3).add(1).pow(0.6).div(6).add(0.8333)
-                if (upg('B',51)) ef = x.div(1.25).add(1).pow(0.6).div(4.5).add(0.777)
-                if (upg('A',55)) ef = x.div(1.23).add(1).pow(0.6).div(4).add(0.75)
-                if (hasChallenge('F',11)) ef=ef.mul(challengeEffect('F',11).div(100).add(1))
-                if (upg('F',35)) ef = ef.sub(1).mul(1.05).add(1)
-                if (inChallenge('A',41)) ef=n(1)
-                if (inChallenge('E',31)) ef=n(1)
-                if (inChallenge('E',42)) ef=n(1)
+                if(upg('B',51)) ef = x.div(1.25).add(1).pow(0.6).div(4.5).add(0.777)
+                if(upg('A',55)) ef = x.div(1.23).add(1).pow(0.6).div(4).add(0.75)
+                if(ch('F',11)) ef=ef.mul(cef('F',11).div(100).add(1))
+                if(upg('F',35)) ef = ef.sub(1).mul(1.05).add(1)
+                if(inc('A',41)) ef=n(1)
+                if(inc('E',31)) ef=n(1)
+                if(inc('E',42)) ef=n(1)
                 return ef},
             display() { 
                 return "boost to B's pts mult(exp) \n\
@@ -574,10 +572,10 @@ addLayer("B", {
                 let t=tmp.B.scad
                 if (upg('B',65))  cost = n(16).pow(x.pow(1.065)).times('1e48')
                 if (upg('F',35))  cost = n(16).pow(x.pow(cp))
-                if (mil('B',1)) cost = cost.div(upgradeEffect('B',61))
+                if (mil('B',1)) cost = cost.div(uef('B',61))
                 if (x.gte(sc)) cost =cost.pow(x.sub(sc).div(t).add(1).pow(scpow))
 
-                if (hasChallenge('E',31)) cost = cost.pow( challengeEffect('E',31))
+                if (hasChallenge('E',31)) cost = cost.pow(cef('E',31))
                 if(gcs('I',105)) cost=n(10).pow(x.pow(1.07))
                 return cost
             },

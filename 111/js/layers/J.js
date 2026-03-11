@@ -10,6 +10,7 @@ addLayer("J", {
         rankstate:n(1),
         arep:n(1),
         maxar:n(1),
+        pr:n(1),
     }},
     passiveGeneration(){    let p=n(0)
         return p},
@@ -29,7 +30,7 @@ addLayer("J", {
         if(gba('J',101).gte(17)) b=b.sub(0.1)
         if(gba('J',102).gte(1)) b=b.sub(0.3)
         if(gba('J',102).gte(4)) b=b.div(n(1.01).pow(gba('J',102)))
-        b=b.div(buyableEffect('J',42))
+        b=b.div(bef('J',42))
         return b
     }, 
     aExp() {return n(1)},
@@ -59,7 +60,7 @@ addLayer("J", {
                     if(gba('J',15).gte(1)) s=s+"<br><h4>BP slog +"+format(tmp.J.slogs[0],3)
                     return s}]
                 ,["raw-html", () => '<h4 style="opacity:.5">J exponentiates BP gain.</h4>'],["buyables",[1,2,3,4]]
-                ,["buyables",[10]],["display-text", function() { 
+                ,["buyables",[10]],['clickables',[1]],["display-text", function() { 
                     let s="Rank effects:<br>"
                     s=s+"R1-edit bp1-4 eff<br>R2-J^ is cheaper<br>R3-unlock a SS bab,edit HI eff and ss2<br>R4-SS is much stronger,edit bp2/ss2<br>R6-bulk H has no req,auto max dH<br>R8-edit bp1,3,4,ss3,4 eff<br>R9-J exp to SS is 1,J^ x1.5<br>R11-unlock 2 BP bab,J^ base is 0.02,cop limit +5<br>"
                     if(mil('J',15)) s=s+"R17-J req exp -0.1,edit HI 1st eff<br>R20-unlock a BP bab,rank raise BP to 1.25 beyond 20<br>R23-start Gse at e200 i,cop1 x0.75<br>R27-cop1-2 lim +5<br>R29-r^2 ^1.2,^^ is cheaper<br>"//if(gba('J',101).gte(1)) complete curse at F5 Gse
@@ -69,13 +70,12 @@ addLayer("J", {
                 ,["display-text", function() { 
                     let s="R^2 effects:<br>"
                     s=s+"2R1-qp^ base x2,Ib3 boost Gsi at x0.8 slog,cops lim +15,J req exp -0.3<br>2R2-cop2-3 lim +30,unlock a new HI eff,edit ef1,3,5<br>2R3-J- is much cheaper,BP slog +0.012<br>2R4-r1/2^2 ^2,R^2 div J exp by 1.01<br>2R5-edit bp3,4,J^ ^1.25,unlock a new bab<br>"
-                    if(mil('J',19)) s=s+"2R17-unlock a bab,buff bp/ss4 slog eff<br>2R19-buff bp/ss4 slog eff again,ard^ ^1.05<br>"
+                    if(mil('J',19)) s=s+"2R17-unlock a bab,buff bp/ss4 slog eff<br>2R19-buff bp/ss4 slog eff again,ard^ ^1.05<br>2R26-bp/ssb+ ^1.05<br>2R56-PR gain exp +1<br>"
                     if(mil('I',26)&&player.J.rankstate.eq(2)) return s}]
                 ,["display-text", function() { 
                     let s="R^3 effects:<br>"
-                    s=s+"3R1-remove Gs base cap,bp2/ss2/ss4 slog +0.05,bp2/ss2 base is 1<br>"
+                    s=s+"3R1-remove Gs base cap,bp2/ss2/ss4 slog +0.05,bp2/ss2 base is 1<br>3R2-bp1/ss1 get a slog eff<br>3R4-bp3/ss3 get a slog eff,boost PR eff<br>3R5-pr1/2 base cost are 1<br>"
                     if(mil('I',32)&&player.J.rankstate.eq(3)) return s}]
-                ,['clickables',[1]]
                 ]
             },
             "Slog speeder": {
@@ -95,15 +95,25 @@ addLayer("J", {
                     s=s+"add BP/SS's total slog by <h3 style='color:rgb(56, 178, 117)'>" + format(tmp.J.repef[0],3) + "</h3><br>"
                     if(gba('J',211).gte(1)) s=s+"add I gain exp by <h3 style='color:rgb(56, 178, 117)'>" + format(tmp.J.repef[1],3) + "</h3><br>"
                     if(gba('J',211).gte(2)) s=s+"add QP slog by <h3 style='color:rgb(56, 178, 117)'>" + format(tmp.J.repef[2],3) + "</h3><br>"
+                    if(gba('J',211).gte(3)) s=s+"bp/ssb+ eff amt ^<h3 style='color:rgb(56, 178, 117)'>" + format(tmp.J.repef[3],3) + "</h3><br>"
                     return s}],
                     ["display-text", function() { 
                         let s=" <br>"
-                        if(mil('J',19)) s=s+"AR above 1e4000 are x<h3 style='color:rgb(178, 56, 162)'>" + format(tmp.J.repdil) + "</h3> faster<br>"
+                        if(player.J.maxar.gte('e4000')) s=s+"AR above 1e4000 are x<h3 style='color:rgb(178, 56, 162)'>" + format(tmp.J.repdil[0]) + "</h3> faster<br>"
+                        if(player.J.maxar.gte('ee100')) s=s+"AR above e1e100 are ^<h3 style='color:rgb(160, 50, 50)'>" + format(tmp.J.repdil[1]) + "</h3> faster<br>"
                         return s}],
-                    ["raw-html", () => '<h4 style="opacity:.5">All effects are based on max AR.</h4>'],
+                    ["raw-html", () => '<h4 style="opacity:.5">All effects are based on max AR.last 3 babs divide your AR.</h4>'],
                     ["display-text", function() { 
                         let s="mult:" + format(tmp.J.repg[1]) + "x interval:" + format(tmp.J.repg[0],3) + "s<br>"
-                        return s}],["buyables",[16,21]]
+                        if(mil('I',34)) s="mult:" + format(tmp.J.repg[1]) + "x interval: 1/" + format(tmp.J.repg[2]) + "s " + "currently x" + format(tmp.J.dilrepg) + "/s<br>"
+                        return s}],["buyables",[16,21]],
+                    ["display-text", function() { 
+                    let s="<br>You have <h3 style='color:rgb(43, 113, 203)'>" + format(player.J.pr) + "</h3> power replicanti,which:<br>"
+                    s=s+"raise AR dilation above exp by ^<h3 style='color:rgb(43, 113, 203)'>" + format(tmp.J.pref[0],3) + "</h3><br>"
+                    s=s+"<h4 style='color:rgb(43, 113, 203)'>PR base gain x" + format(tmp.J.prg,3) + " /sec(based on max AR) <h4 style='color:rgb(239, 158, 45)'>PR divisor /" + format(tmp.J.prdiv,3) + " slower(based on PR)</h4>"
+                    if(player.J.pr.gte('1e308')) s=s+"<h4 style='color:rgb(215, 104, 39)'>PR div exp x"+ format(tmp.J.prdivinf,3) + " above 1e308<br>"
+                    s=s+"<h4>x" + format(tmp.J.prg.pow(tmp.J.prdiv.pow(-1)),3) + " /sec effective</h4><br>"
+                    if(mil('J',24)) return s}],["buyables",[17]]
                 ]
             },
         }
@@ -130,11 +140,11 @@ addLayer("J", {
     },
     milestones:{
         0: {requirementDescription: "1F177 hardcap (1",
-            done() {return tmp.H.phpb.gte(177)}, 
+            done() {return tmp.H.hcap.gte(177)}, 
             effectDescription: "QP base +0.2,unlock next bp bab.",
         },
         1: {requirementDescription: "1F196 hardcap (2",
-            done() {return tmp.H.phpb.gte(196)}, 
+            done() {return tmp.H.hcap.gte(196)}, 
             effectDescription: "keep GG tree on I reset,auto Gc3-4p at ee20.",
         },
         2: {requirementDescription: "4 J (3",
@@ -142,15 +152,15 @@ addLayer("J", {
             effectDescription: "x1.5 I,J count in BP exp +0.01.",
         },
         3: {requirementDescription: "1F325 hardcap (4",
-            done() {return tmp.H.phpb.gte(325)}, 
+            done() {return tmp.H.hcap.gte(325)}, 
             effectDescription: "unlock curse(in layer I).",
         },
         4: {requirementDescription: "1F520 hardcap (5",
-            done() {return tmp.H.phpb.gte(520)}, 
+            done() {return tmp.H.hcap.gte(520)}, 
             effectDescription: "unlock next row of bab,nerf curse's options.Ib3 now boost Gs.",
         },
         5: {requirementDescription: "1F855 hardcap (6",
-            done() {return tmp.H.phpb.gte(855)}, 
+            done() {return tmp.H.hcap.gte(855)}, 
             effectDescription: "edit bp1-4,autobuy bp2,c's option limit +10.",
             toggles: [ ['J',"auto1"] ]
         },
@@ -163,7 +173,7 @@ addLayer("J", {
             effectDescription: "r1^/r2^ base is 1.1,J eff exp is 1.05.",
         },
         8: {requirementDescription: "1F2800 hardcap (9",
-            done() {return tmp.H.phpb.gte(2800)}, 
+            done() {return tmp.H.hcap.gte(2800)}, 
             effectDescription: "autobuy bp1-4,slog speed x2 after 1F10.",
             toggles: [ ['J',"auto2"] ]
         },
@@ -177,12 +187,12 @@ addLayer("J", {
             effectDescription: "c's option limit +5,edit qp^",
         },
         11: {requirementDescription: "1F32768 hardcap (12",
-            done() {return tmp.H.phpb.gte(32768)}, 
+            done() {return tmp.H.hcap.gte(32768)}, 
             effectDescription: "autobuy qp^,bpb+,si^,unlock slog speeder.",
             toggles: [ ['J',"auto4"] ]
         },
         12: {requirementDescription: "1F66666 hardcap (13",
-            done() {return tmp.H.phpb.gte(66666)}, 
+            done() {return tmp.H.hcap.gte(66666)}, 
             effectDescription: "unlock next HI eff and 2 SS bab.",
         },
         13: {requirementDescription: "1500 J (14",
@@ -230,8 +240,38 @@ addLayer("J", {
         },
         21: {requirementDescription: "1 total BP slog boost (22",
             done() {return tmp.J.slogs[0].gte(1)}, 
-            effectDescription: "autobuy row2-3 BP bab,ar4 dont div AR,unlock next SS bab,edit R^2,ar5 ^1.05.",
+            effectDescription: "autobuy row2-3 SS bab,ar4 dont div AR,unlock next SS bab,edit R^2,ar5 ^1.1.",
             toggles: [ ['J',"auto7"] ]
+        },
+        22: {requirementDescription: "e1e256 AR (23",
+            done() {return player.J.maxar.gte('ee256')},
+            doneColor: "rgb(56, 178, 117)",
+            style: {"background-color"() {return mil('J',22)?tmp.J.milestones[22].doneColor:'BF8F8F'}},
+            effectDescription: "remove HI 6th eff cap(but severely reduced beyond 0.5),bp/ssb+ ^1.1,(edit ar4 at ee300).",
+        },
+        23: {requirementDescription: "e1e670000 AR (24",
+            done() {return player.J.maxar.gte('ee6.7e5')},
+            doneColor: "rgb(56, 178, 117)",
+            style: {"background-color"() {return mil('J',23)?tmp.J.milestones[23].doneColor:'BF8F8F'}},
+            effectDescription: "unlock slog upgs,AR dilation ^1.1,auto ar5.",
+        },
+        24: {requirementDescription: "ee1e10 AR (25",
+            done() {return player.J.maxar.gte('ee1e10')},
+            doneColor: "rgb(56, 178, 117)",
+            style: {"background-color"() {return mil('J',24)?tmp.J.milestones[24].doneColor:'BF8F8F'}},
+            effectDescription: "unlock power replicanti.",
+        },
+        25: {requirementDescription: "1e10 PR (26",
+            done() {return player.J.pr.gte('1e10')},
+            doneColor: "rgb(43, 113, 203)",
+            style: {"background-color"() {return mil('J',25)?tmp.J.milestones[25].doneColor:'BF8F8F'}},
+            effectDescription: "unlock a buyable,boost AR eff,pr1 eff x2.",
+        },
+        26: {requirementDescription: "ee1e50 AR (27",
+            done() {return player.J.maxar.gte('ee1e50')},
+            doneColor: "rgb(56, 178, 117)",
+            style: {"background-color"() {return mil('J',26)?tmp.J.milestones[26].doneColor:'BF8F8F'}},
+            effectDescription: "pr2/3 base +0.01.(no effects currently & v0.7.5 endgame)",
         },
     },
     resetsNothing(){return mil('J',9)},
@@ -248,6 +288,8 @@ addLayer("J", {
         if (player.I.auto6)  buyBuyable("J",15),buyBuyable("J",65),buyBuyable("J",41),buyBuyable("J",43),buyBuyable("J",44),buyBuyable("J",101)
         if (player.J.auto7)  buyBuyable("J",72),buyBuyable("J",73),buyBuyable("J",75),buyBuyable("J",82),buyBuyable("J",83)
         if(mil('I',33)&&player.I.auto5) buyBuyable("J",163)
+        if(mil('I',34)&&player.I.auto5) buyBuyable("J",164)
+        if(mil('J',23)&&player.I.auto5) buyBuyable("J",165)
         if(gba('J',101).gte(225))  buyBuyable("J",42)
     }, 
     buyables:{
@@ -281,16 +323,27 @@ addLayer("J", {
                 if(mil('J',5)) b=b.max(player.I.qolpoints.max(1).log(10).max(1).pow(0.75))
                 if(gba('J',101).gte(1)) b=b.max(player.I.qolpoints.max(1).log(10).max(1).pow(1.05))//(n(10).pow(player.I.qolpoints.max(1).log(10).max(1).pow(0.75)))
                 if(gba('J',101).gte(8)) b=b.max(n(10).pow(player.I.qolpoints.max(1).log(10).max(1).pow(0.18)))
+                if(gba('J',103).gte(2)) b=n(10).pow(n(10).pow(player.I.qolpoints.max(10).log(10).log(10).pow(1.01)))
+                if(b.slog().gte(3.7))  b=n(10).tetrate(b.slog().mul(0.5).add(1.85))
                 return b},
             effect(x) { 
                 let e=n(1)
-                let ef=this.base().pow(x.pow(e))
+                let ef=[n(1),n(0)]
+                ef[0]=this.base().pow(x.pow(e))
+                ef[1]=ef[0].max(1).slog().mul(0.9).div(200)
+                if(upg('I',111)) ef[1]=ef[0].max(1).slog().div(125)
+                if(upg('I',112)) ef[1]=ef[1].mul(1.25)
+                if(upg('I',114)) ef[1]=ef[1].mul(1.25)
+                if(upg('I',116)) ef[1]=ef[1].mul(1.25)
+                if(ef[1].gte(0.05)) ef[1]=ef[1].div(0.05).pow(0.2).mul(0.05)
                 return ef},
             display() { 
+                let s=''
+                if(gba('J',103).gte(2)) s=s+'<br><h4 style="color:rgb(21, 74, 83)">(and +'+ format(this.effect()[1],3)+' slog)'
                 return "base BP x"+ format(this.base()) + "(based on QP) \n\
                 Cost: " + format(this.cost()) + " QP \n\
                 Amount: " + format(player[this.layer].buyables[this.id])  +" \n\
-                Effect: x" + format(this.effect())},
+                Effect: x" + format(this.effect()[0])+s},
             unlocked() {return true},
             style: {'width':'130px','height':'130px'},
         },
@@ -315,7 +368,7 @@ addLayer("J", {
                 if(t.gte(1e9)) t=player.J.bp.add(10).log(10).add(10).log(10).mul(4/3).pow(20/3).ceil().max(gba(this.layer, this.id)).max(1e9)
                 if(t.gte('1e2000')) t=n(10).tetrate(player.J.bp.max(10).slog().sub(0.5).mul(5/8)).sub(1).ceil().max(gba(this.layer, this.id)).max('1e2000')
                 if(mil('J',5)&&player.J.auto1) setBuyableAmount(this.layer,this.id,t)
-            },//player.J.bp.gte(c)&&                //let c=this.cost(t)
+            },
             canAfford() { return player.J.bp.gte(this.cost()) },
             buy() { setBuyableAmount(this.layer,this.id,gba(this.layer, this.id).add(1))},
             base(){   let b = player.J.bp.max(1).log(10).sub(8).max(1).pow(0.2).mul(1.5) 
@@ -323,28 +376,33 @@ addLayer("J", {
                 let e=n(0.25)   
                 if(gba('J',101).gte(1)) e=e.add(0.05)
                 if(gba('J',101).gte(4)) e=e.add(0.03)   
-                e=e.add(buyableEffect('J',71))   
-                if(mil('I',26)) e=e.add(buyableEffect('J',71)) 
+                e=e.add(bef('J',71))   
+                if(mil('I',26)) e=e.add(bef('J',71)) 
                 if(mil('J',5)) b=player.J.bp.max(1).log(10).max(1).pow(e)
                 if(b.slog().gte(3.7))  b=n(10).tetrate(b.slog().mul(0.5).add(1.85))
                 return b},
             effect(x) { 
                 let e=n(1)
-                let ef=this.base().pow(x.pow(e))
-                if(gba('J',103).gte(1)) ef=n(10).tetrate(ef.max(10).slog().add(0.05))
+                let ef=[n(1),n(0)]
+                ef[0]=this.base().pow(x.pow(e))
+                if(gba('J',103).gte(1)) ef[0]=n(10).tetrate(ef[0].max(10).slog().add(0.05))
+                ef[1]=ef[0].max(1).slog().div(150)
+                if(upg('I',115)) ef[1]=ef[0].max(1).slog().div(100)
+                if(ef[1].gte(0.05)) ef[1]=ef[1].div(0.05).pow(0.2).mul(0.05)
                 return ef},
             display() { 
+                let s=''
+                if(mil('I',37)) s=s+'<br><h4 style="color:rgb(21, 74, 83)">(and +'+ format(this.effect()[1],3)+' slog)'
                 return "base BP x"+ format(this.base()) + "(based on BP) \n\
                 Cost: " + format(this.cost()) + " BP \n\
                 Amount: " + format(player[this.layer].buyables[this.id])  +" \n\
-                Effect: x" + format(this.effect())},
+                Effect: x" + format(this.effect()[0])+s},
             unlocked() {return mil('J',0)},
             style: {'width':'130px','height':'130px'},//
         },
         13: { 
             title: function(){
                 let s=''
-                //if(gba(this.layer,this.id).gte(300)) s='sc '
                 s=s+'bp3'
                 return s
             }, 
@@ -366,16 +424,22 @@ addLayer("J", {
                 if(gba('J',101).gte(1)) b=n(10).pow(player.I.total.add(1).log(10).pow(0.9).mul(3))
                 if(gba('J',101).gte(8)) b=n(10).pow(player.I.total.add(1).log(10).pow(1.25).mul(3))
                 if(gba('J',101).gte(128)) b=b.max(n(10).pow(player.I.total.add(1).log(10).pow(1.6))) 
+                if(b.slog().gte(3.7))  b=n(10).tetrate(b.slog().mul(0.5).add(1.85))
                 return b},
             effect(x) { 
                 let e=n(1)
-                let ef=this.base().pow(x.pow(e))
+                let ef=[n(1),n(0)]
+                ef[0]=this.base().pow(x.pow(e))
+                ef[1]=ef[0].max(1).slog().div(100)
+                if(ef[1].gte(0.05)) ef[1]=ef[1].div(0.05).pow(0.2).mul(0.05)
                 return ef},
             display() { 
+                let s=''
+                if(mil('I',37)) s=s+'<br><h4 style="color:rgb(21, 74, 83)">(and +'+ format(this.effect()[1],3)+' slog)'
                 return "base BP x"+ format(this.base()) + "(based on I) \n\
                 Cost: " + format(this.cost()) + " I(dont spend) \n\
                 Amount: " + format(player[this.layer].buyables[this.id])  +" \n\
-                Effect: x" + format(this.effect())},
+                Effect: x" + format(this.effect()[0])+s},
             unlocked() {return mil('I',15)},
             style: {'width':'130px','height':'130px'},
         },
@@ -405,6 +469,7 @@ addLayer("J", {
                 if(gba('J',102).gte(5))  b=b.max(n(10).pow(player.I.si.max(1).log(10).pow(1.3)))
                 if(gba('J',102).gte(17))  b=n(10).pow(n(10).pow(player.I.si.max(1).log(10).pow(0.5)))
                 if(gba('J',103).gte(1)) b=n(10).tetrate(b.max(10).slog().add(0.05))
+                if(b.slog().gte(3.7))  b=n(10).tetrate(b.slog().mul(0.5).add(1.85))
                 return b},
             effect(x) { 
                 let e=n(1)
@@ -413,6 +478,9 @@ addLayer("J", {
                 ef[1]=ef[0].max(1).slog().mul(0.8).div(500)
                 if(gba('J',102).gte(17)) ef[1]=ef[0].max(1).slog().mul(0.8).div(400)
                 if(gba('J',102).gte(19)) ef[1]=ef[0].max(1).slog().mul(0.85).div(200)
+                if(upg('I',113)) ef[1]=ef[0].max(1).slog().div(140)
+                if(upg('I',114)) ef[1]=ef[0].max(1).slog().div(100)
+                if(ef[1].gte(0.05)) ef[1]=ef[1].div(0.05).pow(0.2).mul(0.05)
                 return ef},
             display() { 
                 let s=''
@@ -519,9 +587,9 @@ addLayer("J", {
                 return b},
             effect(x) { 
                 let e=n(1)
-                if(mil('I',22)) e=e.add(0.05).add(buyableEffect('J',32))
+                if(mil('I',22)) e=e.add(0.05).add(bef('J',32))
                 let ef=this.base().pow(x.pow(e))
-                ef=n(10).tetrate(ef.max(1).slog().add(buyableEffect('J',72)))
+                ef=n(10).tetrate(ef.max(1).slog().add(bef('J',72)))
                 return ef},
             display() { 
                 return "Ib2-3 eff ^"+ format(this.base()) + " \n\
@@ -557,9 +625,9 @@ addLayer("J", {
                 return b},
             effect(x) { 
                 let e=n(1)
-                if(mil('I',22)) e=e.add(0.05).add(buyableEffect('J',33))
+                if(mil('I',22)) e=e.add(0.05).add(bef('J',33))
                 let ef=this.base().pow(x.pow(e))
-                ef=n(10).tetrate(ef.max(1).slog().add(buyableEffect('J',72)))
+                ef=n(10).tetrate(ef.max(1).slog().add(bef('J',72)))
                 return ef},
             display() { 
                 return "Ib5-8 eff ^"+ format(this.base()) + " \n\
@@ -593,6 +661,10 @@ addLayer("J", {
                 return b},
             effect(x) { 
                 let e=n(1)
+                if(gba('J',102).gte(26)) e=n(1.05)
+                if(mil('J',22)) e=e.add(0.1)
+                if(upg('I',21)) e=e.add(uef('I',21))
+                if(gba('J',211).gte(3)) e=e.mul(tmp.J.repef[3])
                 let ef=this.base().mul(x.pow(e))
                 return ef},
             display() { 
@@ -668,6 +740,7 @@ addLayer("J", {
                 ef[0]=this.base().mul(x.pow(e[0]))
                 ef[1]=x.add(2).log(2).add(1).pow(e[1]).mul(player.J.points.max(1).slog()).div(2000)
                 if(gba('J',102).gte(19)) ef[1]=x.add(2).log(2).add(1).pow(e[1]).mul(player.J.points.max(1).slog()).div(1500)
+                if(ef[1].gte(0.2)) ef[1]=ef[1].div(0.2).pow(0.2).mul(0.2)
                 return ef},
             display() { 
                 let s=''
@@ -787,7 +860,7 @@ addLayer("J", {
             display() { 
                 return "curse option 1-3 eff /"+ format(this.base()) + " \n\
                 Cost: " + format(this.cost()) + " BP \n\
-                Amount: " + player[this.layer].buyables[this.id]  +" \n\
+                Amount: " + format(player[this.layer].buyables[this.id])  +" \n\
                 Effect: /" + format(this.effect())},
             unlocked() {return (gba('J',101).gte(11))},
             style: {'width':'130px','height':'130px'},
@@ -885,7 +958,7 @@ addLayer("J", {
                 return b},
             effect(x) { 
                 let e=n(1)
-                e=e.add(buyableEffect('J',75))
+                e=e.add(bef('J',75))
                 let ef=this.base().pow(x.pow(e))
                 return ef},
             display() { 
@@ -980,7 +1053,7 @@ addLayer("J", {
             canAfford() { return player.J.bp.gte(this.cost()) },
             buy() { setBuyableAmount(this.layer, this.id, gba(this.layer, this.id).add(1))},
             base(){   let b=n(1.01)  
-                b=b.add(buyableEffect('J',84))
+                b=b.add(bef('J',84))
                 return b},
             effect(x) { 
                 let e=n(1)
@@ -1018,17 +1091,27 @@ addLayer("J", {
             buy() { setBuyableAmount(this.layer, this.id, gba(this.layer, this.id).add(1))},
             base(){   let b=n(2).pow(tmp.J.bpef.max(2).log(2).pow(1.25).sub(30).max(0)) 
                 if(mil('I',25)) b=n(2).pow(tmp.J.bpef.max(2).log(2).pow(1.3).max(0))
-                if(gba('J',101).gte(128)) n(2).pow(tmp.J.bpef.max(2).log(2).pow(2).max(0))
+                if(gba('J',101).gte(128)) b=n(2).pow(tmp.J.bpef.max(2).log(2).pow(2).max(0))
+                if(gba('J',103).gte(2)) b=n(10).pow(n(10).pow(tmp.J.bpef.max(1).log(10).pow(1.01)))
+                if(b.slog().gte(3.7))  b=n(10).tetrate(b.slog().mul(0.5).add(1.85))
                 return b},
             effect(x) { 
                 let e=n(1)
-                let ef=this.base().pow(x.pow(e))
+                let ef=[n(1),n(0)]
+                ef[0]=this.base().pow(x.pow(e))
+                ef[1]=ef[0].max(1).slog().mul(0.9).div(200)
+                if(upg('I',112)) ef[1]=ef[0].max(1).slog().mul(0.9).div(100)
+                if(upg('I',114)) ef[1]=ef[1].mul(1.25)
+                if(upg('I',116)) ef[1]=ef[1].mul(1.25)
+                if(ef[1].gte(0.05)) ef[1]=ef[1].div(0.05).pow(0.2).mul(0.05)
                 return ef},
             display() { 
+                let s=''
+                if(gba('J',103).gte(2)) s=s+'<br><h4 style="color:rgb(21, 74, 83)">(and +'+ format(this.effect()[1],3)+' slog)'
                 return "base SS x"+ format(this.base()) + "(based on BP effect) \n\
                 Need: " + format(this.cost()) + " BP eff \n\
                 Amount: " +format(player[this.layer].buyables[this.id])  +" \n\
-                Effect: x" + format(this.effect())},
+                Effect: x" + format(this.effect()[0])+s},
             unlocked() {return mil('J',11)},
             style: function() {let s="#BF8F8F"
                 if(this.canAfford()) s="#C490FF"
@@ -1063,20 +1146,26 @@ addLayer("J", {
             base(){   let b=player.J.ss.max(1).log(10).sub(9).max(1).pow(0.2).mul(2)  
                 let e=n(0.3)   
                 if(gba('J',101).gte(4)) e=e.add(0.03)   
-                e=e.add(buyableEffect('J',71))   
+                e=e.add(bef('J',71))   
                 if(gba('J',101).gte(3)) b=player.J.ss.max(1).log(10).max(1).pow(e).mul(2)
                 if(b.slog().gte(3.7))  b=n(10).tetrate(b.slog().mul(0.5).add(1.85))
                 return b},
             effect(x) { 
                 let e=n(1)
-                let ef=this.base().pow(x.pow(e))
-                if(gba('J',103).gte(1)) ef=n(10).tetrate(ef.max(10).slog().add(0.05))
+                let ef=[n(1),n(0)]
+                ef[0]=this.base().pow(x.pow(e))
+                if(gba('J',103).gte(1)) ef[0]=n(10).tetrate(ef[0].max(10).slog().add(0.05))
+                ef[1]=ef[0].max(1).slog().div(150)
+                if(upg('I',115)) ef[1]=ef[0].max(1).slog().div(100)
+                if(ef[1].gte(0.05)) ef[1]=ef[1].div(0.05).pow(0.2).mul(0.05)
                 return ef},
             display() { 
+                let s=''
+                if(mil('I',37)) s=s+'<br><h4 style="color:rgb(21, 74, 83)">(and +'+ format(this.effect()[1],3)+' slog)'
                 return "base SS x"+ format(this.base()) + "(based on SS) \n\
                 Cost: " + format(this.cost()) + " SS \n\
                 Amount: " + format(player[this.layer].buyables[this.id])  +" \n\
-                Effect: x" + format(this.effect())},
+                Effect: x" + format(this.effect()[0])+s},
             unlocked() {return mil('J',11)},
             style: function() {let s="#BF8F8F"
                 if(this.canAfford()) s="#C490FF"
@@ -1102,16 +1191,21 @@ addLayer("J", {
             base(){   let b=player.I.si.max(1).log(2).pow(1.75).div(100).max(2)
                 if(gba('J',101).gte(8)) b=b.max(n(10).pow(player.I.si.max(1).log(10).pow(0.75)))
                 if(gba('J',102).gte(5)) b=b.max(n(10).pow(player.I.si.max(1).log(10).pow(1.1)))
+                if(b.slog().gte(3.7))  b=n(10).tetrate(b.slog().mul(0.5).add(1.85))
                 return b},
             effect(x) { 
                 let e=n(1)
-                let ef=this.base().pow(x.pow(e))
+                let ef=[n(1),n(0)]
+                ef[0]=this.base().pow(x.pow(e))
+                ef[1]=ef[0].max(1).slog().div(100)
+                if(ef[1].gte(0.05)) ef[1]=ef[1].div(0.05).pow(0.2).mul(0.05)
                 return ef},
-            display() { 
+            display() { let s=''
+                if(mil('I',37)) s=s+'<br><h4 style="color:rgb(21, 74, 83)">(and +'+ format(this.effect()[1],3)+' slog)'
                 return "base SS x"+ format(this.base()) + "(based on SI) \n\
                 Cost: " + format(this.cost()) + " SI(dont spend) \n\
                 Amount: " + format(player[this.layer].buyables[this.id]) +" \n\
-                Effect: x" + format(this.effect())},
+                Effect: x" + format(this.effect()[0])+s},
             unlocked() {return mil('J',12)},
             style: function() {let s="#BF8F8F"
                 if(this.canAfford()) s="#C490FF"
@@ -1138,7 +1232,7 @@ addLayer("J", {
             base(){   let b=n(10).pow(n(10).pow(player.J.bp.max(10).slog().max(1).pow(4).div(100)))
                 if(gba('J',101).gte(8)) b=b.max(player.J.bp.max(10).log(10).max(1))//.pow(0.8)
                 if(mil('I',25)) b=player.J.bp.max(10).log(10).pow(1.2).max(1)
-                if(gba('J',102).gte(5)) b=player.J.bp.max(10).log(10).pow(n(1.5).add(buyableEffect('J',71))).max(1)
+                if(gba('J',102).gte(5)) b=player.J.bp.max(10).log(10).pow(n(1.5).add(bef('J',71))).max(1)
                 if(b.slog().gte(3.7))  b=n(10).tetrate(b.slog().mul(0.5).add(1.85))
                 if(gba('J',103).gte(1)) b=n(10).tetrate(b.max(10).slog().add(0.05))
                 return b},
@@ -1149,6 +1243,9 @@ addLayer("J", {
                 ef[1]=ef[0].max(1).slog().mul(0.75).div(500)
                 if(gba('J',102).gte(17)) ef[1]=ef[0].max(1).slog().mul(0.8).div(300)
                 if(gba('J',102).gte(19)) ef[1]=ef[0].max(1).slog().mul(0.85).div(180)
+                if(upg('I',113)) ef[1]=ef[0].max(1).slog().div(125)
+                if(upg('I',114)) ef[1]=ef[0].max(1).slog().div(90)
+                if(ef[1].gte(0.05)) ef[1]=ef[1].div(0.05).pow(0.2).mul(0.05)
                 return ef},
             display() { 
                 let s=''
@@ -1330,6 +1427,10 @@ addLayer("J", {
                 return b},
             effect(x) { 
                 let e=n(1)
+                if(gba('J',102).gte(26)) e=n(1.05)
+                if(mil('J',22)) e=e.add(0.1)
+                if(upg('I',21)) e=e.add(uef('I',21))
+                if(gba('J',211).gte(3)) e=e.mul(tmp.J.repef[3])
                 let ef=this.base().mul(x.pow(e))
                 return ef},
             display() { 
@@ -1404,6 +1505,7 @@ addLayer("J", {
                 ef[0]=this.base().mul(x.pow(e[0]))
                 ef[1]=x.add(2).log(2).add(1).pow(e[1]).mul(player.J.points.max(1).slog()).div(2000)
                 if(gba('J',102).gte(19)) ef[1]=x.add(2).log(2).add(1).pow(e[1]).mul(player.J.points.max(1).slog()).div(1500)
+                if(ef[1].gte(0.2)) ef[1]=ef[1].div(0.2).pow(0.2).mul(0.2)
                 return ef},
             display() { 
                 let s=''
@@ -1615,6 +1717,7 @@ addLayer("J", {
         161: {
             title: function(){
                 let s=''
+                if(gba(this.layer,this.id).gte(1.5e6)) s='sc '
                 s=s+'ar1'
                 return s
             },  
@@ -1622,11 +1725,13 @@ addLayer("J", {
                 let c=n(10).pow(x.pow(1.3).add(130))
                 if(mil('J',19)) c=n(10).pow(x.pow(1.3))
                 if(mil('I',31)) c=n(10).pow(x.pow(0.95))
+                if(gba(this.layer,this.id).gte(1.5e6)) c=n(10).pow(n(10).pow(x.log(10).pow(1.52).div(2.7)))
                 return c
             },
             canAfford() { return player.I.total.gte(this.cost()) },
             bulk(){
                 let t=player.I.total.max(10).log(10).pow(20/19).sub(1).ceil().max(gba(this.layer,this.id))
+                if(t.gte(1.5e6)) t=n(10).pow(player.I.total.max(10).log(10).log(10).mul(2.7).pow(1/1.52)).sub(1).ceil().max(gba(this.layer, this.id)).max(1.5e6)
                 if(player.I.auto5) setBuyableAmount(this.layer,this.id,t)
             },            
             buy() { setBuyableAmount(this.layer, this.id, gba(this.layer, this.id).add(1))},
@@ -1637,6 +1742,7 @@ addLayer("J", {
                 let e=n(1)
                 if(mil('J',17)) e=n(2)
                 if(gba('J',101).gte(330)) e=n(3)
+                if(upg('I',61)) e=e.mul(uef('I',61))
                 let ef=this.base().mul(x.pow(e))
                 return ef},
             display() { 
@@ -1652,6 +1758,7 @@ addLayer("J", {
         162: {
             title: function(){
                 let s=''
+                if(gba(this.layer,this.id).gte(1e5)) s='sc '
                 s=s+'ar2'
                 return s
             },  
@@ -1659,11 +1766,13 @@ addLayer("J", {
                 let c=n(10).pow(x.pow(1.6).add(135))
                 if(mil('J',19)) c=n(10).pow(x.pow(1.5))
                 if(mil('I',31)) c=n(10).pow(x.pow(1.2))
+                if(gba(this.layer,this.id).gte(1e5)) c=n(10).pow(n(10).pow(x.log(10).pow(1.8).div(3)))
                 return c
             },
             canAfford() { return player.I.total.gte(this.cost()) },
             bulk(){
                 let t=player.I.total.max(10).log(10).pow(5/6).sub(1).ceil().max(gba(this.layer,this.id))
+                if(t.gte(1e5)) t=n(10).pow(player.I.total.max(10).log(10).log(10).mul(3).pow(1/1.8)).sub(1).ceil().max(gba(this.layer, this.id)).max(1e5)
                 if(player.I.auto5) setBuyableAmount(this.layer,this.id,t)
             },       
             buy() { setBuyableAmount(this.layer, this.id, gba(this.layer, this.id).add(1))},
@@ -1671,6 +1780,8 @@ addLayer("J", {
                 return b},
             effect(x) { 
                 let e=n(1)
+                if(upg('I',32)) e=e.mul(uef('I',32))
+                if(upg('I',61)) e=e.mul(uef('I',61))
                 let ef=this.base().pow(x.pow(e))
                 return ef},
             display() { 
@@ -1697,18 +1808,20 @@ addLayer("J", {
             canAfford() { return player.J.arep.gte(this.cost()) },
             bulk(){
                 let t=player.J.arep.max(10).log(10).max(1).log(1.5).sub(1).ceil().max(gba(this.layer,this.id))
-                if(player.I.auto5) setBuyableAmount(this.layer,this.id,t)
+                if(mil('I',33)&&player.I.auto5) setBuyableAmount(this.layer,this.id,t)
             },  
             buy() { if(!mil('I',33)) player.J.arep=player.J.arep.div(this.cost())
                 setBuyableAmount(this.layer, this.id, gba(this.layer, this.id).add(1))},
             base(){   let b=n(1.05)
                 if(mil('J',19)) b=n(1.1)
                 if(gba('J',101).gte(330)) b=n(1.5)
+                if(player.J.maxar.gte('ee300')) b=n(2)
                 return b},
             effect(x) { 
                 let e=n(1)
                 if(mil('I',33)) e=n(1.25)
                 if(mil('J',21)) e=n(1.6)
+                if(upg('I',61)) e=e.mul(uef('I',61))
                 let ef=this.base().pow(x.pow(e))
                 return ef},
             display() { 
@@ -1724,14 +1837,22 @@ addLayer("J", {
         164: {
             title: function(){
                 let s=''
+                if(gba(this.layer,this.id).gte(3e4)) s='sc '
                 s=s+'ar4'
                 return s
             },  
             cost(x) { 
                 let c=n(10).pow(n(2).pow(x.pow(1.3)).mul(1000))
+                if(player.J.maxar.gte('ee300')) c=n(10).pow(n(2).pow(x.pow(1.25)))
+                if(gba(this.layer,this.id).gte(3e4)) c=n(10).pow(n(10).pow(x.pow(1.4).div(16)))
                 return c
             },
             canAfford() { return player.J.arep.gte(this.cost()) },
+            bulk(){
+                let t=player.J.arep.max(10).log(10).max(1).log(2).pow(0.8).sub(1).ceil().max(gba(this.layer,this.id))
+                if(t.gte(3e4)) t=player.J.arep.max(10).log(10).log(10).mul(16).pow(1/1.4).sub(1).ceil().max(gba(this.layer, this.id)).max(3e4)
+                if(mil('I',34)&&player.I.auto5) setBuyableAmount(this.layer,this.id,t)
+            }, 
             buy() {  if(!mil('J',21))player.J.arep=player.J.arep.div(this.cost())
                 setBuyableAmount(this.layer, this.id, gba(this.layer, this.id).add(1))},
             base(){   let b=n(1.1)
@@ -1739,6 +1860,10 @@ addLayer("J", {
             effect(x) { 
                 let e=n(1)
                 if(mil('J',21)) e=e.add(0.1)
+                if(upg('I',12)) e=e.mul(uef('I',12))
+                if(upg('I',22)) e=e.mul(uef('I',22))
+                //if(upg('I',23)) e=e.mul(uef('I',23))
+                if(upg('I',61)) e=e.mul(uef('I',61))
                 let ef=this.base().pow(x.pow(e))
                 return ef},
             display() { 
@@ -1754,21 +1879,33 @@ addLayer("J", {
         165: {
             title: function(){
                 let s=''
+                if(gba(this.layer,this.id).gte(120)) s='sc '
+                if(gba(this.layer,this.id).gte(500)) s='sc2 '
                 s=s+'ar5'
                 return s
             },  
             cost(x) { 
                 let c=n(10).pow(n(2).pow(x.pow(1.25)).mul(4000))
+                if(x.gte(120)) c=n(10).pow(n(10).pow(n(2).pow(x.pow(0.55).div(2))))
+                if(x.gte(500)) c=n(10).pow(n(10).pow(n(2).pow(x.pow(0.81).div(10))))
                 return c
             },
             canAfford() { return player.J.arep.gte(this.cost()) },
-            buy() { player.J.arep=player.J.arep.div(this.cost())
+            bulk(){
+                let t=player.J.arep.max(10).log(10).log(10).max(1).log(2).mul(10).pow(100/81).sub(1).ceil().max(gba(this.layer,this.id))
+                if(mil('J',23)&&player.I.auto5) setBuyableAmount(this.layer,this.id,t)
+            }, 
+            buy() { if(!mil('J',23)) player.J.arep=player.J.arep.div(this.cost())
                 setBuyableAmount(this.layer, this.id, gba(this.layer, this.id).add(1))},
             base(){   let b=n(0.05)
                 return b},
             effect(x) { 
                 let e=n(1)
                 if(mil('J',21)) e=e.add(0.1)
+                //if(mil('I',36)) e=e.add(0.01)
+                if(upg('I',43)) e=e.mul(uef('I',43))
+                if(upg('I',53)) e=e.mul(uef('I',53))
+                if(upg('I',62)) e=e.mul(uef('I',62))
                 let ef=this.base().mul(x.pow(e))
                 return ef},
             display() { 
@@ -1781,6 +1918,115 @@ addLayer("J", {
                 if(this.canAfford()) s="rgb(56, 178, 117)"
                 return {'width':'130px','height':'130px','background-color':s}},
         },
+        171: {
+            title: function(){
+                let s=''
+                if(gba(this.layer,this.id).gte(500)) s='sc '
+                s=s+'pr1'
+                return s
+            },  
+            cost(x) { 
+                let c=n(2).pow(x.pow(1.1)).mul(10)
+                if(gba('J',101).gte(5)) c=n(2).pow(x.pow(1.1))
+                if(gba(this.layer,this.id).gte(500)) c=n(10).pow(x.sub(410).pow(1.5).div(3))
+                return c
+            },
+            canAfford() { return player.J.pr.gte(this.cost()) },
+            // bulk(){
+            //     let t=player.I.total.max(10).log(10).pow(20/19).sub(1).ceil().max(gba(this.layer,this.id))
+            //     if(t.gte(1.5e6)) t=n(10).pow(player.I.total.max(10).log(10).log(10).mul(2.7).pow(1/1.52)).sub(1).ceil().max(gba(this.layer, this.id)).max(1.5e6)
+            //     if(player.I.auto5) setBuyableAmount(this.layer,this.id,t)
+            // },            
+            buy() { setBuyableAmount(this.layer, this.id, gba(this.layer, this.id).add(1))},
+            base(){   let b=n(1)
+                if(mil('J',25)) b=n(2)
+                return b},
+            effect(x) { 
+                let ef=this.base().mul(x)
+                return ef},
+            display() { 
+                return "give +"+ format(this.base()) +" free HI \n\
+                Need: " + format(this.cost()) + " PR \n\
+                Amount: " + format(player[this.layer].buyables[this.id])  +" \n\
+                Effect: +" + format(this.effect())},
+            unlocked() {return (mil('J',24))},
+            style: function() {let s="#BF8F8F"
+                if(this.canAfford()) s="rgb(43, 113, 203)"
+                return {'width':'130px','height':'130px','background-color':s}},
+        },
+        172: {
+            title: function(){
+                let s=''
+                if(gba(this.layer,this.id).gte(40)) s='sc '
+                if(gba(this.layer,this.id).gte(70)) s='sc2 '
+                s=s+'pr2'
+                return s
+            },  
+            cost(x) { 
+                let c=n(3).pow(x.pow(1.2)).mul(1000)
+                if(gba('J',101).gte(5)) c=n(3).pow(x.pow(1.2))
+                if(gba(this.layer,this.id).gte(40)) c=n(10).pow(x.pow(1.8).div(2).sub(300))
+                if(gba(this.layer,this.id).gte(70)) c=n(10).pow(n(10).pow(x.sub(35).pow(0.7).div(4)))
+                return c
+            },
+            canAfford() { return player.J.pr.gte(this.cost()) },
+            // bulk(){
+            //     let t=player.I.total.max(10).log(10).pow(20/19).sub(1).ceil().max(gba(this.layer,this.id))
+            //     if(t.gte(1.5e6)) t=n(10).pow(player.I.total.max(10).log(10).log(10).mul(2.7).pow(1/1.52)).sub(1).ceil().max(gba(this.layer, this.id)).max(1.5e6)
+            //     if(player.I.auto5) setBuyableAmount(this.layer,this.id,t)
+            // },            
+            buy() { setBuyableAmount(this.layer, this.id, gba(this.layer, this.id).add(1))},
+            base(){   let b=n(1.05)
+                return b},
+            effect(x) { 
+                let ef=this.base().pow(x)
+                return ef},
+            display() { 
+                return "PR base gain exp x"+ format(this.base()) +" \n\
+                Need: " + format(this.cost()) + " PR \n\
+                Amount: " + format(player[this.layer].buyables[this.id])  +" \n\
+                Effect: x" + format(this.effect())},
+            unlocked() {return (mil('J',24))},
+            style: function() {let s="#BF8F8F"
+                if(this.canAfford()) s="rgb(43, 113, 203)"
+                return {'width':'130px','height':'130px','background-color':s}},
+        },
+        173: {
+            title: function(){
+                let s=''
+                if(gba(this.layer,this.id).gte(20)) s='sc '
+                if(gba(this.layer,this.id).gte(60)) s='sc2 '
+                s=s+'pr3'
+                return s
+            },  
+            cost(x) { 
+                let c=n(3).pow(x.pow(1.3)).mul(1e10)
+                if(gba(this.layer,this.id).gte(20)) c=n(10).pow(x.pow(1.66).sub(100))
+                if(gba(this.layer,this.id).gte(60)) c=n(10).pow(n(10).pow(x.sub(15).pow(0.65).div(4)))
+                return c
+            },
+            canAfford() { return player.J.pr.gte(this.cost()) },
+            // bulk(){
+            //     let t=player.I.total.max(10).log(10).pow(20/19).sub(1).ceil().max(gba(this.layer,this.id))
+            //     if(t.gte(1.5e6)) t=n(10).pow(player.I.total.max(10).log(10).log(10).mul(2.7).pow(1/1.52)).sub(1).ceil().max(gba(this.layer, this.id)).max(1.5e6)
+            //     if(player.I.auto5) setBuyableAmount(this.layer,this.id,t)
+            // },            
+            buy() { setBuyableAmount(this.layer, this.id, gba(this.layer, this.id).add(1))},
+            base(){   let b=n(1.05)
+                return b},
+            effect(x) { 
+                let ef=this.base().pow(x)
+                return ef},
+            display() { 
+                return "PR divisor exp /"+ format(this.base()) +" \n\
+                Need: " + format(this.cost()) + " PR \n\
+                Amount: " + format(player[this.layer].buyables[this.id])  +" \n\
+                Effect: /" + format(this.effect())},
+            unlocked() {return (mil('J',25))},
+            style: function() {let s="#BF8F8F"
+                if(this.canAfford()) s="rgb(43, 113, 203)"
+                return {'width':'130px','height':'130px','background-color':s}},
+        },
         211: {
             title: function(){
                 let s=''
@@ -1788,7 +2034,7 @@ addLayer("J", {
                 return s
             },  
             cost(x) { 
-                let c=[n('ee7'),n('ee16'),n('ee111')]
+                let c=[n('ee7'),n('ee16'),n('ee299'),n('eee100')]
                 return c[x]
             },
             canAfford() { return player.J.arep.gte(this.cost()) },
@@ -1823,7 +2069,7 @@ addLayer("J", {
     },
     bpg(){
         let ef=n(10)
-        ef=ef.mul(buyableEffect('J',11)).mul(buyableEffect('J',12)).mul(buyableEffect('J',13)).mul(buyableEffect('J',14)[0])
+        ef=ef.mul(bef('J',11)[0]).mul(bef('J',12)[0]).mul(bef('J',13)[0]).mul(bef('J',14)[0])
         ef=n(10).tetrate(ef.max(10).slog().add(tmp.J.slogs[0]))
         return ef
     },
@@ -1831,7 +2077,7 @@ addLayer("J", {
         let e=n(1)
         if(mil('J',2)) e=e.add(0.01)
         if(mil('J',7)) e=e.add(0.04)
-        if(mil('I',22)) e=e.add(buyableEffect('J',31)[0])
+        if(mil('I',22)) e=e.add(bef('J',31)[0])
         let ef=player.J.best.max(1).pow(e)
         if(mil('I',18)) ef=ef.add(tmp.I.hief[1])
         if(mil('J',12)) ef=ef.mul(tmp.I.hief[3])
@@ -1843,20 +2089,20 @@ addLayer("J", {
         let b=n(10)
         let e=n(1)
         if(gba('J',101).gte(4)) e=n(1.1)
-        b=b.add(buyableEffect('J',24))
+        b=b.add(bef('J',24))
         let ef=n(b).pow(player.J.bp.add(10).slog().pow(e))
         return ef
     },
     ssg(){
         let ef=n(10)
-        ef=ef.mul(buyableEffect('J',61)).mul(buyableEffect('J',62)).mul(buyableEffect('J',63)).mul(buyableEffect('J',64)[0])
+        ef=ef.mul(bef('J',61)[0]).mul(bef('J',62)[0]).mul(bef('J',63)[0]).mul(bef('J',64)[0])
         ef=n(10).tetrate(ef.max(10).slog().add(tmp.J.slogs[1]))
         return ef
     },
     sspow(){
         let e=n(0.5)
         if(gba('J',101).gte(9)) e=e.add(0.5)
-        if(mil('I',23)) e=e.add(buyableEffect('J',81)[0])
+        if(mil('I',23)) e=e.add(bef('J',81)[0])
         let ef=player.J.best.div(600).pow(e).max(1)
         //if(gba('J',101).gte(225)) ef=ef.pow(n(10).pow(player.J.best.max(1).slog().pow(2)))
         return ef
@@ -1864,7 +2110,7 @@ addLayer("J", {
     ssef(){
         let b=n(2)
         let e=n(1)
-        b=b.add(buyableEffect('J',74))
+        b=b.add(bef('J',74))
         if(gba('J',101).gte(4)) b=b.add(1),e=e.add(0.1)
         let ef=n(b).pow(player.J.ss.add(10).slog()).div(2)
         if(gba('J',101).gte(4)) ef=n(b).pow(player.J.ss.add(10).slog().pow(e))
@@ -1872,55 +2118,104 @@ addLayer("J", {
     },
     repg(){
         let v=n(1)
+        let v2=n(1)
         let m=n(1.05)
-        m=m.add(buyableEffect('J',161)).mul(buyableEffect('J',163)).pow(buyableEffect('J',164))
-        v=v.div(buyableEffect('J',162))
+        m=m.add(bef('J',161)).mul(bef('J',163)).pow(bef('J',164))
+        v=v.div(bef('J',162))
+        if(mil('I',34)) v2=v2.mul(bef('J',162))//no hardcaps
         v=v.max(1e-10)
-        return [v,m]
+        return [v,m,v2]
     },
     repef(){
-        let e=[n(0.5),n(0.9),n(0.7),n(0)]
+        let e=[n(0.5),n(0.9),n(0.7),n(2)]
         if(mil('J',19)) e[0]=e[0].add(0.1)
         if(gba('J',101).gte(486)) e[0]=e[0].add(0.3),e[1]=e[1].add(0.2)
+        if(mil('J',25)) e[0]=e[0].add(0.1),e[1]=e[1].add(0.2),e[2]=e[2].add(0.35),e[3]=e[3].add(1)
+        if(upg('I',116)) e[0]=e[0].add(0.2)
         let ef=[n(0),n(0),n(0),n(0)]
         ef[0]=player.J.maxar.max(10).slog().pow(e[0]).sub(1).div(100).max(0)
         if(gba('J',101).gte(486)) ef[0]=player.J.maxar.max(10).slog().mul(e[0]).sub(1).div(100).max(0)
         ef[1]=player.J.maxar.max(10).log(10).log(10).add(1).pow(e[1]).sub(1).div(100).max(0)
         ef[2]=player.J.maxar.max(10).slog().mul(e[2]).sub(1).div(400).max(0)
+        ef[3]=player.J.maxar.max(10).slog().mul(e[3]).sub(1).div(100).add(1)
         if(mil('J',19)) ef[0]=ef[0].mul(2) 
         if(mil('I',33)) ef[0]=ef[0].mul(1.2) 
         return ef
     },
+    prg(){
+        let e=n(3)
+        if(gba('J',102).gte(56)) e=e.add(1)
+        if(mil('J',24)) e=e.mul(bef('J',172))
+        let ef=player.J.arep.slog().sub(3).max(1).pow(e).div(100).add(1)//starts at eee10 AR,initially 1.01x
+        return ef
+    },
+    prdivinf(){
+        let ef=player.J.pr.max('1e308').log(10).sub(208).div(100).pow(1.5)
+        return ef
+    },
+    prdiv(){
+        let e=n(0.25)
+        if(mil('J',25)) e=e.div(bef('J',173))
+        if(player.J.pr.gte('1e308')) e=e.mul(tmp.J.prdivinf)
+        let ef=player.J.pr.max(1).log(10).add(1).pow(e)
+        return ef
+    },
+    pref(){
+        let e=[n(0.22)]
+        let ef=[n(0)]
+        if(gba('J',103).gte(4)) e[0]=e[0].add(0.08)
+        ef[0]=player.J.pr.max(1).log(10).div(5).add(1).pow(e[0]).max(0)
+        if(upg('I',116)) ef[0]=player.J.pr.max(1).log(10).add(1).pow(e[0]).max(0)
+        return ef
+    },
     repdil(){
-        let e=n(1.5)
-        e=e.add(buyableEffect('J',165))
-        if(mil('I',31)) e=e.add(buyableEffect('J',82))
-        if(gba('J',102).gte(17)) e=e.add(buyableEffect('J',83))
-        let ef=n(1)
-        ef=player.J.maxar.max(1).log(10).div(4000).add(1).log(2).max(1).pow(e)
-        if(mil('I',32)) ef=ef.pow(2)
+        let e=[n(1.5),n(0.9)]
+        e[0]=e[0].add(bef('J',165))
+        if(mil('I',31)) e[0]=e[0].add(bef('J',82))
+        if(gba('J',102).gte(17)) e[0]=e[0].add(bef('J',83))
+        if(upg('I',13)) e[0]=e[0].pow(uef('I',13))
+        if(upg('I',42)) e[0]=e[0].pow(uef('I',42))//---
+        if(upg('I',33)) e[1]=e[1].add(uef('I',33))
+        if(upg('I',52)) e[1]=e[1].add(uef('I',52))
+        if(upg('I',63)) e[0]=e[0].mul(uef('I',63).add(1)),e[1]=e[1].add(uef('I',63))
+        if(mil('J',23)) e[0]=e[0].pow(1.1),e[1]=e[1].mul(1.1)     
+        if(mil('J',24)) e[0]=e[0].pow(tmp.J.pref[0]),e[1]=e[1].pow(tmp.J.pref[0])      
+        let ef=[n(1),n(1)]
+        ef[0]=player.J.maxar.max('e4000').log(10).div(4000).add(1).log(2).max(1).pow(e[0])
+        ef[1]=player.J.maxar.max('ee100').log(10).log(10).div(100).add(1).log(2).max(1).pow(e[1])
+        if(mil('I',32)) ef[0]=ef[0].pow(2)
         return ef
     },
     dilrepg(){
         let ef=tmp.J.repg[1]
-        if(player.J.maxar.gte('e4000')) ef=ef.pow(tmp.J.repdil)
+        let ief=n(1.005)
+        if(mil('I',36)) ief=ief.add(0.005)
+        if(player.J.maxar.gte('e4000')) ef=ef.pow(tmp.J.repdil[0])
+        if(player.J.maxar.gte('ee100')) ef=n(10).pow(ef.log(10).pow(tmp.J.repdil[1]))
+        if(mil('I',35))  ef=n(10).pow(ef.log(10).pow(n(ief).pow(player.I.upgrades.length)))
+        if(mil('I',34))  ef=ef.pow(tmp.J.repg[2])
+            else ef=ef.pow(tmp.J.repg[0].pow(-1))
         return ef
     },    
     slogs(){
         let ef=[n(0),n(0)]
-        ef[0]=ef[0].add(buyableEffect('J',15)).add(tmp.I.hief[5])
+        ef[0]=ef[0].add(bef('J',15)).add(tmp.I.hief[5])
         if(gba('J',102).gte(3)) ef[0]=ef[0].add(0.012)
         if(gba('J',101).gte(100)) ef[0]=ef[0].add(0.01),ef[1]=ef[1].add(0.01)
-        ef[1]=ef[1].add(buyableEffect('J',65)).add(tmp.I.hief[5])
+        ef[1]=ef[1].add(bef('J',65)).add(tmp.I.hief[5])
         if(gba('J',101).gte(225)) ef[0]=ef[0].add(tmp.J.repef[0]),ef[1]=ef[1].add(tmp.J.repef[0])
-        if(mil('J',18)) ef[0]=ef[0].add(buyableEffect('J',31)[1]),ef[1]=ef[1].add(buyableEffect('J',81)[1])
+        if(mil('J',18)) ef[0]=ef[0].add(bef('J',31)[1]),ef[1]=ef[1].add(bef('J',81)[1])
         if(gba('J',101).gte(330)) ef[0]=ef[0].add(0.01),ef[1]=ef[1].add(0.01)
-        if(mil('J',20)) ef[0]=ef[0].add(buyableEffect('J',14)[1]),ef[1]=ef[1].add(buyableEffect('J',64)[1])
+        if(mil('J',20)) ef[0]=ef[0].add(bef('J',14)[1]),ef[1]=ef[1].add(bef('J',64)[1])
+        if(gba('J',103).gte(2)) ef[0]=ef[0].add(bef('J',11)[1]),ef[1]=ef[1].add(bef('J',61)[1])
+        if(mil('I',37)) ef[0]=ef[0].add(bef('J',12)[1]),ef[1]=ef[1].add(bef('J',62)[1])
+        if(gba('J',103).gte(4)) ef[0]=ef[0].add(bef('J',13)[1]),ef[1]=ef[1].add(bef('J',63)[1])
         return ef
     },
     update(diff){
         if(player.J.best.gte(1)) player.J.bp=player.J.bp.add(tmp.J.bpg.pow(tmp.J.bppow).mul(diff))
         if(mil('J',11)) player.J.ss=player.J.ss.add(tmp.J.ssg.pow(tmp.J.sspow).mul(diff))
-        if(gba('J',101).gte(225)) player.J.arep=player.J.arep.mul(tmp.J.dilrepg.pow(tmp.J.repg[0].pow(-1)).pow(diff)),player.J.maxar=player.J.maxar.max(player.J.arep)
+        if(gba('J',101).gte(225)) player.J.arep=player.J.arep.mul(tmp.J.dilrepg.pow(diff)),player.J.maxar=player.J.maxar.max(player.J.arep)
+        if(mil('J',24)) player.J.pr=player.J.pr.mul(tmp.J.prg.pow(tmp.J.prdiv.pow(-1).mul(diff)))
     },
 })

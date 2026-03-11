@@ -806,10 +806,10 @@ addLayer("E", {
             },
             canAfford() { return player[this.layer].points.gte(this.cost()) },
             bulk() { 
-                let tar=n(tmp.E.bulk)
-                if (upg('F',35)) tar = player.E.points.add(10).div('1e72').log(9).sub(gba(this.layer, this.id)).ceil().max(1)
-                let c = this.cost(gba(this.layer, this.id).add(tar))
-                if (player[this.layer].points.gte(c)) setBuyableAmount(this.layer, this.id, gba(this.layer, this.id).add(tar))},
+                let t=n(tmp.E.bulk)
+                if(upg('F',35)) t=player.E.points.add(10).div('1e72').log(9).sub(gba(this.layer, this.id)).ceil().max(1)
+                let c=this.cost(gba(this.layer, this.id).add(t))
+                if (player[this.layer].points.gte(c)) setBuyableAmount(this.layer, this.id, gba(this.layer, this.id).add(t))},
             buy() { setBuyableAmount(this.layer, this.id, gba(this.layer, this.id).add(1))},
             //purchaseLimit() {return n('1e300')},
             base(){   let base = n(2)               
@@ -833,9 +833,10 @@ addLayer("E", {
             },
             canAfford() { return player[this.layer].points.gte(this.cost()) },
             bulk() { 
-                let tar=tmp.E.bulk
-                let c = this.cost(gba(this.layer, this.id).add(tar))
-                if (player[this.layer].points.gte(c)) setBuyableAmount(this.layer, this.id, gba(this.layer, this.id).add(tar))},
+                let t=n(tmp.E.bulk)
+                if(gcs('I',105)) t=player.E.points.add(10).div('1e72').log(5).pow(100/103).sub(gba(this.layer, this.id)).ceil().max(1)
+                let c=this.cost(gba(this.layer, this.id).add(t))
+                if (player[this.layer].points.gte(c)) setBuyableAmount(this.layer, this.id, gba(this.layer, this.id).add(t))},
             buy() { setBuyableAmount(this.layer, this.id, gba(this.layer, this.id).add(1))},
             base(){   let base = n(2)      
                 if (hasChallenge("E", 32))  base = base.add(challengeEffect('E',32)) 
@@ -855,14 +856,15 @@ addLayer("E", {
             title: "Eb7", 
             cost(x) {
                 let cost = n(1000).pow(x.pow(1.08)).times('1e74')
-                if (upg('E',93)) cost = n(1000).pow(x.pow(1.07)).times('1e71')
+                if(upg('E',93)) cost = n(1000).pow(x.pow(1.07)).times('1e71')
                 return cost
             },
             canAfford() { return player[this.layer].points.gte(this.cost()) },
             bulk() { 
-                let tar=tmp.E.bulk
-                let c = this.cost(gba(this.layer, this.id).add(tar))
-                if (player[this.layer].points.gte(c)) setBuyableAmount(this.layer, this.id, gba(this.layer, this.id).add(tar))},
+                let t=n(tmp.E.bulk)
+                if(gcs('I',105)) t=player.E.points.add(10).div('1e71').log(1000).pow(100/107).sub(gba(this.layer, this.id)).ceil().max(1)
+                let c=this.cost(gba(this.layer, this.id).add(t))
+                if (player[this.layer].points.gte(c)) setBuyableAmount(this.layer, this.id, gba(this.layer, this.id).add(t))},
             buy() { setBuyableAmount(this.layer, this.id, gba(this.layer, this.id).add(1))},
             base(){   let base = n(10)             
                 if (hasChallenge("E", 32))  base = base.add(challengeEffect('E',32))  

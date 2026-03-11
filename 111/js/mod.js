@@ -13,11 +13,13 @@ let modInfo = {
 
 // Set your version in num and name
 let VERSION = {
-	num: "0.7.4",
-	name: "replicanti",//tower-exponent,more about break infinity
+	num: "0.7.5",
+	name: "what about this year?",
 }
 
 let changelog = `<h2>Changelog:</h2><br>
+    <h4>v0.7.5 (260309)</h4>
+		 ...... E:F1e250. <br>
     <h4>v0.7.4 (250311)</h4>
 		- add anti-replicanti. E:F1e105. <br>
     <h4>v0.7.3 (250225)</h4>
@@ -110,29 +112,29 @@ function getPointGen() {
 		return n(0)
         
 	let a = n(1)
-	if(upg("A",11)) a=a.mul(upgradeEffect("A",11))
-	if(upg("A",15)) a=a.mul(upgradeEffect("A",15))
-	if(upg("A",24)) a=a.mul(upgradeEffect("A",24))
-	if(upg("A",35)) a=a.mul(upgradeEffect("A",35))
-	a = a.mul(upg("B",11)?upgradeEffect("B",11):1)
-	a = a.mul(upg("B",21)?upgradeEffect("B",21):1)
-	a = a.mul(upg("B",44)?upgradeEffect("B",44):1)
+	if(upg("A",11)) a=a.mul(uef("A",11))
+	if(upg("A",15)) a=a.mul(uef("A",15))
+	if(upg("A",24)) a=a.mul(uef("A",24))
+	if(upg("A",35)) a=a.mul(uef("A",35))
+	a = a.mul(upg("B",11)?uef("B",11):1)
+	a = a.mul(upg("B",21)?uef("B",21):1)
+	a = a.mul(upg("B",44)?uef("B",44):1)
 
-	a = a.mul(upg("C",11)?upgradeEffect("C",11):1)
-	a = a.mul(upg("C",13)?upgradeEffect("C",13):1)
-	a = a.mul(upg("D",11)?upgradeEffect("D",11):1)
-	a = a.mul(upg("D",15)?upgradeEffect("D",15):1)
-	a = a.mul(upg("D",21)?upgradeEffect("D",21):1)
-	a = a.mul(upg("D",24)?upgradeEffect("D",24):1)
-	a = a.mul(upg("D",32)?upgradeEffect("D",32):1)
-	a = a.mul(upg("E",11)?upgradeEffect("E",11):1)
-	a = a.mul(upg("E",12)?upgradeEffect("E",12):1)
-	a = a.mul(upg("E",22)?upgradeEffect("E",22):1)
-	a = a.mul(upg("C",33)?upgradeEffect("C",33):1)
-	a = a.mul(upg("D",43)?upgradeEffect("D",43):1)
-	a = a.mul(upg("E",85)?upgradeEffect("E",85):1)
-	a = a.mul(upg("E",104)?upgradeEffect("E",104):1)
-	a = a.mul(upg("F",11)?upgradeEffect("F",11):1)
+	a = a.mul(upg("C",11)?uef("C",11):1)
+	a = a.mul(upg("C",13)?uef("C",13):1)
+	a = a.mul(upg("D",11)?uef("D",11):1)
+	a = a.mul(upg("D",15)?uef("D",15):1)
+	a = a.mul(upg("D",21)?uef("D",21):1)
+	a = a.mul(upg("D",24)?uef("D",24):1)
+	a = a.mul(upg("D",32)?uef("D",32):1)
+	a = a.mul(upg("E",11)?uef("E",11):1)
+	a = a.mul(upg("E",12)?uef("E",12):1)
+	a = a.mul(upg("E",22)?uef("E",22):1)
+	a = a.mul(upg("C",33)?uef("C",33):1)
+	a = a.mul(upg("D",43)?uef("D",43):1)
+	a = a.mul(upg("E",85)?uef("E",85):1)
+	a = a.mul(upg("E",104)?uef("E",104):1)
+	a = a.mul(upg("F",11)?uef("F",11):1)
 
 	if (inChallenge("A", 11))  a = a.pow(0.75)
 	if (inChallenge("A", 21))  a = a.pow(0.55)
@@ -157,7 +159,7 @@ function getPointGen() {
 	if (upg("F", 65))  a = a.pow(1.006)
 	if (mil("I",0))  a = a.pow(1.01)
 	if (mil("I",1))  a = a.pow(1.02)
-	if (mil('I',3))  a = a.pow(buyableEffect('I',12))
+	if (mil('I',3))  a = a.pow(bef('I',12))
 	if(n(challengeCompletions('I',22)).gte(1))  a = a.pow(1.25)
 
 	if (hasChallenge("E", 21))  a = a.mul(challengeEffect('E',21))
@@ -175,9 +177,8 @@ function getPointGen() {
 	if(gcs('I',311)) {if(a.gte('10^^25')&&mil('I',21)) a=n(10).tetrate(a.max(10).slog().add(tet))
 		else if(a.gte('10^^10')&&gba('J',101).gte(23)) a=n(10).tetrate(a.max(10).slog().add(tet))
 		else a=n(10).tetrate(a.max(10).slog().sub(tmp.I.resv[0]).max(0))}
-	else{if(a.gte('10^^10'))  a=n(10).tetrate(a.max(10).slog().add(tet))}
-//
-	a=a.min(tmp.H.php)
+	else{if(a.gte('10^^10'))  a=n(10).tetrate(a.max(10).slog().add(tet).min(tmp.H.hcap))}
+
 	return a
 }
 
@@ -188,13 +189,13 @@ function addedPlayerData() { return {
 // Display extra things at the top of the page
 var displayThings = [
 	function() {
-		let s='current endgame:ee100 Anti-replicanti.<br> Too easy? Go to play NG-10(aast) by QqQe308!'
-		if(upg('G',155)||mil('I',0)) s=s+"<br><h4 style='color: #C52C14'>points gain is hardcapped at "+format(tmp.H.php)+"."
+		let s='current endgame:F1e250 points.<br> Too easy? Go to play NG-10(aast) by QqQe308!'
+		if(upg('G',155)||mil('I',0)) s=s+"<br><h4 style='color: #C52C14'>points gain is hardcapped at "+format(n(10).tetrate(tmp.H.hcap))+"."
 		return s},//<br> points is hardcapped at 1F100.
 ]
 // Determines when the game "ends"
 function isEndgame() {
-	return player.J.maxar.gte('ee100')//tmp.H.phpb.gte('1e42')
+	return player.points.gte('10^^1e250')//tmp.H.hcap.gte('1e42')
 }
 
 //<br> bilibili: @bili_50929957100
