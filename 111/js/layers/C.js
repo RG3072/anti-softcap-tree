@@ -34,9 +34,9 @@ addLayer("C", {
         mult = mult.mul(upg('D',31)?5:1)
         mult = mult.mul(mil("I", 0)?5:1)
 
-        mult = mult.mul(upg('A',61)?upgradeEffect('A',61):1)
-        mult = mult.mul(buyableEffect("E",13))
-        mult = mult.mul(upg("E",95)?upgradeEffect("E",95):1)
+        mult = mult.mul(upg('A',61)?uef('A',61):1)
+        mult = mult.mul(bef("E",13))
+        mult = mult.mul(upg("E",95)?uef("E",95):1)
 
         return mult
     },
@@ -108,11 +108,11 @@ addLayer("C", {
                 if (upg('C',31)) ef = ef.mul(1e7)
                 if (upg('C',41)) ef = ef.mul(1e32)
                 if (upg('C',42)) ef = ef.mul(1e80)
-                if (inChallenge('C',11))  ef = n(1)
+                if (inc('C',11))  ef = n(1)
                 if (upg('E',64)) exp=exp.add(0.1)
                 if (upg('E',72)) exp=exp.add(0.1)
                 if (upg('F',21)) exp=exp.add(0.4)
-                if (upg('E',61)) ef=ef.pow(n(buyableEffect("E",21).sub(1).mul(exp).add(1)))
+                if (upg('E',61)) ef=ef.pow(n(bef("E",21).sub(1).mul(exp).add(1)))
                 return ef;          
             },
             cost:n(1),
@@ -133,9 +133,7 @@ addLayer("C", {
                 let ef=n(0.5)
                 if (upg('C',23))  ef = ef.mul(1.3)
                 if (upg('C',24))  ef = ef.mul(1.2)
-                // if ()  ef = 0
-                // if ()  ef = 0
-                if(inChallenge('C',11)||inChallenge('E',11)) ef=n(0)
+                if(inc('C',11)||inc('E',11)) ef=n(0)
                 return player[this.layer].points.add(1).pow(ef);          
             },
             effectDisplay() { return format(this.effect())+"x" }, 
@@ -200,19 +198,19 @@ addLayer("C", {
                 return ef;          
             },
             unlocked() { return (upg('E', 64))},
-            effectDisplay() { return format(upgradeEffect(this.layer, this.id))+"x" }, 
+            effectDisplay() { return format(uef(this.layer, this.id))+"x" }, 
         },
         33: {
             title:'C13',
             description: "Eb1 amt boost pts.<br>(1.5^x).",
             cost:n('1e2835'),
             effect()  { 
-                let a=getBuyableAmount('E', 11)
+                let a=gba('E', 11)
                 let ef=n(1.5).pow(a)
                 return ef;          
             },
             unlocked() { return (upg(this.layer, 32))},
-            effectDisplay() { return format(upgradeEffect(this.layer, this.id))+"x" }, 
+            effectDisplay() { return format(uef(this.layer, this.id))+"x" }, 
         },
         34: {
             title:'C14',

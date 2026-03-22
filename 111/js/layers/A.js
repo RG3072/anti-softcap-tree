@@ -35,8 +35,8 @@ addLayer("A", {
         mult = mult.mul(hasChallenge("A", 22)?20:1)
         mult = mult.mul(hasChallenge("A", 31)?20:1)
         mult = mult.pow(hasChallenge("C", 12)?1.025:1)
-        mult = mult.mul(buyableEffect("B",11))
-        mult = mult.mul(buyableEffect("E",11))
+        mult = mult.mul(bef("B",11))
+        mult = mult.mul(bef("E",11))
         mult = mult.mul(mil("F",0)?10:1)
         mult = mult.mul(mil("I",0)?5:1)
         if(mil('G',14)) mult=mult.mul(player.points.max(1))
@@ -90,7 +90,7 @@ addLayer("A", {
                 if(upg("A",45)) ef=ef.mul(1000)
                 if(upg("A",51)) ef=ef.mul(4000)
                 if(upg("A",54)) ef=ef.mul(3e4)
-                ef=ef.pow(buyableEffect("B",22))
+                ef=ef.pow(bef("B",22))
                 return ef
             },
             cost:n(1),
@@ -121,9 +121,8 @@ addLayer("A", {
             effect()  {let ef=n(0.1)
                 if (upg('B', 32))  ef = ef.add(0.05)
                 if (upg('B', 35))  ef = ef.add(0.05)                
-                if (inChallenge("A", 12))  ef = ef.mul(0.25)
-                if (inChallenge("A", 22))  ef = n(0)
-                if (inChallenge("A", 31))  ef = n(0)
+                if (inc("A", 12))  ef = ef.mul(0.25)
+                if (inc("A", 22)||inc("A", 31))  ef = n(0)
                 return player.points.pow(ef).add(1);          
             },
             effectDisplay() { return format(this.effect())+"x" }, 
@@ -162,8 +161,8 @@ addLayer("A", {
                 if (upg('A',44)) ef = ef.pow(1.25)
                 if (upg('A',52)) ef = ef.pow(1.15)
 
-                if (inChallenge("A",12)) ef = ef.pow(0.25)
-                if (inChallenge("A",22)||inChallenge("A",31)) ef = n(1)
+                if (inc("A",12)) ef = ef.pow(0.25)
+                if (inc("A",22)||inc("A",31)) ef = n(1)
                 return ef;          
             },
             effectDisplay() { return format(this.effect())+"x" }, 
@@ -273,9 +272,9 @@ addLayer("A", {
         61: {
             title:'A26',
             description: "mult to C based on Bb1 eff.",
-            cost:n('1e1896'),
+            cost:n('1e1920'),//1896
             effect()  { 
-                let ef = buyableEffect('B',11).pow(0.02).times(buyableEffect('B',11).add(10).log(10).pow(1.5))
+                let ef = bef('B',11).pow(0.02).times(bef('B',11).add(10).log(10).pow(1.5))
                 return ef},
             effectDisplay() { return format(this.effect())+"x" }, 
             unlocked() { return (mil('B', 6))},
@@ -283,9 +282,9 @@ addLayer("A", {
         62: {
             title:'A27',
             description: "mult to B26 based on Bb1 eff.",
-            cost:n('1e2020'),
+            cost:n('1e2010'),//2020
             effect()  { 
-                let ef = buyableEffect('B',11).add(10).log(10).pow(1.2)
+                let ef = bef('B',11).add(10).log(10).pow(1.2)
                 return ef;},
             effectDisplay() { return format(this.effect())+"x" }, 
             unlocked() { return (upg(this.layer, 61))},
@@ -293,15 +292,15 @@ addLayer("A", {
         63: {
             title:'A28',
             description: "Bb5 x1.02.",
-            cost:n('1e2391'),
+            cost:n('1e2380'),//91
             unlocked() { return (upg(this.layer, 62))},
         },
         64: {
             title:'A29',
             description: "mult to D based on Bb1 eff.",
-            cost:n('1e2488'),
+            cost:n('1e2484'),//88
             effect()  { 
-                let ef = buyableEffect('B',11).pow(0.006).times(buyableEffect('B',11).add(10).log(10).pow(1.25))
+                let ef = bef('B',11).pow(0.006).times(bef('B',11).add(10).log(10).pow(1.25))
                 return ef;},
             effectDisplay() { return format(this.effect())+"x" }, 
             unlocked() { return (upg(this.layer, 63))},
@@ -309,7 +308,7 @@ addLayer("A", {
         65: {
             title:'A30',
             description: "nerf Bb1-5's cost scaling.",
-            cost:n('1e2541'),
+            cost:n('1e2536'),//41
             unlocked() { return (upg(this.layer, 64))},
         },
     },
@@ -375,18 +374,18 @@ addLayer("A", {
                 return "Bb3-5 are disabled <br> Completion: " +ccomp(this.layer,this.id) + "/5"},
             unlocked() { return (mil('B',4))},
             goal(){
-                let a=[n('e777'),n('e1325'),n('e1540'),n('e2024'),n('e2600'),n(0)]
-                return a[(challengeCompletions(this.layer,this.id))]
+                let a=[n('e777'),n('e1320'),n('e1520'),n('e2024'),n('e2600'),n(0)]
+                return a[(ccomp(this.layer,this.id))]
             },            
             goalDescription:  function() {return format(this.goal())+' points'},
             canComplete() {return player.points.gte(this.goal())},
             rewardDescription: "boost to pts base on Bb1-2.",
             rewardEffect() {
                 let b=ccomp("A", 41).pow(1.25)
-                let ef1 = n(buyableEffect('B',11)).pow(n(0.12).add(b.div(40)))
-                let ef2 = n(buyableEffect('B',12)).pow(n(0.12).add(b.div(40)))
+                let ef1 = n(bef('B',11)).pow(n(0.12).add(b.div(40)))
+                let ef2 = n(bef('B',12)).pow(n(0.12).add(b.div(40)))
                 let ef = ef1.mul(ef2)
-                if (upg('E',52)) ef=ef.pow(upgradeEffect('E',52))
+                if (upg('E',52)) ef=ef.pow(uef('E',52))
                 if (ccomp("A", 41).gte(1))  return ef
                 else return n(1)
             },

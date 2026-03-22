@@ -1059,9 +1059,29 @@ addLayer("ac", {
             done() {return player.J.pr.gte('1e1000')},
             tooltip: "get 1e1000 PR", 
         },
+        356: {
+            name: "210.that's the hardcap by b_e",
+            done() {return player.points.gte('10^^1e300')},
+            tooltip: "get F1e300 points<br>the mod is limited at F1.79e308.seems the game will end eternally......", 
+        },
+        361: {
+            name: "211.rep cannot be slogged",
+            done() {return player.J.arep.gte('eee10000')},
+            tooltip: "get ee1e1000 AR", 
+        },
+        362: {
+            name: "212.far from chals",
+            done() {return player.I.hi.gte('1e4')},
+            tooltip: "get 10000 harden I", 
+        },
+        363: {
+            name: "213.this'l go infinite",
+            done() {return player.J.best.gte('eee9')},
+            tooltip: "get ee1e9 J", 
+        },
     },
     tabFormat: ["blank", ["display-text", function() {
-        return "<h3 style='color: yellow;'>Achievements: " + player.ac.achievements.length + "/209 </h4>"
+        return "<h3 style='color: yellow;'>Achievements: " + player.ac.achievements.length + "/213 </h4>"
     }
     ], "blank", "blank", "achievements", ],
 },
@@ -1094,10 +1114,71 @@ addLayer("?", {
         },
         12: {
             title(){ let s='x0.5 speed'
-                if(gcs(this.layer,this.id)) s='Resume'
+                if(gcs(this.layer,this.id)) s=s+'<br><h4>active'
                 return s},
             style() { return {'background-color': gcs(this.layer,this.id)?"#rgb(38, 108, 123)":"#rgb(91, 122, 129)"}},
             canClick() {return !gcs('?',11)},
+            onClick() {
+                if(gcs(this.layer,this.id)) scs(this.layer,this.id,0)
+                else scs(this.layer,this.id,1)
+            },
+            unlocked() {return true},
+        },
+        13: {
+            title(){ let s='x1.5 speed'
+                if(gcs(this.layer,this.id)) s=s+'<br><h4>active'
+                return s},
+            style() { return {'background-color': gcs(this.layer,this.id)?"#rgb(38, 108, 123)":"#rgb(91, 122, 129)"}},
+            canClick() {return !gcs('?',11)},
+            onClick() {
+                if(gcs(this.layer,this.id)) scs(this.layer,this.id,0)
+                else scs(this.layer,this.id,1)
+            },
+            unlocked() {return true},
+        },
+        14: {
+            title(){ let s='x2 speed'
+                if(gcs(this.layer,this.id)) s=s+'<br><h4>active'
+                return s},
+            style() { return {'background-color': gcs(this.layer,this.id)?"#rgb(38, 108, 123)":"#rgb(91, 122, 129)"}},
+            canClick() {return !gcs('?',11)},
+            onClick() {
+                if(gcs(this.layer,this.id)) scs(this.layer,this.id,0)
+                else scs(this.layer,this.id,1)
+            },
+            unlocked() {return true},
+        },
+        15: {
+            title(){ let s='x3 speed'
+                if(gcs(this.layer,this.id)) s=s+'<br><h4>active'
+                return s},
+            style() { return {'background-color': gcs(this.layer,this.id)?"#rgb(38, 108, 123)":"#rgb(91, 122, 129)"}},
+            canClick() {return !gcs('?',11)},
+            onClick() {
+                if(gcs(this.layer,this.id)) scs(this.layer,this.id,0)
+                else scs(this.layer,this.id,1)
+            },
+            unlocked() {return true},
+        },
+        16: {
+            title(){ let s='x5 speed'
+                if(gcs(this.layer,this.id)) s=s+'<br><h4>active'
+                return s},
+            style() { return {'background-color': gcs(this.layer,this.id)?"#rgb(38, 108, 123)":"#rgb(91, 122, 129)"}},
+            canClick() {return !gcs('?',11)},
+            onClick() {
+                if(gcs(this.layer,this.id)) scs(this.layer,this.id,0)
+                else scs(this.layer,this.id,1)
+            },
+            unlocked() {return true},
+        },
+        21: {
+            title(){ let s='disable clickables<br><h4>you can change speed in the console'
+                if(gcs(this.layer,this.id)) s=s+'<br><h4>disabled'
+                    else s=s+'<br><h4>enabled'
+                return s},
+            style() { return {'background-color': gcs(this.layer,this.id)?"#rgb(38, 108, 123)":"#rgb(91, 122, 129)"}},
+            canClick() {return true},
             onClick() {
                 if(gcs(this.layer,this.id)) scs(this.layer,this.id,0)
                 else scs(this.layer,this.id,1)
@@ -1248,7 +1329,7 @@ addLayer("?", {
         },
         132: {
             title(){return "Gsi buyables<br>(4-6)"},
-            display(){ let s='ON'
+            display(){ let s='ON' 
                 if(gcs(this.layer,this.id)) s='OFF'
                 return s},
             style() { return {'background-color':"#FF00F1"}},
@@ -1259,7 +1340,7 @@ addLayer("?", {
                 if(gcs(this.layer,this.id)) scs(this.layer,this.id,0)
                     else scs(this.layer,this.id,1)
             },
-            unlocked() {return mil('G',34)},
+            unlocked() {return mil('G',18)},//34
         },
         133: {
             title(){return "Gse buyables<br>(7-12)"},
@@ -1409,13 +1490,51 @@ addLayer("?", {
             },
             unlocked() {return mil('I',2)},
         },
+        152: {
+            title(){return "BP/SS buyables"},
+            display(){ let s='ON'
+                if(gcs(this.layer,this.id)) s='OFF'
+                return s},
+            style() { return {'background-color':"#B2D0EF"}},
+            canClick() {return true},
+            onClick() {
+                player.I.auto3 = !player.I.auto3    
+                player.I.auto6 = !player.I.auto6  
+                player.J.auto1 = !player.J.auto1
+                player.J.auto2 = !player.J.auto2
+                player.J.auto4 = !player.J.auto4
+                player.J.auto5 = !player.J.auto5
+                player.J.auto6 = !player.J.auto6
+                player.J.auto7 = !player.J.auto7  
+                if(gcs(this.layer,this.id)) scs(this.layer,this.id,0)
+                    else scs(this.layer,this.id,1) 
+            },
+            unlocked() {return mil('I',13)},
+        },
+        153: {
+            title(){return "a-rep buyables"},
+            display(){ let s='ON'
+                if(gcs(this.layer,this.id)) s='OFF'
+                return s},
+            style() { return {'background-color':"rgb(56, 178, 117)"}},
+            canClick() {return true},
+            onClick() {
+                player.I.auto5 = !player.I.auto5  
+                if(gcs(this.layer,this.id)) scs(this.layer,this.id,0)
+                    else scs(this.layer,this.id,1) 
+            },
+            unlocked() {return gba('J',101).gte(225)},
+        },
     },
     tabFormat: {
         //["raw-html", () => `<h3 style="opacity:.5"Other things...<br></h4>`],"blank",
         "DevSpeed":{
             unlocked() {return true},
             content: [
-                ["clickables",[1]]]
+                ["display-text", function() { 
+                    let s="you can active last 4 clickables to get 45x speed.<br>"
+                    return s}],
+                ["clickables",[1,2]]]
         },
         "Automation":{
             unlocked() {return true},

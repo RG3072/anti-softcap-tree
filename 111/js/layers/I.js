@@ -123,9 +123,9 @@ addLayer("I", {
             done() {return player[this.layer].total.gte(40)}, 
             effectDescription: "edit QP formula:3^(resets)^0.9.",
         },
-        13: {requirementDescription: "x0.3 Ib9 effect(14",
+        13: {requirementDescription: "x0.3 Ib9 effect (14",
             done() {return n(bef('I',33)).pow(-1).gte(10/3)}, 
-            effectDescription: "unlock a layer to break infinity.",//(coming soon)upgrade to 
+            effectDescription: "unlock a layer to break infinity.",
         },
         14: {requirementDescription: "90 total I (15",
             done() {return player[this.layer].total.gte(90)}, 
@@ -224,11 +224,15 @@ addLayer("I", {
         },
         36: {requirementDescription: "1e1430000 total I (37",
             done() {return player[this.layer].total.gte('e1.43e6')}, //2333333
-            effectDescription: "get 100% I on reset.",//ar5 +0.01 and mil36 +0.005.
+            effectDescription: "get 100% I on reset and mil36 +0.005.",//ar5 +0.01.
         },
         37: {requirementDescription: "3080 harden I (38",
             done() {return player.I.hi.gte(3080)}, 
             effectDescription: "cl+ give HI inatantly and remove options(also disables entering).bp2/ss2 get slog effect.",
+        },
+        38: {requirementDescription: "6500 harden I (39",
+            done() {return player.I.hi.gte(6500)}, //7000
+            effectDescription: "unlock more upgs,pr2 +0.01",
         },
     },
     m10ef(){
@@ -240,9 +244,6 @@ addLayer("I", {
 	softcapPower(){return n(1)},
     microtabs: {
         stuff: {       
-            // "Upgrades": {
-            //     unlocked() {return true},
-            //     content: [ "upgrades"]}, 
             "Milestones": {
                 unlocked() {return true},
                 content: ["milestones"]},
@@ -307,8 +308,6 @@ addLayer("I", {
                 content: [["display-text", function() { 
                     let s="You have <h3 style='color: #5FFF9B'>" + format(player.I.qolpoints) + "</h3> Qol points "+ "<h4>" + format(tmp.I.qb) + " Qol points/s <h4>"
                     s=s+"<br><h4>QP gain formula(without boosts):4^(total I)^0.85"
-                    // s=s+"<br><h4 style='color: #C52C14'>QP prod is halted after 1e4 sec reset time."                  //removed at v0.7.2
-                    // if(player.I.time.gte(1e4)) s=s+"<br><h4 style='color: #C52C14'>QP prod is currently halted."
                     return s}]
                 ,["clickables",[1,2,3,4,5,6,7,8,10,11,12,13]]]
             },
@@ -1320,6 +1319,7 @@ addLayer("I", {
             },
             effectDisplay() { return '^'+format(this.effect(),3) },
         },
+        
         21: {
             title:'2,1',
             description: function() {return 'HI 2nd eff boost bp/ssb+ eff amt exp'},            
@@ -1397,6 +1397,7 @@ addLayer("I", {
             currencyInternalName: "qolpoints",
             effect()  { 
                 let ef=n(tmp.I.hief[2]).add(1).pow(0.18).div(150)
+                if(gba('J',102).gte(78)) ef=n(tmp.I.hief[2]).add(1).pow(0.2).div(100)
                 return ef;
             },
             effectDisplay() { return '+'+format(this.effect(),3) },
@@ -1432,7 +1433,7 @@ addLayer("I", {
         43: {
             title:'4,3',
             description: function() {return '4,2 eff boost ar5 exp'},            
-            cost:n('eee2.1e13'),//2.52，before some sc
+            cost:n('eee1.9e13'),//2.52，before some sc
             unlocked() {return mil('I',34)},
             currencyLocation() {return player.J}, 
             currencyDisplayName: "BP",
@@ -1527,6 +1528,27 @@ addLayer("I", {
             },
             effectDisplay() { return '+'+format(this.effect(),3) },
         },
+        14: {
+            title:'1,4',
+            description: function() {return '1,3 eff boost PR d base<br>Need:2 BP slog eff'},    
+            canAfford() {return tmp.J.slogs[0].gte(2)},
+            cost:n('ee240'),
+            unlocked() {return mil('I',38)},
+        }, 
+        24: {
+            title:'2,4',
+            description: function() {return '2,1 eff boost pr1 base<br>Need:1e11000 PR'},    
+            canAfford() {return player.J.pr.gte('e11000')},
+            cost:n('ee390'),
+            unlocked() {return mil('I',38)},
+        },
+        34: {
+            title:'3,4',
+            description: function() {return '3,2 eff mult AR 2nd base<br>Need:1e16000 PR'},    
+            canAfford() {return player.J.pr.gte('e16000')},
+            cost:n('ee100'),
+            unlocked() {return mil('I',38)},
+        },       
         111: {
             title:'s11',
             description: function() {return 'boost bp1 slog eff'},            
@@ -2047,12 +2069,12 @@ addLayer("I", {
         ef=ef.mul(bef('J',21))
         if(player.I.hi.gte(1)) ef=ef.pow(tmp.I.hief[0])
         if(gba('J',101).gte(225)) ef=ef.pow(bef('I',11)[1])
-        //if(upg('I',11)) ef=n(10).pow(ef.add(10).log(10).pow(tmp.I.hiextraef[0][0]))
         if(upg('I',11)) ef=n(10).pow(ef.add(10).log(10).pow(uef('I',11)))
         if(gba('J',211).gte(2)) ef=n(10).tetrate(ef.max(10).slog().add(tmp.J.repef[2]))
         return ef
     },
     resv(){
+        if(mil('I',26)) return [n(0),n(0),n(0),n(0),n(0)]
         let ef=[n(0),n(0),n(0),n(0),n(0)]
         let e=[n(1.05),n(0.8),n(0.75),n(0.55),n(1.1)]
         let m=[n(0.2),n(0.1),n(0.07),n(2),n(2)]
@@ -2148,18 +2170,23 @@ addLayer("I", {
     },
     devSpeedCal() {
 	    let dev=n(1)
-        if(gcs('?',11)) dev=n(0)
-        if(gcs('?',12)&&!gcs('?',11)) dev=dev.div(2)
+        if(gcs('?',11)) return n(0)
+            else {if(gcs('?',12)) dev=dev.div(2)
+            if(gcs('?',13)) dev=dev.mul(1.5)
+            if(gcs('?',14)) dev=dev.mul(2)
+            if(gcs('?',15)) dev=dev.mul(3)
+            if(gcs('?',16)) dev=dev.mul(5)}
+
 	    return dev
 	},
     update(diff){
-        player.devSpeed=tmp.I.devSpeedCal
+        if(!gcs('?',21)) player.devSpeed=tmp.I.devSpeedCal
         player.I.time=player.I.time.add(diff)
         if(mil('I',16)) player.I.si=player.I.si.add(tmp.I.sig.mul(diff))
-        if(inChallenge('I',11)&&player.points.gte('ee30')) player.I.chalbest[0]=player.I.chalbest[0].min(player.I.time)
-        if(inChallenge('I',12)&&upg('G',55)) player.I.chalbest[1]=player.I.chalbest[1].min(player.I.time)
-        if(inChallenge('I',21)&&player.H.max.gte('17')) player.I.chalbest[2]=player.I.chalbest[2].min(player.I.time)
-        if(inChallenge('I',22)&&upg('G',155)) player.I.chalbest[3]=player.I.chalbest[3].min(player.I.time)
+        if(inc('I',11)&&player.points.gte('ee30')) player.I.chalbest[0]=player.I.chalbest[0].min(player.I.time)
+        if(inc('I',12)&&upg('G',55)) player.I.chalbest[1]=player.I.chalbest[1].min(player.I.time)
+        if(inc('I',21)&&player.H.max.gte('17')) player.I.chalbest[2]=player.I.chalbest[2].min(player.I.time)
+        if(inc('I',22)&&upg('G',155)) player.I.chalbest[3]=player.I.chalbest[3].min(player.I.time)
         if(mil('I',2)) player.I.qolpoints=player.I.qolpoints.add(tmp.I.qb.mul(diff))
         if(mil('I',37)) player.I.hi=tmp.I.hiposti37
     },

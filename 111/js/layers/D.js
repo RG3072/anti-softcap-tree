@@ -29,7 +29,7 @@ addLayer("D", {
         mult = mult.mul(upg(this.layer,13)?2:1)
         mult = mult.pow(upg(this.layer,22)?1.2:1)
         mult = mult.mul(upg('A',52)?2:1)
-        mult = mult.mul(upg('A',64)?upgradeEffect('A',64):1)
+        mult = mult.mul(upg('A',64)?uef('A',64):1)
         mult = mult.mul(buyableEffect("E",13))
         mult = mult.mul(mil("I", 0)?5:1)
 
@@ -154,7 +154,7 @@ addLayer("D", {
                 return ef;          
             },
             unlocked() { return (upg('A', 52))},
-            effectDisplay() { return format(upgradeEffect(this.layer, this.id))+"x" }, 
+            effectDisplay() { return format(uef(this.layer, this.id))+"x" }, 
         },
         22: {
             title:'D7',
@@ -177,7 +177,7 @@ addLayer("D", {
                 if (upg('D',34)) ef = ef.pow(2)
                 return ef.add(1);          
             },
-            effectDisplay() { return format(upgradeEffect(this.layer, this.id))+"x" }, 
+            effectDisplay() { return format(uef(this.layer, this.id))+"x" }, 
             unlocked() { return (upg(this.layer, 23))},
         },
         25: {
@@ -201,7 +201,7 @@ addLayer("D", {
                 if (upg('D',35)) ef = ef.pow(2)
                 return 1+ef;          
             },
-            effectDisplay() { return format(upgradeEffect(this.layer, this.id))+"x" }, 
+            effectDisplay() { return format(uef(this.layer, this.id))+"x" }, 
             unlocked() { return (upg(this.layer, 31))},
         },
         33: {
@@ -241,7 +241,7 @@ addLayer("D", {
                 return ef;          
             },
             unlocked() { return (upg('C', 32))},
-            effectDisplay() { return format(upgradeEffect(this.layer, this.id))+"x" }, 
+            effectDisplay() { return format(uef(this.layer, this.id))+"x" }, 
         },
         43: {
             title:'D18',
@@ -253,7 +253,7 @@ addLayer("D", {
                 return ef;          
             },
             unlocked() { return (upg('D', 42))},
-            effectDisplay() { return format(upgradeEffect(this.layer, this.id))+"x" }, 
+            effectDisplay() { return format(uef(this.layer, this.id))+"x" }, 
         },
         44: {
             title:'D19',

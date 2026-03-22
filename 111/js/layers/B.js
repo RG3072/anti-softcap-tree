@@ -1,7 +1,7 @@
 addLayer("B", {
     name: "B", 
     symbol: "B", 
-    position: 1, // Horizontal position within a row. By default it uses the layer id and sorts in alphabetical order
+    position: 1, 
     startData() { return {
         unlocked: false,
 		points: n(0),
@@ -27,29 +27,29 @@ addLayer("B", {
     layerShown(){return (upg('A',35)||player[this.layer].unlocked)},
     gainMult() { 
         mult = n(1)
-        mult = mult.mul(upg(this.layer,14)?2:1)
-        mult = mult.mul(upg(this.layer,15)?1.5:1)
-        mult = mult.mul(upg(this.layer,22)?2:1)
-        mult = mult.mul(upg(this.layer,24)?2:1)
-        mult = mult.mul(upg(this.layer,25)?2:1)
+        mult = mult.mul(upg('B',14)?2:1)
+        mult = mult.mul(upg('B',15)?1.5:1)
+        mult = mult.mul(upg('B',22)?2:1)
+        mult = mult.mul(upg('B',24)?2:1)
+        mult = mult.mul(upg('B',25)?2:1)
         mult = mult.mul(upg('C',25)?50:1)
         mult = mult.pow(hasChallenge("A", 11)?1.1:1)
         mult = mult.mul(hasChallenge("A", 12)?10:1)
         mult = mult.mul(hasChallenge("A", 22)?10:1)
-        mult = mult.mul(buyableEffect("B",12))
+        mult = mult.mul(bef('B',12))
         mult = mult.mul(upg("B", 41)?15:1)
         mult = mult.mul(upg("B", 51)?20:1)
         mult = mult.mul(upg("B", 53)?30:1)
-        mult = mult.mul(upg("B", 61)?upgradeEffect('B',61):1)
+        mult = mult.mul(upg("B", 61)?uef('B',61):1)
         mult = mult.mul(mil("B", 6)?100:1)
         mult = mult.mul(mil("B", 7)?1e5:1)
-        mult = mult.mul(buyableEffect("E",12))
-        mult = mult.mul(upg("E", 82)?upgradeEffect('E',82):1)        
-        mult = mult.mul(upg("E",92)?upgradeEffect("E",92):1)
+        mult = mult.mul(bef("E",12))
+        mult = mult.mul(upg("E", 82)?uef('E',82):1)        
+        mult = mult.mul(upg("E",92)?uef("E",92):1)
         mult = mult.mul(mil("F", 0)?10:1)
         mult = mult.mul(mil("I", 0)?5:1)
         mult = mult.pow(upg("E", 65)?1.004:1)
-        if (inChallenge('F',11)) mult=mult.pow(0.25)
+        if (inc('F',11)) mult=mult.pow(0.25)
         return mult
     },
     softcap(){return n(Infinity)},
@@ -117,8 +117,8 @@ addLayer("B", {
             done() {return player[this.layer].total.gte('1.79e308')}, 
             effectDescription: "100x C/D passive.",
         },
-        6: {requirementDescription: "1e658 total B (7",
-            done() {return player[this.layer].total.gte('1e658')}, 
+        6: {requirementDescription: "1e650 total B (7",
+            done() {return player[this.layer].total.gte('1e650')}, //658
             effectDescription: "x100 B,unlock a upg.",
         },
         7: {requirementDescription: "1e1700 total B (8",
@@ -147,7 +147,7 @@ addLayer("B", {
                 if (upg('B',64)) ef = ef.mul(5e4)
                 if (upg('B',72)) ef = ef.mul(5e4)
                 if (upg('B',81)) ef = ef.mul(1e5)
-                ef=ef.pow(buyableEffect("B",21))
+                ef=ef.pow(bef("B",21))
                 return ef;          
             },
             cost:n(1),
@@ -266,7 +266,7 @@ addLayer("B", {
             description: "mult to pts based on Bb1 eff.",
             cost:n('3e46'),
             effect()  { 
-                let b=n(buyableEffect('B',11))
+                let b=n(bef('B',11))
                 let ef = b.pow(0.2).times(b.add(1).log(10).pow(2))
                 if (upg('B',55)) ef=ef.pow(1.25)
                 return ef;          
@@ -291,7 +291,7 @@ addLayer("B", {
             description: "mult to pts based on Bb2 eff.",
             cost:n('5e55'),
             effect()  { 
-                let ef = buyableEffect('B',12).pow(0.25).times(buyableEffect('B',11).add(1).log(10).pow(2))
+                let ef = bef('B',12).pow(0.25).times(bef('B',11).add(1).log(10).pow(2))
                 if (upg('B',55)) ef=ef.pow(1.25)
                 return ef;          
             },
@@ -321,12 +321,12 @@ addLayer("B", {
             description: "lg pts mult B.",
             cost:n('1e70'),
             effect()  { 
-                let ef=player.points.add(10).log(10)
+                let ef=player.points.max(10).log(10)
                 if (upg('A',53)) ef=ef.mul(10)
                 if (upg('B',63)) ef=ef.pow(1.15)
                 if (upg('B',64)) ef=ef.pow(1.15)
                 if (upg('B',74)) ef=ef.pow(1.3)
-                if (upg('A',62)) ef=ef.mul(upgradeEffect('A',62))
+                if (upg('A',62)) ef=ef.mul(uef('A',62))
                 if (upg('E',31)) ef=ef.pow(1.1)
                 if (mil('E',8)) ef=ef.pow(1.05)
                 if (mil('E',10)) ef=ef.pow(1.05)
@@ -388,30 +388,30 @@ addLayer("B", {
         75: {
             title:'B35',
             description: "Bb5 is cheaper.",
-            cost:n('1e585'),
+            cost:n('1e635'),//e585 in v0.7.6 this is after ac7x4
             unlocked() { return (upg(this.layer, 74))},
         },
         81: {
             title:'B36',
             description: "x1e5 pts.",
-            cost:n('1e1058'),
+            cost:n('1e1050'),//58
             unlocked() { return (upg('A', 65))},
         },
         82: {
             title:'B37',
             description: "Bb1-2 is cheaper.",
-            cost:n('1e1185'),
+            cost:n('1e1182'),
             unlocked() { return (upg(this.layer, 81))},
         },
     },
     automate(){
-        if (player.B.auto) {  buyBuyable("B",11),buyBuyable("B",12),buyBuyable("B",21)
-            ,buyBuyable("B",22),buyBuyable("B",23) }
+        if (player.B.auto) buyBuyable("B",11),buyBuyable("B",12),buyBuyable("B",21),buyBuyable("B",22),buyBuyable("B",23)
     },
     buyables:{
         11: {
             title: "Bb1", 
             cost(x) { 
+                if(gcs('I',105)) return n(3).pow(x.pow(1.03))
                 let cp=n(1.027)
                 let cost = n(4).pow(x.pow(1.035)).times('1e38')
                 if (upg('B',43)) cost = n(3.8).pow(x.pow(1.03)).times('1e37')
@@ -424,36 +424,35 @@ addLayer("B", {
                 if (x.gte(sc2)) cp =cp.add(x.sub(sc2).div(sc2).div(80))
                 if (upg('F',35)) cost = n(3.6).pow(x.pow(cp))
                 let t=tmp.B.scad
-                if (mil('B',1)) cost = cost.div(upgradeEffect('B',61))
+                if (mil('B',1)) cost = cost.div(uef('B',61))
                 if (x.gte(sc)) cost =cost.pow(x.sub(sc).div(t).add(1).pow(scpow))
                 if (upg('E',43)) cost = cost.pow(0.992)
                 if (upg('E',73)) cost = cost.pow(0.99)
                 if (hasChallenge('E',31)) cost = cost.pow(challengeEffect('E',31))
-                if(gcs('I',105)) cost=n(3).pow(x.pow(1.03))
                 return cost
             },
             canAfford() { return player[this.layer].points.gte(this.cost()) },
             bulk() { 
-                let tar=tmp.B.bulk//tar.min()
-                if(gcs('I',105)) tar=player.B.points.add(10).log(3).pow(100/103).sub(1).sub(gba(this.layer, this.id)).ceil().max(0)
-                let c = this.cost(gba(this.layer, this.id).add(tar))
-                if (player[this.layer].points.gte(c)&&player.B.auto) player.B.buyables[this.id] = player.B.buyables[this.id].add(tar)},
+                let t=tmp.B.bulk
+                if(gcs('I',105)) t=player.B.points.add(10).log(3).pow(100/103).sub(1).sub(gba(this.layer, this.id)).ceil().max(0)
+                let c=this.cost(gba(this.layer, this.id).add(t))
+                if(player[this.layer].points.gte(c)&&player.B.auto) sba(this.layer,this.id,gba(this.layer,this.id).add(t))},
             buy() {
                 if (!mil('B',0)) player[this.layer].points = player[this.layer].points.sub(this.cost())
-                setBuyableAmount(this.layer, this.id, gba(this.layer, this.id).add(1))},
+                sba(this.layer, this.id, gba(this.layer, this.id).add(1))},
             base(){   let b = n(3)
                 if (upg('B',54)) b = b.add(0.05)
                 if (upg('B',71)) b = b.add(0.05)
                 if (upg('B',73)) b = b.mul(1.02)
-                if (mil('B',3)) b = b.add(buyableEffect('B',23))
-                if (upg('F',65)) b = b.pow(upgradeEffect('F',65))
-                if (upg('G',25)) b = b.mul(upgradeEffect('G',25))
-                if (inChallenge('E',12)) b = n(2)
-                if (inChallenge('E',31)) b = n(1.2)
+                if (mil('B',3)) b = b.add(bef('B',23))
+                if (upg('F',65)) b = b.pow(uef('F',65))
+                if (upg('G',25)) b = b.mul(uef('G',25))
+                if (inc('E',12)) b = n(2)
+                if (inc('E',31)) b = n(1.2)
                 return b},
             effect(x) { 
                 let ef = this.base().pow(x.pow(1.01))
-                if (inChallenge('A',32)) ef=ef.pow(0.5)
+                if (inc('A',32)) ef=ef.pow(0.5)
                 return ef},
             display() { 
                 return "give A a x"+ format(this.base()) + " mult \n\
@@ -465,6 +464,7 @@ addLayer("B", {
         12: {
             title: "Bb2", 
             cost(x) { 
+                if(gcs('I',105)) return n(8).pow(x.pow(1.03))
                 let cp=n(1.04)
                 let cost = n(10).pow(x.pow(1.045)).times('1e40')
                 if (upg('B',43)) cost = n(9).pow(x.pow(1.041)).times('1e39')
@@ -476,35 +476,33 @@ addLayer("B", {
                 if (x.gte(sc2)) cp =cp.add(x.sub(sc2).div(sc2).div(60))
                 if (upg('F',35)) cost = n(8).pow(x.pow(cp))               
                 let t=tmp.B.scad
-                if (mil('B',1)) cost = cost.div(upgradeEffect('B',61))
-
+                if (mil('B',1)) cost = cost.div(uef('B',61))
                 if (x.gte(sc)) cost =cost.pow(x.sub(sc).div(t).add(1).pow(scpow))
                 if (upg('E',43)) cost = cost.pow(0.992)
                 if (upg('E',73)) cost = cost.pow(0.99)
                 if (hasChallenge('E',31)) cost = cost.pow( challengeEffect('E',31))
-                if(gcs('I',105)) cost=n(8).pow(x.pow(1.03))
                 return cost
             },
             canAfford() { return player[this.layer].points.gte(this.cost()) },
             bulk() { 
-                let tar=tmp.B.bulk
-                if(gcs('I',105)) tar=player.B.points.add(10).log(8).pow(100/103).sub(1).sub(gba(this.layer, this.id)).ceil().max(0)
-                let c = this.cost(gba(this.layer, this.id).add(tar))
-                if (player[this.layer].points.gte(c)&&player.B.auto) player.B.buyables[this.id] = player.B.buyables[this.id].add(tar)},
+                let t=tmp.B.bulk
+                if(gcs('I',105)) t=player.B.points.add(10).log(8).pow(100/103).sub(1).sub(gba(this.layer, this.id)).ceil().max(0)
+                let c=this.cost(gba(this.layer, this.id).add(t))
+                if(player[this.layer].points.gte(c)&&player.B.auto) sba(this.layer,this.id,gba(this.layer,this.id).add(t))},
             buy() {
                 if (!mil('B',0)) player[this.layer].points = player[this.layer].points.sub(this.cost())
-                setBuyableAmount(this.layer, this.id, gba(this.layer, this.id).add(1))},
+                sba(this.layer, this.id, gba(this.layer, this.id).add(1))},
             base(){   let b = n(2)
                 if (upg('B',71)) b = b.add(0.05)
-                if (mil('B',3)) b = b.add(buyableEffect('B',23))
-                if (upg('F',65)) b = b.pow(upgradeEffect('F',65))
-                if (upg('G',25)) b = b.mul(upgradeEffect('G',25))
-                if (inChallenge('E',12)) b = n(2)
-                if (inChallenge('E',31)) b = n(1.2)
+                if (mil('B',3)) b = b.add(bef('B',23))
+                if (upg('F',65)) b = b.pow(uef('F',65))
+                if (upg('G',25)) b = b.mul(uef('G',25))
+                if (inc('E',12)) b = n(2)
+                if (inc('E',31)) b = n(1.2)
                 return b},
             effect(x) { 
                 let ef = this.base().pow(x.pow(1.006))
-                if (inChallenge('A',32)) ef=ef.pow(0.5)
+                if (inc('A',32)) ef=ef.pow(0.5)
                 return ef},
             display() { 
                 return "give B a x" + format(this.base()) + " mult \n\
@@ -516,41 +514,38 @@ addLayer("B", {
         21: {
             title: "Bb3", 
             cost(x) { 
+                if(gcs('I',105)) return n(8).pow(x.pow(1.06))
                 let cost = n(10).pow(x.pow(1.07)).times('1e41')
                 if (upg('B',65))  cost = n(10).pow(x.pow(1.065)).times('1e40')
                 let sc=n(400)
-                if (inChallenge('E',42)) sc=sc.sub(300)                
+                if (inc('E',42)) sc=sc.sub(300)                
                 let sc2=tmp.B.sc2
                 let scpow=tmp.B.scpow
                 let cp=n(1.065)
                 if (x.gte(sc2)) cp =cp.add(x.sub(sc2).div(sc2).div(40))
                 if (upg('F',35))  cost = n(10).pow(x.pow(cp))
                 let t=tmp.B.scad
-                if (mil('B',1)) cost = cost.div(upgradeEffect('B',61))
-
+                if (mil('B',1)) cost = cost.div(uef('B',61))
                 if (x.gte(sc)) cost =cost.pow(x.sub(sc).div(t).add(1).pow(scpow))
-                if (hasChallenge('E',31)) cost = cost.pow( challengeEffect('E',31))
-                if(gcs('I',105)) cost=n(8).pow(x.pow(1.06))
+                if (hasChallenge('E',31)) cost = cost.pow(challengeEffect('E',31))
                 return cost
             },
             canAfford() { return player[this.layer].points.gte(this.cost()) },
             bulk() { 
-                let tar=tmp.B.bulk
+                let t=tmp.B.bulk
                 if(gcs('I',105)) tar=player.B.points.add(10).log(8).pow(100/106).sub(1).sub(gba(this.layer, this.id)).ceil().max(0)
-                let c = this.cost(gba(this.layer, this.id).add(tar))
-                if (player[this.layer].points.gte(c)&&player.B.auto) player.B.buyables[this.id] = player.B.buyables[this.id].add(tar)},
+                let c=this.cost(gba(this.layer, this.id).add(t))
+                if(player[this.layer].points.gte(c)&&player.B.auto) sba(this.layer,this.id,gba(this.layer,this.id).add(t))},
             buy() {
-                if (!mil('B',0)) player[this.layer].points = player[this.layer].points.sub(this.cost())
-                setBuyableAmount(this.layer, this.id, gba(this.layer, this.id).add(1))},
+                if (!mil('B',0)) player[this.layer].points=player[this.layer].points.sub(this.cost())
+                sba(this.layer, this.id, gba(this.layer, this.id).add(1))},
             effect(x) { 
                 let ef = x.div(1.3).add(1).pow(0.6).div(6).add(0.8333)
                 if(upg('B',51)) ef = x.div(1.25).add(1).pow(0.6).div(4.5).add(0.777)
                 if(upg('A',55)) ef = x.div(1.23).add(1).pow(0.6).div(4).add(0.75)
                 if(ch('F',11)) ef=ef.mul(cef('F',11).div(100).add(1))
                 if(upg('F',35)) ef = ef.sub(1).mul(1.05).add(1)
-                if(inc('A',41)) ef=n(1)
-                if(inc('E',31)) ef=n(1)
-                if(inc('E',42)) ef=n(1)
+                if(inc('A',41)||inc('E',31)||inc('E',42)) ef=n(1)
                 return ef},
             display() { 
                 return "boost to B's pts mult(exp) \n\
@@ -562,9 +557,10 @@ addLayer("B", {
         22: {
             title: "Bb4", 
             cost(x) { 
+                if(gcs('I',105)) return n(10).pow(x.pow(1.07))
                 let cost = n(16).pow(x.pow(1.07)).times('1e49')
                 let sc=n(400)
-                if (inChallenge('E',42)) sc=sc.sub(300)
+                if (inc('E',42)) sc=sc.sub(300)
                 let sc2=tmp.B.sc2
                 let scpow=tmp.B.scpow
                 let cp=n(1.07)
@@ -574,28 +570,24 @@ addLayer("B", {
                 if (upg('F',35))  cost = n(16).pow(x.pow(cp))
                 if (mil('B',1)) cost = cost.div(uef('B',61))
                 if (x.gte(sc)) cost =cost.pow(x.sub(sc).div(t).add(1).pow(scpow))
-
                 if (hasChallenge('E',31)) cost = cost.pow(cef('E',31))
-                if(gcs('I',105)) cost=n(10).pow(x.pow(1.07))
                 return cost
             },
             canAfford() { return player[this.layer].points.gte(this.cost()) },
             bulk() { 
-                let tar=tmp.B.bulk
+                let t=tmp.B.bulk
                 if(gcs('I',105)) tar=player.B.points.add(10).log(10).pow(100/107).sub(1).sub(gba(this.layer, this.id)).ceil().max(0)
-                let c = this.cost(gba(this.layer, this.id).add(tar))
-                if (player[this.layer].points.gte(c)&&player.B.auto) player.B.buyables[this.id] = player.B.buyables[this.id].add(tar)},
+                let c=this.cost(gba(this.layer, this.id).add(t))
+                if(player[this.layer].points.gte(c)&&player.B.auto) sba(this.layer,this.id,gba(this.layer,this.id).add(t))},
             buy() {
                 if (!mil('B',0)) player[this.layer].points = player[this.layer].points.sub(this.cost())
-                setBuyableAmount(this.layer, this.id, gba(this.layer, this.id).add(1))},
+                sba(this.layer, this.id, gba(this.layer, this.id).add(1))},
             effect(x) { 
                 let ef = x.div(1.3).add(1).pow(0.7).div(6).add(0.8333)
                 if (upg('A',55)) ef= x.div(1.26).add(1).pow(0.7).div(5).add(0.8)
                 if (hasChallenge('F',11)) ef=ef.mul(challengeEffect('F',11).div(100).add(1))
                 if (upg('F',35)) ef = ef.sub(1).mul(1.05).add(1)
-                if(inChallenge('A',41)) ef=n(1)
-                if (inChallenge('E',31)) ef=n(1)
-                if (inChallenge('E',42)) ef=n(1)
+                if(inc('A',41)||inc('E',31)||inc('E',42)) ef=n(1)
                 return ef},
             display() { 
                 return "boost to A's pts mult(exp) \n\
@@ -607,9 +599,10 @@ addLayer("B", {
         23: {
             title: "Bb5", 
             cost(x) { 
+                if(gcs('I',105)) return n(10).pow(x.pow(1.2))
                 let cost = n(1234).pow(x.pow(1.2)).times('1e140')
                 let sc=n(400)
-                if (inChallenge('E',42)) sc=sc.sub(300)
+                if (inc('E',42)) sc=sc.sub(300)
                 let sc2=tmp.B.sc2
                 let scpow=tmp.B.scpow
                 let cp=n(1.2)
@@ -621,33 +614,32 @@ addLayer("B", {
                 if (x.gte(sc)) cost =cost.pow(x.sub(sc).div(t).add(1).pow(scpow))
                 if (upg('D',44)) cost = cost.pow(0.98)
                 if (hasChallenge('E',31)) cost = cost.pow( challengeEffect('E',31))
-                if(gcs('I',105)) cost=n(10).pow(x.pow(1.2))
                 return cost
             },
             canAfford() { return player[this.layer].points.gte(this.cost()) },
             bulk() { 
-                let tar=tmp.B.bulk
-                if(gcs('I',105)) tar=player.B.points.add(10).log(10).pow(5/6).sub(1).sub(gba(this.layer, this.id)).ceil().max(0)
-                let c = this.cost(gba(this.layer, this.id).add(tar))
-                if (player[this.layer].points.gte(c)&&player.B.auto) player.B.buyables[this.id] = player.B.buyables[this.id].add(tar)},
+                let t=tmp.B.bulk
+                if(gcs('I',105)) t=player.B.points.add(10).log(10).pow(5/6).sub(1).sub(gba(this.layer, this.id)).ceil().max(0)
+                let c=this.cost(gba(this.layer, this.id).add(t))
+                if (player[this.layer].points.gte(c)&&player.B.auto) sba(this.layer,this.id,gba(this.layer,this.id).add(t))},
             buy() {
                 if (!mil('B',0)) player[this.layer].points = player[this.layer].points.sub(this.cost())
-                setBuyableAmount(this.layer, this.id, gba(this.layer, this.id).add(1))},
+                sba(this.layer, this.id, gba(this.layer, this.id).add(1))},
             effect(x) { 
                 let ef = x.div(40).add(1).pow(0.7).sub(1)
-                if (inChallenge('A',41)) ef = n(0)
+                if (inc('A',41)) ef = n(0)
                 if (upg('A',63)) ef = ef.mul(1.02)
                 if (upg('E',34)) ef = ef.mul(1.02)
                 if (upg('E',45)) ef = ef.mul(1.02)
                 if (upg('E',53)) ef = ef.mul(1.03)
                 if (mil('F',7)) ef = ef.mul(1.025)
                 if (hasChallenge('F',11)) ef = ef.mul(n(1).add(challengeEffect('F',11).div(100)))
-                if (upg('F',33)) ef = ef.mul(n(1).add(upgradeEffect('F',33).div(100)))
+                if (upg('F',33)) ef = ef.mul(n(1).add(uef('F',33).div(100)))
                 if (upg('F',41)) ef = ef.mul(1.03)
-                ef=ef.mul(buyableEffect('G',13))
+                ef=ef.mul(bef('G',13))
                 if (upg('G',23)) ef = ef.mul(tmp.E.ekf2)
-                if (inChallenge('E',41)) ef = ef.mul(0.4)
-                if (inChallenge('E',42)) ef = n(0)
+                if (inc('E',41)) ef = ef.mul(0.4)
+                if (inc('E',42)) ef = n(0)
                 return ef},
             display() { 
                 return "boost Bb1-2 base \n\
@@ -671,33 +663,33 @@ addLayer("B", {
         if (mil('F',17)) tar=tar.mul(n(5).mul(player.G.total.add(10).log(10)))
         return tar 
     },
-    scaling(){
+    scaling(){if(upg('G',15)) return n(Infinity)
         let sc=n(400)
-        if (mil('E',15)) sc=sc.add(100)
-        if (inChallenge('E',42)) sc=sc.sub(300)
-        if (!upg('G',32)) sc=sc.add(tmp.E.ekf.ceil())
-        sc = sc.add(upgradeEffect('F',31).ceil())
-        if (upg('G',15))  sc=n(Infinity)
+        if(mil('E',15)) sc=sc.add(100)
+        if(inc('E',42)) sc=sc.sub(300)
+        if(!upg('G',32)) sc=sc.add(tmp.E.ekf.ceil())
+        sc=sc.add(uef('F',31).ceil())
         return sc
     },
-    scpow(){let ef=n(0.45)
-        if (upg('A',65)) ef=ef.sub(0.01)
-        if (upg('E',103)) ef=ef.sub(0.005)
-        if (upg('F',34)) ef=ef.sub(0.003)
-        if (upg('F',54)) ef=ef.sub(0.008)
-        if (upg('G',15))  ef=n(0)
+    scpow(){if(upg('G',15)) return n(0)
+        let ef=n(0.45)
+        if(upg('A',65)) ef=ef.sub(0.01)
+        if(upg('E',103)) ef=ef.sub(0.005)
+        if(upg('F',34)) ef=ef.sub(0.003)
+        if(upg('F',54)) ef=ef.sub(0.008)
         return ef
     },
-    scad(){let t=n(800)
-        if (upg('A',65)) t=t.add(150)
-        if (upg('E',103)) t=t.add(50)
+    scad(){if(upg('G',32)) return n(Infinity)
+        let t=n(800)
+        if(upg('A',65)) t=t.add(150)
+        if(upg('E',103)) t=t.add(50)
         return t
     },
-    sc2(){let sc=n(6e4).add(tmp.B.scaling)
-        if (upg('F',42)) sc=sc.add(1000)
-        if (upg('F',55)) sc=sc.add(2000)
-        if (upg('F',63)&&!upg('G',32)) sc=sc.add(tmp.E.ekf)
-        if (upg('G',32))  sc=n(Infinity)
+    sc2(){if(upg('G',32)) return n(Infinity)
+        let sc=n(6e4).add(tmp.B.scaling)
+        if(upg('F',42)) sc=sc.add(1000)
+        if(upg('F',55)) sc=sc.add(2000)
+        if(upg('F',63)&&!upg('G',32)) sc=sc.add(tmp.E.ekf)
         return sc
     }
 })

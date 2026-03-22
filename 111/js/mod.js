@@ -13,11 +13,15 @@ let modInfo = {
 
 // Set your version in num and name
 let VERSION = {
-	num: "0.7.5",
-	name: "what about this year?",
+	num: "0.7.6.1",
+	name: "all things dilated",//
 }
 
 let changelog = `<h2>Changelog:</h2><br>
+    <h4>v0.7.6.1 (260322)</h4>
+		- rebalance A-H(a save bank under construction...) <br>
+    <h4>v0.7.6 (260319)</h4>
+		- power rep and others powerful... E:F1e300,capped eternally. <br>
     <h4>v0.7.5 (260309)</h4>
 		 ...... E:F1e250. <br>
     <h4>v0.7.4 (250311)</h4>
@@ -136,23 +140,23 @@ function getPointGen() {
 	a = a.mul(upg("E",104)?uef("E",104):1)
 	a = a.mul(upg("F",11)?uef("F",11):1)
 
-	if (inChallenge("A", 11))  a = a.pow(0.75)
-	if (inChallenge("A", 21))  a = a.pow(0.55)
-	if (inChallenge("A", 31))  a = a.pow(0.5)
-	if (inChallenge("C", 11))  a = a.pow(0.45)
-	if (inChallenge("E", 22))  a = a.pow(player.points.add(10).log(10).pow(-0.06).max('1e-100'))
-	if (inChallenge("E", 32))  a = a.pow(player.E.Em.add(10).log(10).pow(-0.2).max('1e-100'))
-	if (inChallenge("E", 42))  a = a.pow(player.points.add(10).log(10).pow(-0.12).max('1e-100'))
-	if (inChallenge("F", 12))  a = n(10).pow(a.add(10).log(10).pow(0.8).max('1e-100'))
+	if (inc("A", 11))  a = a.pow(0.75)
+	if (inc("A", 21))  a = a.pow(0.55)
+	if (inc("A", 31))  a = a.pow(0.5)
+	if (inc("C", 11))  a = a.pow(0.45)
+	if (inc("E", 22))  a = a.pow(player.points.add(10).log(10).pow(-0.06).max('1e-100'))
+	if (inc("E", 32))  a = a.pow(player.E.Em.add(10).log(10).pow(-0.2).max('1e-100'))
+	if (inc("E", 42))  a = a.pow(player.points.add(10).log(10).pow(-0.12).max('1e-100'))
+	if (inc("F", 12))  a = n(10).pow(a.add(10).log(10).pow(0.8).max('1e-100'))
 
-	if (hasChallenge("A", 21))  a = a.mul(50)
-	if (hasChallenge("A", 22))  a = a.mul(100)
-	if (hasChallenge("C", 11))  a = a.mul(2000)
-	if (hasChallenge("C", 12))  a = a.mul(8000)
-	if (hasChallenge("A", 41))  a = a.mul(challengeEffect('A',41))
+	if (ch("A", 21))  a = a.mul(50)
+	if (ch("A", 22))  a = a.mul(100)
+	if (ch("C", 11))  a = a.mul(2000)
+	if (ch("C", 12))  a = a.mul(8000)
+	if (ch("A", 41))  a = a.mul(challengeEffect('A',41))
 
-	if (hasChallenge("A", 32))  a = a.pow(1.01)
-	if (hasChallenge("C", 11))  a = a.pow(1.01)
+	if (ch("A", 32))  a = a.pow(1.01)
+	if (ch("C", 11))  a = a.pow(1.01)
 	if (upg("F", 11))  a = a.pow(1.0016)
 	if (upg("F", 14))  a = a.pow(1.0012)
 	if (upg("F", 52))  a = a.pow(1.002)
@@ -160,10 +164,10 @@ function getPointGen() {
 	if (mil("I",0))  a = a.pow(1.01)
 	if (mil("I",1))  a = a.pow(1.02)
 	if (mil('I',3))  a = a.pow(bef('I',12))
-	if(n(challengeCompletions('I',22)).gte(1))  a = a.pow(1.25)
+	if(n(ccomp('I',22)).gte(1))  a = a.pow(1.25)
 
-	if (hasChallenge("E", 21))  a = a.mul(challengeEffect('E',21))
-	if (hasChallenge("E", 22))  a = a.mul(challengeEffect('E',22))
+	if (ch("E", 21))  a = a.mul(challengeEffect('E',21))
+	if (ch("E", 22))  a = a.mul(challengeEffect('E',22))
 
 	if (mil('G',14)&&a.gte('10^^5'))  a=n(10).pow(n(10).pow(n(10).pow(n(10).pow(a.log(10).log(10).log(10).log(10).add(tmp.G.gsre)))))
 		
@@ -189,13 +193,14 @@ function addedPlayerData() { return {
 // Display extra things at the top of the page
 var displayThings = [
 	function() {
-		let s='current endgame:F1e250 points.<br> Too easy? Go to play NG-10(aast) by QqQe308!'
+		let s='current endgame:1e30000 power rep.<br> Too easy? Go to play NG-10(aast) by QqQe308!'
 		if(upg('G',155)||mil('I',0)) s=s+"<br><h4 style='color: #C52C14'>points gain is hardcapped at "+format(n(10).tetrate(tmp.H.hcap))+"."
+		if(tmp.H.hcap.gte('1e300')) s=s+"<br><h4 style='color: #6e100f'>pts cap and gain is hardcapped at F1e300!"
 		return s},//<br> points is hardcapped at 1F100.
 ]
 // Determines when the game "ends"
 function isEndgame() {
-	return player.points.gte('10^^1e250')//tmp.H.hcap.gte('1e42')
+	return player.J.pr.gte('e30000')//tmp.H.hcap.gte('1e42')
 }
 
 //<br> bilibili: @bili_50929957100

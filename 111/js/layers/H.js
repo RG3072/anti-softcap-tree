@@ -510,7 +510,7 @@ addLayer("H", {
             currencyLocation() {return player.G}, 
             currencyDisplayName: "Gse",
             currencyInternalName: "Gse",
-            unlocked() { return (mil('I',29)&&gcs('I',311))},
+            unlocked() { return (mil('I',29)&&(gcs('I',311))||mil('I',37))},
         },
         52: {
             title:'H22',
@@ -525,7 +525,7 @@ addLayer("H", {
                 return ef;
             },
             effectDisplay() { return '+'+format(this.effect()) },
-            unlocked() { return (mil('I',29)&&gcs('I',311))},
+            unlocked() { return (mil('I',29)&&(gcs('I',311))||mil('I',37))},
         },
         53: {
             title:'H23',
@@ -541,7 +541,7 @@ addLayer("H", {
                 return ef;
             },
             effectDisplay() { return '+'+format(this.effect()) },
-            unlocked() { return (mil('I',29)&&gcs('I',311))},
+            unlocked() { return (mil('I',29)&&(gcs('I',311))||mil('I',37))},
         },
         54: {
             title:'H24',
@@ -559,7 +559,7 @@ addLayer("H", {
                 return ef;
             },
             effectDisplay() { return 'x'+format(this.effect(),3) },
-            unlocked() { return (mil('I',29)&&gcs('I',311))},
+            unlocked() { return (mil('I',29)&&(gcs('I',311))||mil('I',37))},
         },
         55: {
             title:'H25',
@@ -569,7 +569,7 @@ addLayer("H", {
             currencyDisplayName: "Gse",
             currencyInternalName: "Gse",
             canAfford() {return player.I.hi.gte(1600)}, 
-            unlocked() { return (mil('I',29)&&gcs('I',311))},
+            unlocked() { return (mil('I',29)&&(gcs('I',311))||mil('I',37))},
         },
         //harsh upgs
         61: {
@@ -1781,11 +1781,11 @@ addLayer("H", {
         if(n(gba('H',33)).gte(2)) ef=ef.mul(10) //tiny balance
         if(upg('H',34)) ef=ef.pow(uef('H',34))
         ef=ef.pow(tmp.H.hyef)
-        if (mil("G",30)) ef=ef.pow(tmp.G.gsref2)
+        if(mil("G",30)) ef=ef.pow(tmp.G.gsref2)
         ef=ef.pow(tmp.H.dhef[2])
         if(upg('H',44)) ef=ef.pow(uef('H',44))
         if(mil('I',8)&&ef.gte(10)) ef=n(10).tetrate(ef.slog(10).add(0.002))
-        ef=ef.min(tmp.H.php)
+        ef=ef.min(n(10).tetrate(tmp.H.hcap))
         return ef
     },
     hy(){
@@ -1805,7 +1805,7 @@ addLayer("H", {
         if(upg('H',44)) ef=ef.pow(uef('H',44))
         if(mil("G",31)&&ef.gte(10))  ef=n(10).tetrate(ef.slog(10).add(0.001))
         //if(ef.gte('ee1.5e6')) ef=n(10).pow(n(10).pow(ef.log(10).log(10).div('1.5e6').pow(0.85).mul('1.5e6')))
-        ef=ef.min(tmp.H.php)
+        ef=ef.min(n(10).tetrate(tmp.H.hcap))
         return ef
     },
     hyef(){
@@ -1893,12 +1893,12 @@ addLayer("H", {
         let b=[n(5),n(15),n(5),n(25),n(25),n(100)]
         if(mil('H',8)) {b[0]=n(10),b[2]=n(10)}  //not 'dhbs' to avoid bugs
         for(let i=0;i<=5;i++) b[i]=b[i].add(bef('H',84)[0])
-        for(let i=0;i<=5;i++) ef=ef.mul(n(b[i]).pow(player.H.dh[i]))  //effective!
+        for(let i=0;i<=5;i++) ef=ef.mul(n(b[i]).pow(player.H.dh[i]))  
         if(player.H.dhp.gte('1e6569')&&mil('H',11)) ef=n(10).pow(ef.add(10).log(10).pow(1.05))
         ef=ef.pow(n(1).add(bef('H',81)))
         ef=ef.mul(bef('H',82))
         ef=ef.mul(bef('H',83)[2])
-        ef=ef.min(tmp.H.php)
+        ef=ef.min(n(10).tetrate(tmp.H.hcap))
         return ef
     },
     dhpef(){
@@ -1915,11 +1915,6 @@ addLayer("H", {
         ef=ef.min('1e300')
         return ef    
     },
-    // php(){
-    //     let ef=n(tmp.H.phpb)
-    //     let r=n(10).tetrate(ef)
-    //     return r
-    // },
     update(diff){
         if (mil("H",2))  player.H.harsh = player.H.harsh.add(tmp.H.ha.mul(diff))
         if (mil("H",3))  player.H.hyper = player.H.hyper.add(tmp.H.hy.mul(diff))

@@ -1,14 +1,11 @@
-addLayer("G", {
-    name: "G", 
-    symbol: "G", 
+addLayer('G', {
+    name: 'G', 
+    symbol: 'G', 
     position: 2, 
     startData() { return {
         unlocked: false,
 		points: n(0),
-        Gc1p: n(0),
-        Gc2p: n(0),
-        Gc3p: n(0),
-        Gc4p: n(0),
+        gcp:[n(0),n(0),n(0),n(0)],
         Gs: n(0),
         Gsi: n(0),
         Gse: n(0),
@@ -19,11 +16,11 @@ addLayer("G", {
         GGtot: n(0),
     }},
     passiveGeneration(){    let p=n(0)
-        if (mil("G",14)||mil('I',0)) p=p.add(1)
+        if (mil('G',14)||mil('I',0)) p=p.add(1)
         return p},
     color: "#695735",
     requires: n('1e560'), 
-    resource: "G", 
+    resource: 'G', 
     baseResource: "F1", 
     baseAmount() {return player.F.F1}, 
     type: "normal", 
@@ -34,7 +31,7 @@ addLayer("G", {
         return e},
     row: 3, 
     hotkeys: [
-        {key: "g", description: "G: Reset for G points", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
+        {key: 'G', description: "G: Reset for G points", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
     ],
     layerShown(){return ((upg('F',65))||player[this.layer].unlocked)},
     gainMult() { 
@@ -42,7 +39,7 @@ addLayer("G", {
         mult=mult.mul(bef('G',11))
         if (upg('F',72))  mult=mult.mul(uef('F',72))
         if (upg('F',74))  mult=mult.mul(uef('F',74)[1])
-        mult=mult.mul(tmp.G.gc2ef)
+        mult=mult.mul(tmp.G.gcef[1])
         if(mil('I',0)) mult=mult.mul(5)
         let br=n('eee10')
         if(mil('I',10)) br=n('eee7')
@@ -78,8 +75,8 @@ addLayer("G", {
             done() {return player[this.layer].total.gte('1e800')}, 
             effectDescription: "unlock another chal,buff F1 eff.",
         },
-        6: {requirementDescription: "1e40000 total G (7",
-            done() {return player[this.layer].total.gte('1e40000')}, 
+        6: {requirementDescription: "1e15800 total G (7",
+            done() {return player[this.layer].total.gte('1e15800')}, //1e40000
             effectDescription: "edit Gb cost and buy max Gbs.",
         },
         7: {requirementDescription: "e9.25e6 total G (8",
@@ -250,10 +247,10 @@ addLayer("G", {
             if(n(ccomp('I',22)).gte(2)) player[this.layer].upgrades.push(141,142,143,144,145)
             if(mil('I',23))  player[this.layer].upgrades.push(11,12,13,14,15,21,22,23,24,25,31,32,33,34,35,41,42,43,44,45,51,52,53,54,55)
             if(gcs('I',86))  player[this.layer].upgrades.push(61,62,63,64,65,134,135)
-            if(mil('J',1)) {scs("G",21,1),scs("G",31,1),scs("G",32,1),scs("G",33,1),scs("G",41,1),scs("G",42,1),scs("G",43,1),scs("G",44,1),scs("G",51,1)
-            ,scs("G",61,1),scs("G",62,1),scs("G",63,1),scs("G",71,1),scs("G",72,1),scs("G",73,1),scs("G",81,1),scs("G",82,1),scs("G",83,1),scs("G",91,1)
-            ,scs("G",101,1),scs("G",102,1),scs("G",103,1),scs("G",104,1)
-            ,scs("G",111,1),scs("G",112,1),scs("G",121,1),scs("G",122,1),scs("G",131,1)}
+            if(mil('J',1)) {scs('G',21,1),scs('G',31,1),scs('G',32,1),scs('G',33,1),scs('G',41,1),scs('G',42,1),scs('G',43,1),scs('G',44,1),scs('G',51,1)
+            ,scs('G',61,1),scs('G',62,1),scs('G',63,1),scs('G',71,1),scs('G',72,1),scs('G',73,1),scs('G',81,1),scs('G',82,1),scs('G',83,1),scs('G',91,1)
+            ,scs('G',101,1),scs('G',102,1),scs('G',103,1),scs('G',104,1)
+            ,scs('G',111,1),scs('G',112,1),scs('G',121,1),scs('G',122,1),scs('G',131,1)}
         }
     },
     microtabs: {
@@ -265,42 +262,35 @@ addLayer("G", {
                 unlocked() {return true},
                 content: ["milestones"]},
             "Buyables": {
-                unlocked() {return (upg("G", 25))},
+                unlocked() {return (upg('G', 25))},
                 content: [["raw-html", () => `<h4 style="opacity:.5">like Eb,Gb dont spend G.</h4>`],
                 ["buyables",[1]]]},
             "Challenges": {
-                unlocked() {return (mil("G",2))},
+                unlocked() {return (mil('G',2))},
                 content: [["raw-html", () => `<h4 style="opacity:.5">G chal is about F dim,dont decrease main game production.</h4>`]
-                ,["display-text",  function() {if(n(ccomp("G", 11)).gte(3)) return "You have <h3 style='color: #694444'>" + format(player.G.Gc1p) + "</h3> Gc1p, mult F dims by <h3 style='color: #694444'> " + format(tmp.G.gc1ef) + "x</h3>.<br>" + "<h4>" + format(tmp.G.gc1g) + " Gc1p/s (need 1e1080 F1 in Gc1)<h4>"}],
-                ["display-text", function() {if(n(ccomp("G", 12)).gte(3)) return "You have <h3 style='color: #913423'>" + format(player.G.Gc2p) + "</h3> Gc2p, mult G by <h3 style='color: #913423'> " + format(tmp.G.gc2ef) + "x</h3>.<br>" + "<h4>" + format(tmp.G.gc2g) + " Gc2p/s (need 1e3050 F1 in Gc2)<h4>"}],
-                ["display-text", function() {if(n(ccomp("G", 21)).gte(3)) return "You have <h3 style='color: #72FF89'>" + format(player.G.Gc3p) + "</h3> Gc3p, Fd8 mult per buy is x<h3 style='color: #72FF89'>" + format(tmp.G.gc3ef) + " </h3>bigger.<br>" + "<h4>" + format(tmp.G.gc3g) + " Gc3p/s (need 1e168000 F1 in Gc3)<h4>"}],
-                ["display-text", function() {if(n(ccomp("G", 22)).gte(3)) return "You have <h3 style='color: #D78903'>" + format(player.G.Gc4p) + "</h3> Gc4p, dim mult per buy +<h3 style='color: #D78903'>" + format(tmp.G.gc4ef,3) + "</h3>.<br>" + "<h4>" + format(tmp.G.gc4g) + " Gc4p/s (need e2.35e9 F1 in Gc4)<h4>"}],
+                ,["display-text",  function() {if(n(ccomp('G', 11)).gte(3)) return "You have <h3 style='color: #694444'>" + format(player.G.gcp[0]) + "</h3> Gc1p, mult F dims by <h3 style='color: #694444'> " + format(tmp.G.gcef[0]) + "x</h3>.<br>" + "<h4>" + format(tmp.G.gcg[0]) + " Gc1p/s (need 1e1080 F1 in Gc1)<h4>"}],
+                ["display-text", function() {if(n(ccomp('G', 12)).gte(3)) return "You have <h3 style='color: #913423'>" + format(player.G.gcp[1]) + "</h3> Gc2p, mult G by <h3 style='color: #913423'> " + format(tmp.G.gcef[1]) + "x</h3>.<br>" + "<h4>" + format(tmp.G.gcg[1]) + " Gc2p/s (need 1e3050 F1 in Gc2)<h4>"}],
+                ["display-text", function() {if(n(ccomp('G', 21)).gte(3)) return "You have <h3 style='color: #72FF89'>" + format(player.G.gcp[2]) + "</h3> Gc3p, Fd8 mult per buy is x<h3 style='color: #72FF89'>" + format(tmp.G.gcef[2]) + " </h3>bigger.<br>" + "<h4>" + format(tmp.G.gcg[2]) + " Gc3p/s (need 1e168000 F1 in Gc3)<h4>"}],
+                ["display-text", function() {if(n(ccomp('G', 22)).gte(3)) return "You have <h3 style='color: #D78903'>" + format(player.G.gcp[3]) + "</h3> Gc4p, dim mult per buy +<h3 style='color: #D78903'>" + format(tmp.G.gcef[3],3) + "</h3>.<br>" + "<h4>" + format(tmp.G.gcg[3]) + " Gc4p/s (need e2.35e9 F1 in Gc4)<h4>"}],
                 "challenges"]},
-            // "Gc powers": {      //removed at v0.7
-            //     unlocked() {return (ccomp("G", 11).gte(3))},
-            //     content: [["display-text",  function() {if(ccomp("G", 11).gte(3)) return "You have <h3 style='color: #694444'>" + format(player.G.Gc1p) + "</h3> Gc1p, mult F dims by <h3 style='color: #694444'> " + format(tmp.G.gc1ef) + "x</h3>.<br>" + "<h4>" + format(tmp.G.gc1g) + " Gc1p/s (need 1e1080 F1 in Gc1)<h4>"}],
-            //     ["display-text", function() {if(ccomp("G", 12).gte(3)) return "You have <h3 style='color: #913423'>" + format(player.G.Gc2p) + "</h3> Gc2p, mult G by <h3 style='color: #913423'> " + format(tmp.G.gc2ef) + "x</h3>.<br>" + "<h4>" + format(tmp.G.gc2g) + " Gc2p/s (need 1e3050 F1 in Gc2)<h4>"}],
-            //     ["display-text", function() {if(ccomp("G", 21).gte(3)) return "You have <h3 style='color: #72FF89'>" + format(player.G.Gc3p) + "</h3> Gc3p, Fd8 mult per buy is x<h3 style='color: #72FF89'>" + format(tmp.G.gc3ef) + " </h3>bigger.<br>" + "<h4>" + format(tmp.G.gc3g) + " Gc3p/s (need 1e168000 F1 in Gc3)<h4>"}],
-            //     ["display-text", function() {if(ccomp("G", 22).gte(3)) return "You have <h3 style='color: #D78903'>" + format(player.G.Gc4p) + "</h3> Gc4p, dim mult per buy +<h3 style='color: #D78903'>" + format(tmp.G.gc4ef,3) + "</h3>.<br>" + "<h4>" + format(tmp.G.gc4g) + " Gc4p/s (need e2.35e9 F1 in Gc4)<h4>"}],]},
             "Gs": {
-                unlocked() {return (mil("G", 14))},
+                unlocked() {return (mil('G', 14))},
                 content: [["raw-html", () => `<h4 style="opacity:.5">inspired by 'Plague Tree' ---Timewall warning!</h4>`]
                 ,["raw-html", () => `<h4 style='color: #C52C14'>tips:you may need to refresh when you get your first Gs!</h4>`]
                 ,["display-text", () => "You have <h3 style='color: #988462'>" + format(player.G.Gs) + "</h3> Gs,boost point exp^4 by <h3 style='color: #988462'> " + format(tmp.G.gsef) + "</h3>.<br>" + "<h4>" + format(tmp.G.gsb) + " Gs/s (need eee500 G)<h4>"]
-                ,["display-text",function() {if(upg("G", 83)) return "You have <h3 style='color: #FF00F1'>" + format(player.G.Gsi) + "</h3> Gsi,boost Gs by lg(Gs)^<h3 style='color: #FF00F1'>" + format(tmp.G.gsief) + "</h3> (x\n\
+                ,["display-text",function() {if(upg('G', 83)) return "You have <h3 style='color: #FF00F1'>" + format(player.G.Gsi) + "</h3> Gsi,boost Gs by lg(Gs)^<h3 style='color: #FF00F1'>" + format(tmp.G.gsief) + "</h3> (x\n\
                     <h3 style='color: #FF00F1'>" + format(tmp.G.gsir) +"</h3> Gs)<br>" + "<h4>" + format(tmp.G.gsib) + " Gsi/s (need 1e2920 Gs)<h4>"}]
-                ,["display-text", function() {if(upg("G", 101)) return "You have <h3 style='color: #14FFF3'>" + format(player.G.Gse) + "</h3> Gse,boost Gsi by lg(Gsi)^<h3 style='color: #14FFF3'>" + format(tmp.G.gseef) + "</h3> (x\n\
+                ,["display-text", function() {if(upg('G', 101)) return "You have <h3 style='color: #14FFF3'>" + format(player.G.Gse) + "</h3> Gse,boost Gsi by lg(Gsi)^<h3 style='color: #14FFF3'>" + format(tmp.G.gseef) + "</h3> (x\n\
                     <h3 style='color: #14FFF3'>" + format(tmp.G.gser) +"</h3> Gsi)<br>" + "and boost Gsi eff exp by +<h3 style='color: #14FFF3'>" + format(tmp.G.gser2) +"</h3> (at most "+format(tmp.G.ehp)+")<br>\n\
                     " + format(tmp.G.gseb) + " Gse/s (need 1e345 Gsi)<h4>"}]
-                //,["raw-html", () => `<h4 style="opacity:.5">Gsb1/4/7 scaling past 500,Gsb2 scaling past 50.</h4>`]
                 ,["buyables",[2,3,4,5]],["upgrades",[6,7,8,9,10,11,12,13]]],},
             "GG": {
-                unlocked() {return (upg("G",115))},
+                unlocked() {return (upg('G',115))},
                 content: [["raw-html", () => `<h4 style="opacity:.5">welcome to the first upgrade tree --- strategy is significant now!</h4>`]
                 ,["display-text", () => "You have <h3 style='color: #375DB4'>" + format(player.G.GG) + "</h3> GG ("+"<h3 style='color: #375DB4'>" + format(player.G.GGtot)+'</h3> total)']
                 ,["buyables",[6]],"clickables"]}, 
             "GsR": {
-                unlocked() {return (mil("G",30))},
+                unlocked() {return (mil('G',30))},
                 content: [["raw-html", () => `<h4 style="opacity:.5">the final part of Gs.</h4>`]
                 ,["display-text", () => "You have <h3 style='color: #6DA462'>" + format(player.G.Gsr) + "</h3> GsR,raise Gse by ^<h3 style='color: #6DA462'>" + format(tmp.G.gsref,4) + "</h3> and harsh,hyper by ^\n\
                 <h3 style='color: #6DA462'>"+ format(tmp.G.gsref2,4) +".<h3><br>" + "<h4>" + format(tmp.G.gsrb) + " GsR/s (need e2.5e26 Gse)<h4>"]
@@ -424,7 +414,7 @@ addLayer("G", {
             title:'G11',
             description: "Gb2-3 are cheaper,boost F1 eff above 1e1200.",         
             cost:n('4e9'),
-            unlocked() { return (ccomp("G", 11).gte(3))},
+            unlocked() { return (ccomp('G', 11).gte(3))},
         },
         32: {
             title:'G12',
@@ -435,7 +425,7 @@ addLayer("G", {
         33: {
             title:'G13',
             description: "Gb2 ^2,tickboost eff mult +0.005.",         
-            cost:n('1e28'),
+            cost:n('4e27'),//1e28
             unlocked() { return (upg(this.layer, 32))},
         },
         34: {
@@ -463,7 +453,7 @@ addLayer("G", {
                 return ef;
             },
             effectDisplay() { return '^'+format(this.effect(),3) },
-            unlocked() { return (ccomp("G", 21).gte(5))},
+            unlocked() { return (ccomp('G', 21).gte(5))},
         },
         42: {
             title:'G17',
@@ -496,7 +486,7 @@ addLayer("G", {
             effect()  { 
                 let exp=n(1.25)
                 if(mil('G',10)) exp=exp.mul(2)
-                let ef=player.G.Gc4p.add(10).log(10).pow(exp).div(50).add(0.98)
+                let ef=player.G.gcp[3].add(10).log(10).pow(exp).div(50).add(0.98)
                 return ef;
             },
             effectDisplay() { return 'x'+format(this.effect()) },
@@ -598,7 +588,7 @@ addLayer("G", {
         71: {
             title:'G31',
             description: "Gsb1 base x1.1,Gs eff exp +0.4.",         
-            cost:n('1e432'),
+            cost:n('1e428'),//1e432
             currencyLocation() {return player[this.layer]}, 
             currencyDisplayName: "Gs",
             currencyInternalName: "Gs",
@@ -621,7 +611,7 @@ addLayer("G", {
         73: {
             title:'G33',
             description: "G30 applies to Gsb3.",         
-            cost:n('1e851'),
+            cost:n('1e846'),//851
             currencyLocation() {return player[this.layer]}, 
             currencyDisplayName: "Gs",
             currencyInternalName: "Gs",
@@ -630,7 +620,7 @@ addLayer("G", {
         74: {
             title:'G34',
             description: "Gsb2 boost Gsb1 base.",         
-            cost:n('1e924'),
+            cost:n('1e906'),//24
             currencyLocation() {return player[this.layer]}, 
             currencyDisplayName: "Gs",
             currencyInternalName: "Gs",
@@ -645,7 +635,7 @@ addLayer("G", {
         75: {
             title:'G35',
             description: "boost Gsb1 base based on Gs upg amount.",         
-            cost:n('5e1154'),
+            cost:n('1e1148'),//5e1154
             currencyLocation() {return player[this.layer]}, 
             currencyDisplayName: "Gs",
             currencyInternalName: "Gs",
@@ -955,7 +945,7 @@ addLayer("G", {
         },
         132: {
             title:'G62',
-            description: "t1 raise Gse instead,t11-12 are cheaper.",         
+            description: "t1 raise Gse instead,b11-12 are cheaper.",         
             cost:n('e3592000'),
             currencyLocation() {return player[this.layer]}, 
             currencyDisplayName: "Gse",
@@ -1092,18 +1082,18 @@ addLayer("G", {
             canClick() {return !gcs(this.layer,this.id)},
             style() { return { 'background-color': gcs(this.layer,this.id)?"#77BF5F":layers.G.clickables[this.id].canClick()?"#695735":"#BF8F8F"}},
             onClick() {
-                for (let i in player.G.clickables) if (!["11"].includes(i)) setClickableState("G",i,0)
+                for (let i in player.G.clickables) if (!["11"].includes(i)) setClickableState('G',i,0)
                 player.G.Gtc=n(0)
-                if (player.G.Gsetot.gte('1e13144')) scs("G",21,1),scs("G",31,1)
-                if (player.G.Gsetot.gte('1e49180')) scs("G",32,1),scs("G",33,1)
-                if (mil('G',25)) scs("G",41,1),scs("G",51,1)
-                if (mil('G',27)) scs("G",42,1),scs("G",43,1),scs("G",44,1)//scs("G",91,1)
-                if (mil('G',28)) scs("G",91,1)
-                if (upg('H',15)) scs("G",101,1)
-                if(n(ccomp('I',22)).gte(3)) scs("G",21,1),scs("G",31,1),scs("G",32,1),scs("G",33,1),scs("G",41,1),scs("G",51,1),scs("G",42,1),scs("G",43,1),scs("G",44,1),scs("G",91,1)
-                        ,scs("G",101,1),scs("G",102,1),scs("G",103,1),scs("G",104,1)
-                if(n(ccomp('I',22)).gte(4)) scs("G",111,1),scs("G",112,1),scs("G",121,1),scs("G",122,1)
-                if(gcs('I',76)) scs("G",61,1),scs("G",62,1),scs("G",63,1),scs("G",71,1),scs("G",72,1),scs("G",73,1),scs("G",81,1),scs("G",82,1),scs("G",83,1),scs("G",131,1)
+                if (player.G.Gsetot.gte('1e13144')) scs('G',21,1),scs('G',31,1)
+                if (player.G.Gsetot.gte('1e49180')) scs('G',32,1),scs('G',33,1)
+                if (mil('G',25)) scs('G',41,1),scs('G',51,1)
+                if (mil('G',27)) scs('G',42,1),scs('G',43,1),scs('G',44,1)//scs('G',91,1)
+                if (mil('G',28)) scs('G',91,1)
+                if (upg('H',15)) scs('G',101,1)
+                if(n(ccomp('I',22)).gte(3)) scs('G',21,1),scs('G',31,1),scs('G',32,1),scs('G',33,1),scs('G',41,1),scs('G',51,1),scs('G',42,1),scs('G',43,1),scs('G',44,1),scs('G',91,1)
+                        ,scs('G',101,1),scs('G',102,1),scs('G',103,1),scs('G',104,1)
+                if(n(ccomp('I',22)).gte(4)) scs('G',111,1),scs('G',112,1),scs('G',121,1),scs('G',122,1)
+                if(gcs('I',76)) scs('G',61,1),scs('G',62,1),scs('G',63,1),scs('G',71,1),scs('G',72,1),scs('G',73,1),scs('G',81,1),scs('G',82,1),scs('G',83,1),scs('G',131,1)
             },
             unlocked() {return upg('G',115)},
         },
@@ -1563,17 +1553,17 @@ addLayer("G", {
         },
     },
     automate(){
-        if (player.G.auto2)  buyBuyable("G",11),buyBuyable("G",12),buyBuyable("G",13)
-        if (player.G.auto4)  buyBuyable("G",21),buyBuyable("G",22),buyBuyable("G",23)
-        if (player.G.auto5)  buyBuyable("G",31),buyBuyable("G",32)
-        if (player.G.auto6)  buyBuyable("G",41),buyBuyable("G",42)
-        if (player.G.auto7)  buyBuyable("G",61),buyBuyable("G",62)
-        if (player.H.auto1)  buyBuyable("G",51),buyBuyable("G",52),buyBuyable("G",43)
-        if(player.H.auto5)  buyBuyable("G",71)
-        if(player.G.auto8)  buyBuyable("G",33)
-        if(player.H.auto7)  buyBuyable("G",73)
-        if(player.H.auto9)  buyBuyable("G",72),buyBuyable("G",74)
-        if(gcs('I',104)&&!gcs('?',133))  buyBuyable("G",44)
+        if (player.G.auto2)  buyBuyable('G',11),buyBuyable('G',12),buyBuyable('G',13)
+        if (player.G.auto4)  buyBuyable('G',21),buyBuyable('G',22),buyBuyable('G',23)
+        if (player.G.auto5)  buyBuyable('G',31),buyBuyable('G',32)
+        if (player.G.auto6)  buyBuyable('G',41),buyBuyable('G',42)
+        if (player.G.auto7)  buyBuyable('G',61),buyBuyable('G',62)
+        if (player.H.auto1)  buyBuyable('G',51),buyBuyable('G',52),buyBuyable('G',43)
+        if(player.H.auto5)  buyBuyable('G',71)
+        if(player.G.auto8)  buyBuyable('G',33)
+        if(player.H.auto7)  buyBuyable('G',73)
+        if(player.H.auto9)  buyBuyable('G',72),buyBuyable('G',74)
+        if(gcs('I',104)&&!gcs('?',133))  buyBuyable('G',44)
     },
     buyables:{
         11: {
@@ -1581,7 +1571,7 @@ addLayer("G", {
             cost(x) { 
                 let cost = n(100).pow(x).times('100')
                 if (cost.gte('1e500')) cost=cost.div('1e500').pow(2.5).mul('1e500')
-                if(mil('G',6)) cost = n(10).pow( x.pow(1.1))
+                if(mil('G',6)) cost = n(10).pow(x.pow(1.1))
                 return cost
             },
             canAfford() { return player[this.layer].points.gte(this.cost()) },
@@ -2642,8 +2632,8 @@ addLayer("G", {
             name: "Gc1",
             completionLimit: 5,
             challengeDescription: function() {
-                return "F1 prod ^0.8. <br> Completion: " +ccomp("G", 11) + "/5"},
-            unlocked() { return (mil("G", 2))},
+                return "F1 prod ^0.8. <br> Completion: " +ccomp('G', 11) + "/5"},
+            unlocked() { return (mil('G', 2))},
             goal(){
                 let a=[n('e780'),n('e880'),n('e1080'),n('e1220'),n('e1670'),n('e1670')]
                 return a[n(ccomp(this.layer,this.id))]
@@ -2653,9 +2643,9 @@ addLayer("G", {
             //currencyInternalName: "F1",
             rewardDescription: "Fd8 mult all dims.<br>unlock Gc1p at 3 comp.",
             rewardEffect() {
-                let exp = ccomp("G", 11).mul(0.3).add(0.7)
-                let ef = gba('F',32).pow(exp).max(1)
-                if (ccomp("G", 11).gte(1))  return ef
+                let exp = ccomp('G',11).mul(0.3).add(0.7)
+                let ef = gba('F',32).add(1).pow(exp)
+                if (ccomp('G', 11).gte(1))  return ef
                 else return n(1)
             },
             rewardDisplay() {return 'x'+format(this.rewardEffect())},
@@ -2664,7 +2654,7 @@ addLayer("G", {
             name: "Gc2",
             completionLimit: 5,
             challengeDescription: function() {
-                return "dim mult per buy ^0.5. <br> Completion: " +ccomp("G", 12) + "/5"},
+                return "dim mult per buy ^0.5. <br> Completion: " +ccomp('G', 12) + "/5"},
             unlocked() { return (upg("F", 75))},
             goal(){
                 let a=[n('e1260'),n('e1570'),n('e3050'),n('e6100'),n('e11500'),n('e11500')]//7000
@@ -2674,9 +2664,9 @@ addLayer("G", {
             canComplete(){return player.F.F1.gte(this.goal())},
             rewardDescription: "tickspeed is stronger.<br>unlock Gc2p at 3 comp.",
             rewardEffect() {
-                let ef = ccomp("G", 12).mul(0.025).add(1)
+                let ef = ccomp('G', 12).mul(0.025).add(1)
                 if(upg('G',45)) ef=ef.pow(2)
-                if (ccomp("G", 12).gte(1))  return ef
+                if (ccomp('G', 12).gte(1))  return ef
                 else return n(1)
             },
             rewardDisplay() {return 'x'+format(this.rewardEffect(),3)},
@@ -2685,8 +2675,8 @@ addLayer("G", {
             name: "Gc3",
             completionLimit: 5,
             challengeDescription: function() {
-                return "Fd8 cost ^5. <br> Completion: " +ccomp("G", 21) + "/5"},
-            unlocked() { return (mil("G",5))},
+                return "Fd8 cost ^5. <br> Completion: " +ccomp('G', 21) + "/5"},
+            unlocked() { return (mil('G',5))},
             goal(){
                 let a=[n('e3.5e4'),n('e8.1e4'),n('e1.86e5'),n('e1.2e8'),n('e2.4e8'),n('e2.4e8')]
                 return a[n(ccomp(this.layer,this.id))]
@@ -2697,8 +2687,8 @@ addLayer("G", {
             rewardEffect() {
                 let b=n(0.06)
                 if(upg('G',45)) b=b.add(0.04)
-                let ef = ccomp("G", 21).mul(b)
-                if (ccomp("G", 21).gte(1))  return ef
+                let ef = ccomp('G', 21).mul(b)
+                if (ccomp('G', 21).gte(1))  return ef
                 else return n(0)
             },
             rewardDisplay() {return '+'+format(this.rewardEffect(),3)},
@@ -2707,8 +2697,8 @@ addLayer("G", {
             name: "Gc4",
             completionLimit: 5,
             challengeDescription: function() {
-                return "TBs eff is polynomial instead of exponential and disable other TB boosts. <br> Completion: " +ccomp("G", 22) + "/5"},
-            unlocked() { return (mil("G",7))},
+                return "TBs eff is polynomial instead of exponential and disable other TB boosts. <br> Completion: " +ccomp('G', 22) + "/5"},
+            unlocked() { return (mil('G',7))},
             goal(){//improved at v0.7.1
                 let a=[n('e6.45e8'),n('e9.72e8'),n('e2.35e9'),n('e3.02e9'),n('e1.93e10'),n('e1.93e10')]
                 return a[n(ccomp(this.layer,this.id))]
@@ -2717,101 +2707,54 @@ addLayer("G", {
             canComplete(){return player.F.F1.gte(this.goal())},
             rewardDescription: "Gc4 comp add to TB power.<br>unlock Gc4p at 3 comp,edit Gc3p and Gc4p formula at 4 and 5 comp.",
             rewardEffect() {
-                let ef = ccomp("G", 22).mul(0.001)
-                if (ccomp("G", 22).gte(1))  return ef
+                let ef = ccomp('G', 22).mul(0.001)
+                if (ccomp('G', 22).gte(1))  return ef
                 else return n(0)
             },
             rewardDisplay() {return '+'+format(this.rewardEffect(),3)},
         },
     },
-    gc1g(){
-        let ef=n(0)
-        let exp=n(0.75)
-        let exp2=n(0.95)
-        if (upg('G',55)) exp2=exp2.add(0.05)
-        if (upg('F',83)) exp=exp.add(0.02)
-        if (upg('G',42)) exp=exp.add(0.02)
-        if (upg('G',43)) exp=exp.add(0.03)
-        if(mil('G',8)) exp=exp.add(0.05)
-        if(mil('G',9)) exp=exp.add(0.03)//0.9
-        if(gcs('I',42)) exp=exp.add(0.01)
-        if (inChallenge('G',11)){if (player.F.F1.gte('1e1080')) ef=n(10).pow(player.F.F1.div('1e1080').log(10).pow(exp))}
-        if(mil('G',10)||gcs('I',65)) ef=n(10).pow(player.F.F1.pow(exp2).add(10).log(10).pow(exp))
-        if (upg('G',41)) ef=ef.pow(uef('G',41))
+    gcg(){//v0.7.6
+        let e=[n(0.75),n(0.6),n(3),n(2)]
+        let e2=[n(0.95),n(0.9),n(0.2),n(0.14)]
+        let ef=[n(0),n(0),n(0),n(0)]
+        if(upg('F',83)) e[0]=e[0].add(0.02),e[1]=e[1].add(0.02)
+        if(upg('G',42)) e[0]=e[0].add(0.02),e[1]=e[1].add(0.02)
+        if(upg('G',43)) e[0]=e[0].add(0.03),e[1]=e[1].add(0.06)
+        if(mil('G',8)) e[0]=e[0].add(0.05),e[1]=e[1].add(0.05)
+        if(mil('G',9)) e[0]=e[0].add(0.03),e[1]=e[1].add(0.05)
+        if(gcs('I',42)) e[0]=e[0].add(0.01),e[1]=e[1].add(0.01)
+        if(upg('F',85)) e[2]=e[2].mul(2)
+        if(upg('G',51)) e2[3]=e2[3].add(0.01)   
+        if(upg('G',55)) for(let i=0;i<=3;i++) e2[i]=e2[i].add(0.05)
+        if(mil('I',6)) e2[2]=e2[2].add(bef('I',21)),e2[3]=e2[3].add(bef('I',21))
+        if(gcs('I',45)&&player.G.points.gte('ee16')) e2[2]=e2[2].add(0.05),e2[3]=e2[3].add(0.05)
+        if(gcs('I',55)&&player.G.points.gte('ee16')) e2[2]=e2[2].add(0.03),e2[3]=e2[3].add(0.03)
+
+        if(inc('G',11)&&player.F.F1.gte('1e1080')) ef[0]=n(10).pow(player.F.F1.div('1e1080').log(10).pow(e[0]))
+        if(inc('G',12)&&player.F.F1.gte('1e3050')) ef[1]=n(10).pow(player.F.F1.div('1e3050').log(10).pow(e[1]))
+        if(inc('G',21)&&player.F.F1.gte('1e168000')) {if(ccomp('G',22).gte(4)) ef[2]=n(10).pow(player.F.F1.div('1e168000').log(10).pow(e2[2]))
+            else ef[2]=player.F.F1.div('1e168000').log(10).pow(e[2])}
+        if(inc('G',22)&&player.F.F1.gte('e2.35e9')) {if(ccomp('G',22).gte(5)) ef[3]=n(10).pow(player.F.F1.div('e2.35e9').log(10).pow(e2[3]))
+            else ef[3]=player.F.F1.div('e2.35e9').log(10).pow(e[3])}
+        if(mil('G',10)||gcs('I',65)) ef[0]=n(10).pow(player.F.F1.pow(e2[0]).add(10).log(10).pow(e[0]))
+        if(mil('G',12)||gcs('I',65)) ef[1]=n(10).pow(player.F.F1.pow(e2[1]).add(10).log(10).pow(e[1]))
+        if(mil('G',13)) ef[2]=n(10).pow(player.F.F1.pow(0.2).add(10).log(10).pow(e[2])),ef[3]=n(10).pow(player.F.F1.pow(0.2).add(10).log(10).pow(e[3]))
+        if(upg('G',41)) for(let i=0;i<=3;i++) ef[i]=ef[i].pow(uef('G',41))
         return ef
     },
-    gc2g(){
-        let ef=n(0)
-        let exp=n(0.6)
-        let exp2=n(0.9)
-        if (upg('G',55)) exp2=exp2.add(0.1)
-        if (upg('F',83)) exp=exp.add(0.02)
-        if (upg('G',42)) exp=exp.add(0.02)
-        if (upg('G',43)) exp=exp.add(0.06)//0.7
-        if(mil('G',8)) exp=exp.add(0.05)
-        if(mil('G',9)) exp=exp.add(0.05)
-        if(gcs('I',42)) exp=exp.add(0.01)
-        if (inChallenge('G',12)){if (player.F.F1.gte('1e3050')) ef=n(10).pow(player.F.F1.div('1e3050').log(10).pow(exp))}
-        if(mil('G',12)||gcs('I',65)) ef=n(10).pow(player.F.F1.pow(exp2).add(10).log(10).pow(exp))
-        if (upg('G',41)) ef=ef.pow(uef('G',41))
+    gcef(){//v0.7.6
+        let e=[n(0.1),n(0.04),n(0.04),n(1.5)]
+        let ef=[n(1),n(1),n(1),n(0)]
+        if(mil('F',18)) e[0]=e[0].mul(1.5)
+        if(upg('F',83)) e[0]=e[0].mul(1.5)
+        if(mil('G',7)) e[0]=e[0].mul(1.5)
+        if(upg('G',53)) e[0]=e[0].add(0.1),e[1]=e[1].add(0.04),e[2]=e[2].add(0.02),e[3]=e[3].add(0.3)
+
+        for(let i=0;i<=3;i++) ef[i]=player.G.gcp[i].pow(e[i]).add(1)
+        ef[3]=player.G.gcp[3].add(1).log(10).pow(e[3]).div(400)
         return ef
     },
-    gc3g(){
-        let ef=n(0)
-        let exp=n(3)
-        let exp2=n(0.2)
-        if (upg('G',55)) exp2=exp2.add(0.05)
-        if (mil('I',6))  exp2=exp2.add(bef('I',21))
-        if(gcs('I',45)&&player.G.points.gte('ee16')) exp2=exp2.add(0.05)
-        if(gcs('I',55)&&player.G.points.gte('ee16')) exp2=exp2.add(0.03)
-        if (upg('F',85)) exp=exp.mul(2)
-        if (inChallenge('G',21)){
-            if (player.F.F1.gte('1e168000')){
-                if (ccomp("G", 22).gte(4)) ef=n(10).pow(player.F.F1.div('1e168000').log(10).pow(exp2))
-                else ef=player.F.F1.div('1e168000').log(10).pow(exp)} }
-        if(mil('G',13)) ef=n(10).pow(player.F.F1.pow(0.2).add(10).log(10).pow(exp))
-        if (upg('G',41)) ef=ef.pow(uef('G',41))
-        return ef
-    },
-    gc4g(){
-        let ef=n(0)
-        let exp=n(2)
-        let exp2=n(0.14)
-        if (upg('G',51)) exp2=exp2.add(0.01)
-        if (mil('I',6))  exp2=exp2.add(bef('I',21))
-        if(gcs('I',45)&&player.G.points.gte('ee16')) exp2=exp2.add(0.05)
-        if(gcs('I',55)&&player.G.points.gte('ee16')) exp2=exp2.add(0.03)
-        if (inChallenge('G',22)){
-            if (player.F.F1.gte('e2.35e9')){
-                if (ccomp("G", 22).gte(5)) ef=n(10).pow(player.F.F1.div('e2.35e9').log(10).pow(exp2))
-                else ef=player.F.F1.div('e2.35e9').log(10).pow(exp)} }
-        if(mil('G',13)) ef=n(10).pow(player.F.F1.pow(0.2).add(10).log(10).pow(exp))
-        if (upg('G',41)) ef=ef.pow(uef('G',41))
-        return ef
-    },
-    gc1ef(){
-        let exp=n(0.1)
-        if (mil('F',18)) exp=exp.mul(1.5)
-        if (upg('G',53))  exp=exp.add(0.1)
-        let ef=player.G.Gc1p.pow(exp).add(1)
-        return ef},
-    gc2ef(){
-        let exp=n(0.04)
-        if (upg('F',83)) exp=exp.mul(1.5)
-        if (upg('G',53))  exp=exp.add(0.04)
-        let ef=player.G.Gc2p.pow(exp).add(1)
-        return ef},
-    gc3ef(){
-        let exp=n(0.04)
-        if(mil('G',7)) exp=exp.mul(1.5)
-        if (upg('G',53))  exp=exp.add(0.02)
-        let ef=player.G.Gc3p.pow(exp).add(1)
-        return ef},
-    gc4ef(){
-        let exp=n(1.5)
-        if (upg('G',53))  exp=exp.add(0.3)
-        let ef=player.G.Gc4p.add(1).log(10).pow(exp).div(400)
-        return ef},   
     ggmt(){
         let ef=n(1)
         if(mil('I',0)) ef=ef.add(0.1)
@@ -2877,7 +2820,7 @@ addLayer("G", {
         if(n(ccomp('I',22)).gte(2)&&player.G.points.gte('ee1e500'))  ef=ef.mul(100)
         if(mil('I',2)) ef=ef.pow(1.005)
         if(gcs('I',51)) ef=ef.pow(1.005)  
-        if(ch('I',11)) ef=ef.pow(challengeEffect('I',11))      
+        if(ch('I',11)) ef=ef.pow(cef('I',11))      
         return ef}, 
     gsre(){
         let ef=tmp.G.gsef
@@ -2909,9 +2852,8 @@ addLayer("G", {
         if(gcs('I',311)) ef=n(10).tetrate(ef.max(10).slog().sub(tmp.I.resv[2]).max(0))
         let tet=n(bef('J',43))
         if(upg('H',53)) tet=tet.add(uef('H',53))
-        ef=n(10).tetrate(ef.max(10).slog().add(tet).max(0))
-        ef=ef.mul(bef('J',35)[0])
-        ef=ef.pow(bef('J',85))
+        if(mil('I',13)) ef=n(10).tetrate(ef.max(10).slog().add(tet).max(0))
+        if(gba('J',101).gte(11)) ef=ef.mul(bef('J',35)[0]).pow(bef('J',85))
         ef=ef.min(n(10).tetrate(tmp.H.hcap))
         return ef},
     gsief(){
@@ -3007,7 +2949,7 @@ addLayer("G", {
         if(!upg('H',35)) {if(ef.gte('e6e9')) ef=ef.div('e6e9').pow(0.5).mul('e6e9')}//rem
         if(!upg('H',85)) {if(ef.gte('ee10')) ef=n('ee10').mul(n(10).pow(ef.log(10).sub('1e10').pow(0.96)))}//rem
         if(!upg('H',35)) {if(ef.gte('e4e10')) ef=n('e4e10').mul(n(10).pow(ef.log(10).sub('4e10').pow(0.9)))}//rem
-        if(mil("G",30)) ef=ef.pow(tmp.G.gsref)
+        if(mil('G',30)) ef=ef.pow(tmp.G.gsref)
         if(!upg('H',42)) {if(ef.gte('e2e11')) ef=n('e2e11').mul(n(10).pow(ef.log(10).sub('2e11').pow(0.9)))}//rem
         let scx=[n(0.75),n(0.66),n(0.5),n(0.66),n(0.5)]   //exp's nerf,much stronger
         if(mil('I',5)) scx[0]=scx[0].add(0.03)         //the SHIT-like softcaps
@@ -3048,9 +2990,8 @@ addLayer("G", {
         if(gcs('I',311)) ef=n(10).tetrate(ef.max(10).slog().sub(tmp.I.resv[2]).max(0))
         let tet=n(bef('J',43))
         if(upg('H',52)) tet=tet.add(uef('H',52))
-        ef=n(10).tetrate(ef.max(10).slog().add(tet).max(0))
-        ef=ef.mul(bef('J',35)[0])
-        ef=ef.pow(bef('J',85))
+        if(mil('I',13)) ef=n(10).tetrate(ef.max(10).slog().add(tet).max(0))
+        if(gba('J',101).gte(11)) ef=ef.mul(bef('J',35)[0]).pow(bef('J',85))
         ef=ef.min(n(10).tetrate(tmp.H.hcap))
         return ef},
     gseef(){
@@ -3111,7 +3052,7 @@ addLayer("G", {
         ef=ef.mul(tmp.H.dhpef)
         if(mil('I',0)) ef=ef.mul(10)
         if(player.H.dhmax[1].gte(1)) ef=ef.mul(100)
-        if(ch('I',12)) ef=ef.pow(challengeEffect('I',12))   
+        if(ch('I',12)) ef=ef.pow(cef('I',12))   
         if(mil('I',9)) ef=ef.pow(bef('I',32))   
         if(gcs('I',311)) ef=n(10).tetrate(ef.max(10).slog().sub(tmp.I.resv[2]).max(0))
         ef=n(10).tetrate(ef.max(10).slog().add(bef('J',43)).max(0))
@@ -3138,15 +3079,15 @@ addLayer("G", {
         return ef
     },
     update(diff) {
-        if (ccomp("G", 11).gte(3))  player.G.Gc1p = player.G.Gc1p.add(tmp.G.gc1g.mul(diff))
-        if (ccomp("G", 12).gte(3))  player.G.Gc2p = player.G.Gc2p.add(tmp.G.gc2g.mul(diff))
-        if (ccomp("G", 21).gte(3))  player.G.Gc3p = player.G.Gc3p.add(tmp.G.gc3g.mul(diff))
-        if (ccomp("G", 22).gte(3))  player.G.Gc4p = player.G.Gc4p.add(tmp.G.gc4g.mul(diff))
-        if (mil("G", 14))  player.G.Gs = player.G.Gs.add(tmp.G.gsb.mul(diff))
-        if (upg("G", 83))  player.G.Gsi = player.G.Gsi.add(tmp.G.gsib.mul(diff))
-        if (upg("G", 91))  player.G.Gse = player.G.Gse.add(tmp.G.gseb.mul(diff))
-        if (mil("G", 30))  player.G.Gsr = player.G.Gsr.add(tmp.G.gsrb.mul(diff))
-        if (upg("G", 115))  player.G.GG = player.G.GGtot.sub(player.G.Gtc)
+        if (ccomp('G',11).gte(3))  player.G.gcp[0] = player.G.gcp[0].add(tmp.G.gcg[0].mul(diff))
+        if (ccomp('G',12).gte(3))  player.G.gcp[1] = player.G.gcp[1].add(tmp.G.gcg[1].mul(diff))
+        if (ccomp('G',21).gte(3))  player.G.gcp[2] = player.G.gcp[2].add(tmp.G.gcg[2].mul(diff))
+        if (ccomp('G',22).gte(3))  player.G.gcp[3] = player.G.gcp[3].add(tmp.G.gcg[3].mul(diff))
+        if (mil('G',14))  player.G.Gs = player.G.Gs.add(tmp.G.gsb.mul(diff))
+        if (upg('G',83))  player.G.Gsi = player.G.Gsi.add(tmp.G.gsib.mul(diff))
+        if (upg('G',91))  player.G.Gse = player.G.Gse.add(tmp.G.gseb.mul(diff))
+        if (mil('G',30))  player.G.Gsr = player.G.Gsr.add(tmp.G.gsrb.mul(diff))
+        if (upg('G',115))  player.G.GG = player.G.GGtot.sub(player.G.Gtc)
         player.G.Gsetot = player.G.Gsetot.max(player.G.Gse)
     },
 })

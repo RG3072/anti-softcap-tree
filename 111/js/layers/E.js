@@ -147,8 +147,8 @@ addLayer("E", {
             effectDescription: "autobuy Eb10,E47 ^1.6.",
             toggles: [ ["E","auto5"] ]
         },
-        20: {requirementDescription: "1e981 total E (21",
-            done() {return player[this.layer].total.gte('1e981')}, 
+        20: {requirementDescription: "1e980 total E (21",
+            done() {return player[this.layer].total.gte('1e980')}, 
             effectDescription: "x2024 E,unlock the next layer.",
         },
     },
@@ -1019,7 +1019,7 @@ addLayer("E", {
                 return "Bb1-2's base are stuck at 2. <br> Completion: " +ccomp("E", 12) + "/3"},
             unlocked() { return (mil("E", 3))},
             goal(){
-                let a=[n('e8280'),n('e8850'),n('e9860'),n('e9860')]//7000
+                let a=[n('e8200'),n('e8850'),n('e9860'),n('e9860')]//7000,8280
                 return a[ccomp(this.layer,this.id)]
             },            
             goalDescription:  function() {return format(this.goal())+' points'},
@@ -1110,7 +1110,7 @@ addLayer("E", {
                 return "nerf pts based on Em. <br> Completion: " +ccomp("E", 32) + "/5 <br> currently: ^"+format(this.nerf(),6)},
             unlocked() { return (mil("E", 14))},
             goal(){
-                let a=[n('e13200'),n('e13700'),n('e14850'),n('e20000'),n('e25850'),n('e25850')]
+                let a=[n('e13200'),n('e13700'),n('e14850'),n('e20000'),n('e25800'),n('e25850')]
                 return a[ccomp(this.layer,this.id)]
             },      
             nerf() { return player.E.Em.add(10).log(10).pow(-0.2).max('1e-100')},       

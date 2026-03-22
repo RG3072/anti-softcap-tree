@@ -36,8 +36,8 @@ addLayer("F", {
     gainMult() { 
         mult = n(1)
         if (upg('F',21)) mult=mult.mul(2)
-        if (upg('F',23)) mult=mult.mul(upgradeEffect('F',23))
-        if (upg('F',32)) mult=mult.mul(upgradeEffect('F',32))
+        if (upg('F',23)) mult=mult.mul(uef('F',23))
+        if (upg('F',32)) mult=mult.mul(uef('F',32))
         if (mil('F',10)) mult=mult.mul(tmp.F.F1f)
 
         return mult
@@ -116,7 +116,7 @@ addLayer("F", {
         },
         17: {requirementDescription: "6 tickboost (18",
             done() {return (gba('F',102).gte(6))}, 
-            effectDescription: "bulk buy Bb/Eb base on total G,G6/10 are stronger,unlock new upg,only can be bought in Gc.",
+            effectDescription: "bulk buy Bb/Eb base on total G,G6/10 are stronger,unlock new upg in Gc,slightly boost at 1e34 G.",//,only can be bought
         },
         18: {requirementDescription: "19 tickboost (19",
             done() {return (gba('F',102).gte(19))}, 
@@ -198,7 +198,7 @@ addLayer("F", {
                 if (upg('F',32)) ef=ef.mul('1e111')
                 if (upg('F',34)) ef=ef.mul('1e120')
                 if (upg('F',23)) exp=exp.add(0.5)
-                if (upg('F',15)) ef=ef.pow(buyableEffect("E",21).sub(1).mul(exp).add(1))
+                if (upg('F',15)) ef=ef.pow(bef("E",21).sub(1).mul(exp).add(1))
                 return ef;          
             },
             cost:n(1),
@@ -287,7 +287,7 @@ addLayer("F", {
             effect()  { 
                 let exp=n(0.1)
                 if (upg('F',33)) exp=exp.add(0.1)
-                if (upg('G',14)) exp=exp.add(upgradeEffect('G',14).sub(1))
+                if (upg('G',14)) exp=exp.add(uef('G',14).sub(1))
                 let ef = player.F.total.add(1).pow(exp)
                 return ef;
             },
@@ -477,7 +477,7 @@ addLayer("F", {
             effect()  { 
                 let ef = player.F.F1.add(10).log(10).pow(0.25).div(25).add(1)
                 if (upg('G',15))  ef=ef.pow(1.1)
-                if (upg('G',23))  ef=ef.pow(upgradeEffect('G',23))
+                if (upg('G',23))  ef=ef.pow(uef('G',23))
                 return ef;
             },
             effectDisplay() { return '^'+format(this.effect(),4) },
@@ -487,7 +487,7 @@ addLayer("F", {
             title:'F31',
             description: "F upg boost F dims.<br>(need Gc1).",
             cost:n('1e848'),
-            canAfford() {return inChallenge('G',11)||gcs('I',43)}, //
+            canAfford() {return inc('G',11)||gcs('I',43)}, //
             effect()  { 
                 let a=player[this.layer].upgrades.length
                 let ef=n(1.075).pow(a)
@@ -498,13 +498,13 @@ addLayer("F", {
             currencyDisplayName: "F1",
             currencyInternalName: "F1",
             unlocked() { return (mil(this.layer, 17))},
-            effectDisplay() { return format(upgradeEffect(this.layer, this.id))+"x" },
+            effectDisplay() { return format(uef(this.layer, this.id))+"x" },
         },
         72: {
             title:'F32',
             description: "tickspeed mult x1.01,log G mults itself.(need Gc1).",
             cost:n('1e895'),
-            canAfford() {return (inChallenge('G',11)||gcs('I',43))}, 
+            canAfford() {return (inc('G',11)||gcs('I',43))}, 
             effect()  { 
                 let ef = player.G.total.add(10).log(10)
                 return ef;          
@@ -513,13 +513,13 @@ addLayer("F", {
             currencyDisplayName: "F1",
             currencyInternalName: "F1",
             unlocked() { return (upg(this.layer, 71))},
-            effectDisplay() { return format(upgradeEffect(this.layer, this.id))+"x" },
+            effectDisplay() { return format(uef(this.layer, this.id))+"x" },
         },
         73: {
             title:'F33',
             description: "F1 eff exp ^1.2,Gb1 mults Fds.(need Gc1).",
             cost:n('1e1030'),
-            canAfford() {return (inChallenge('G',11)||gcs('I',43))}, 
+            canAfford() {return (inc('G',11)||gcs('I',43))}, 
             effect()  { 
                 let t = n(gba('G',11))
                 let ef=n(5).pow(t)
@@ -529,17 +529,17 @@ addLayer("F", {
             currencyDisplayName: "F1",
             currencyInternalName: "F1",
             unlocked() { return (upg(this.layer, 72))},
-            effectDisplay() { return format(upgradeEffect(this.layer, this.id))+"x" },
+            effectDisplay() { return format(uef(this.layer, this.id))+"x" },
         },
         74: {
             title:'F34',
             description: "Gb2 amt boost its base,Gc1p mults G.(need Gc1).",
             cost:n('1e1155'),
-            canAfford() {return (inChallenge('G',11)||gcs('I',43))}, 
+            canAfford() {return (inc('G',11)||gcs('I',43))}, 
             effect()  { 
                 let t=n(gba('G',12))
                 let ef1=t.mul(0.06)
-                let ef2=player.G.Gc1p.add(10).log(10).div(1.5)
+                let ef2=player.G.gcp[0].add(10).log(10).div(1.5)
                 return [ef1,ef2];          
             },
             currencyLocation() {return player[this.layer]}, 
@@ -552,7 +552,7 @@ addLayer("F", {
             title:'F35',
             description: "Gb3 amt boost its base,F31 ^2,unlock next G chal.(need Gc1).",
             cost:n('1e1615'),//1e1300
-            canAfford() {return (inChallenge('G',11)||gcs('I',43))}, 
+            canAfford() {return (inc('G',11)||gcs('I',43))}, 
             effect()  { 
                 let t = n(gba('G',13))
                 let ef=t.mul(0.08)
@@ -571,10 +571,10 @@ addLayer("F", {
             currencyDisplayName: "F1",
             currencyInternalName: "F1",
             cost:n('1e1290'),
-            canAfford() {return (inChallenge('G',12)||gcs('I',43))}, 
+            canAfford() {return (inc('G',12)||gcs('I',43))}, 
             effect()  { 
                 let exp=n(0.15)
-                let ef= upgradeEffect('E',55).pow(exp)
+                let ef= uef('E',55).pow(exp)
                 return ef;
             },
             effectDisplay() { return 'x'+format(this.effect()) },
@@ -587,10 +587,10 @@ addLayer("F", {
             currencyDisplayName: "F1",
             currencyInternalName: "F1",
             cost:n('e5600'),//6000
-            canAfford() {return (inChallenge('G',12)||gcs('I',43))}, 
+            canAfford() {return (inc('G',12)||gcs('I',43))}, 
             effect()  { 
                 let exp=n(0.33)
-                let ef=player.G.Gc1p.add(10).log(10).pow(exp)
+                let ef=player.G.gcp[0].add(10).log(10).pow(exp)
                 return ef;
             },
             effectDisplay() { return 'x'+format(this.effect()) },
@@ -603,7 +603,7 @@ addLayer("F", {
             currencyDisplayName: "F1",
             currencyInternalName: "F1",
             cost:n('e8000'),//8600
-            canAfford() {return (inChallenge('G',12)||gcs('I',43))}, 
+            canAfford() {return (inc('G',12)||gcs('I',43))}, 
             unlocked() { return (upg(this.layer, 82))},
         },
         84: {
@@ -613,10 +613,10 @@ addLayer("F", {
             currencyDisplayName: "F1",
             currencyInternalName: "F1",
             cost:n('e112000'),
-            canAfford() {return (inChallenge('G',21)||gcs('I',43))}, 
+            canAfford() {return (inc('G',21)||gcs('I',43))}, 
             effect()  { 
                 let exp=n(0.5)
-                let ef=player.G.Gc2p.add(10).log(10).pow(exp)
+                let ef=player.G.gcp[1].add(10).log(10).pow(exp)
                 return ef;
             },
             effectDisplay() { return 'x'+format(this.effect()) },
@@ -629,7 +629,7 @@ addLayer("F", {
             currencyDisplayName: "F1",
             currencyInternalName: "F1",
             cost:n('e1.865e8'),
-            canAfford() {return (inChallenge('G',21)||gcs('I',43))}, 
+            canAfford() {return (inc('G',21)||gcs('I',43))}, 
             unlocked() { return (upg(this.layer, 83))},
         },
     },
@@ -713,11 +713,11 @@ addLayer("F", {
             effect(x) {
                 let ef = this.base().pow(x)
                 ef=ef.mul(tmp.F.fdm)
-                if(upg('F',43))  ef=ef.mul(upgradeEffect('F',43))
-                if(upg('F',44))  ef=ef.mul(upgradeEffect('F',44))
-                if(upg('F',51))  ef=ef.mul(upgradeEffect('F',51))
-                if(hasChallenge('F',12))  ef=ef.mul(challengeEffect('F',12))
-                if(upg('F',64))  ef=ef.mul(upgradeEffect('F',64))
+                if(upg('F',43))  ef=ef.mul(uef('F',43))
+                if(upg('F',44))  ef=ef.mul(uef('F',44))
+                if(upg('F',51))  ef=ef.mul(uef('F',51))
+                if(ch('F',12))  ef=ef.mul(cef('F',12))
+                if(upg('F',64))  ef=ef.mul(uef('F',64))
                 return ef},
             display() { 
                 return "produce F1 \n\
@@ -931,13 +931,13 @@ addLayer("F", {
                 let c = n(1e20).pow(x).mul(1e40)
                 if (c.gte('1e500')) c=n('1e500').mul(n(10).pow(c.div('1e499').log(10).pow(tmp.F.scaling)))
                 if (mil('F',18)) c = c.min(n(10).pow(x.mul(20).pow(tmp.F.scaling)))
-                if (inChallenge('G',21)) c=c.pow(5)
+                if (inc('G',21)) c=c.pow(5)
                 return c},
             canAfford() { return player[this.layer].F1.gte(this.cost()) },
             bulk(){
                 let t=player.F.F1.div(1e40).max(1).log(1e20).pow(0.82).sub(gba(this.layer,this.id).add(1)).ceil().max(1)
                 if(mil('F',18)) t=player.F.F1.add(10).log(10).pow(tmp.F.scaling.pow(-1)).div(20).sub(gba(this.layer, this.id)).ceil().sub(1).max(0)
-                if(inChallenge('G',21)) t=player.F.F1.pow(0.2).add(10).log(10).pow(tmp.F.scaling.pow(-1)).div(20).sub(gba(this.layer, this.id)).ceil().sub(1).max(0)
+                if(inc('G',21)) t=player.F.F1.pow(0.2).add(10).log(10).pow(tmp.F.scaling.pow(-1)).div(20).sub(gba(this.layer, this.id)).ceil().sub(1).max(0)
                 let c = this.cost(gba(this.layer, this.id).add(t))
                 if (player[this.layer].F1.gte(c)&&player.F.auto1&&mil('G',3)) {setBuyableAmount(this.layer,this.id,gba(this.layer,this.id).add(t))
                     player.F.fdim[7] = player.F.fdim[7].add(t)}
@@ -946,7 +946,7 @@ addLayer("F", {
                 player.F.fdim[7] = player.F.fdim[7].add(1)
             },
             base(){   let b=tmp.F.fdbas
-                if (ccomp("G",21).gte(3)) b=b.mul(tmp.G.gc3ef)
+                if (ccomp("G",21).gte(3)) b=b.mul(tmp.G.gcef[2])
                 return b},
             effect(x) {
                 let ef = this.base().pow(x)
@@ -1022,8 +1022,7 @@ addLayer("F", {
                 if (player[this.layer].fdim[7].gte(c)) setBuyableAmount(this.layer,this.id,gba(this.layer,this.id).add(tar))
             },
             buy() {setBuyableAmount(this.layer,this.id,gba(this.layer, this.id).add(1))
-            if (!mil('G',1))
-                {let st=n(10)
+            if (!mil('G',1)) {let st=n(10)
                 if (mil('F',14)) st=n('1e6')
                 if (mil('F',15)) st=n('1e30')
                 player.F.F1=st
@@ -1162,50 +1161,53 @@ addLayer("F", {
         if(upg('G',52))  expc4=expc4.add(0.5)
         if(upg('G',33)) e=e.add(0.005)
         if(gcs('I',34)) e=e.add(0.001)
-        if(hasChallenge('G',22)) e=e.add(challengeEffect('G',22))
+        if(ch('G',22)) e=e.add(cef('G',22))
         if(gba('F',102).gte(1)) bas=ef[n(gba('F',102)).sub(1).min(2)]
-        // if (gba('F',102).gte(3)) bas=e.pow(gba('F',102)).mul(0.3).add(0.73)
         if(upg('F',72))  bas=bas.sub(1).mul(1.01).add(1)
-        if(hasChallenge('G',12))  bas=bas.sub(1).mul(challengeEffect('G',12)).add(1)
-        if(upg('G',54)) bas=bas.sub(1).mul(upgradeEffect('G',54)).add(1)
+        if(ch('G',12))  bas=bas.sub(1).mul(cef('G',12)).add(1)
+        if(upg('G',54)) bas=bas.sub(1).mul(uef('G',54)).add(1)
         if(mil('G',14)) bas=bas.pow(tmp.G.gsef)
-        if(inChallenge('G',22)) bas=n(1.05).add(gba('F',102).pow(expc4).div(100))
+        if(inc('G',22)) bas=n(1.05).add(gba('F',102).pow(expc4).div(100))
         return bas},
     f1g() {
         ef = n(1)
-        if (mil('F',10))  ef=ef.mul(buyableEffect("F", 11))
+        if (mil('F',10))  ef=ef.mul(bef("F", 11))
         if (upg('F',41))  ef=ef.mul(2)
         if (upg('F',45))  ef=ef.mul(4)
         if (mil('F',14))  ef=ef.mul(10)
-        if (inChallenge('G', 11))  ef=ef.pow(0.8)
+        if (inc('G', 11))  ef=ef.pow(0.8)
         if (mil('G',8))  ef=ef.pow(tmp.F.F2f)
         if (mil('I',0))  ef=ef.pow(1.05).mul(1e10)
         if (mil('I',1))  ef=ef.pow(1.05).mul(1e10)
         if (gcs('I',31))  ef=ef.pow(1.12)
-        if (mil('I',3))  ef=ef.pow(buyableEffect('I',13)[0])
+        if (mil('I',3))  ef=ef.pow(bef('I',13)[0])
         return ef;
     },
     f2g() {
         ef=n(1)
-        if(mil('G',8))  ef=ef.mul(buyableEffect("F", 111))
+        if(mil('G',8))  ef=ef.mul(bef("F", 111))
         return ef;
     },
     fdm(){
         ef=n(1)
-        ef=ef.mul(buyableEffect('F',101))
+        ef=ef.mul(bef('F',101))
         if (upg('G',11))  ef=ef.mul(2)
-        if (upg('G',21))  ef=ef.mul(upgradeEffect('G',21)[0])
-        ef=ef.mul(buyableEffect('G',12))
-    	if (hasChallenge('G',11))  ef=ef.mul(challengeEffect('G',11))
-        if (upg('F',71))  ef=ef.mul(upgradeEffect('F',71))
-        if (upg('F',73))  ef=ef.mul(upgradeEffect('F',73))
-        if(ccomp('G',11).gte(1)) ef=ef.mul(tmp.G.gc1ef)
+        if (upg('G',21))  ef=ef.mul(uef('G',21)[0])
+        ef=ef.mul(bef('G',12))
+    	if (ch('G',11))  ef=ef.mul(cef('G',11))
+        if (upg('F',71))  ef=ef.mul(uef('F',71))
+        if (upg('F',73))  ef=ef.mul(uef('F',73))
+        if(player.G.total.gte('1e34')) ef=ef.mul(1e10)
+        if(player.G.total.gte('1e72')) ef=ef.mul(1e10)
+        if(player.G.total.gte('1e3050')) ef=ef.mul(1e100)
+        if(player.G.total.gte('e8.6e5')) ef=ef.mul('ee5')
+        if(ccomp('G',11).gte(1)) ef=ef.mul(tmp.G.gcef[0])
         return ef;
     },
     f2dm(){
         ef = n(1)
-        if (upg('G',51))  ef=ef.mul(upgradeEffect('G',51))
-        if (upg('G',53))  ef=ef.mul(upgradeEffect('G',53))
+        if (upg('G',51))  ef=ef.mul(uef('G',51))
+        if (upg('G',53))  ef=ef.mul(uef('G',53))
         return ef;
     },
     fdbas(){
@@ -1215,10 +1217,10 @@ addLayer("F", {
         if (upg('G',12)) ef=ef.add(0.1)
         if (upg('G',24)) ef=ef.add(0.1)
         if (upg('F',81)) ef=ef.add(0.1)
-        if (hasChallenge('G',21)) ef=ef.add(challengeEffect('G',21))
-        ef=ef.add(tmp.G.gc4ef)
+        if (ch('G',21)) ef=ef.add(cef('G',21))
+        ef=ef.add(tmp.G.gcef[3])
         if(gcs('I',33)) ef=ef.mul(1.1)
-        if(inChallenge('G',12)) ef=ef.pow(0.5)
+        if(inc('G',12)) ef=ef.pow(0.5)
         return ef
     },
     scaling(){
@@ -1247,7 +1249,7 @@ addLayer("F", {
             if (upg('G',43))  t=t.sub(50)
             if(mil('G',14)) t=t.div(tmp.G.gsef)
             let sc=n(1.5).add(player.F.F1.div('1e1200').log(10).div(t))
-            if (player.F.F1.gte('1e1200')) ef=n('e21200').mul(n(10).pow(player.F.F1.div('1e1199').log(10).pow(sc)))}//10^[(1200x2)^(1.015x1.05x1.21.2)]=e35331
+            if (player.F.F1.gte('1e1200')) ef=n('e21200').mul(n(10).pow(player.F.F1.div('1e1199').log(10).pow(sc)))}
         return ef
     },
     F2f() {
