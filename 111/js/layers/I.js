@@ -1531,7 +1531,7 @@ addLayer("I", {
         14: {
             title:'1,4',
             description: function() {return '1,3 eff boost PR d base<br>Need:2 BP slog eff'},    
-            canAfford() {return tmp.J.slogs[0].gte(2)},
+            canAfford() {return tmp.J.slogs[0] && tmp.J.slogs[0].gte(2)},
             cost:n('ee240'),
             unlocked() {return mil('I',38)},
         }, 
