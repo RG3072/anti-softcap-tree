@@ -1553,8 +1553,15 @@ addLayer('G', {
         },
     },
     automate(){
+        // Anti-NaN guard: at very large values after an I reset, Gsb2/Gsb3 can become Decimal NaN.
+        // Clean them before and after the autobuyer so the save does not get cooked.
+        const fixGsbNaN = () => {
+            if (checkDecimalNaN(player.G.buyables[22])) setBuyableAmount('G', 22, n(0))
+            if (checkDecimalNaN(player.G.buyables[23])) setBuyableAmount('G', 23, n(0))
+        }
+        fixGsbNaN()
         if (player.G.auto2)  buyBuyable('G',11),buyBuyable('G',12),buyBuyable('G',13)
-        if (player.G.auto4)  buyBuyable('G',21),buyBuyable('G',22),buyBuyable('G',23)
+        if (player.G.auto4)  {buyBuyable('G',21),buyBuyable('G',22),buyBuyable('G',23); fixGsbNaN()}
         if (player.G.auto5)  buyBuyable('G',31),buyBuyable('G',32)
         if (player.G.auto6)  buyBuyable('G',41),buyBuyable('G',42)
         if (player.G.auto7)  buyBuyable('G',61),buyBuyable('G',62)
@@ -1779,8 +1786,12 @@ addLayer('G', {
             bulk(){
                 let tar=n(0)
                 if(mil('G',21))   tar=player[this.layer].Gs.add(10).log(10).div(10).max(1).log(2).pow(this.sce().pow(-1)).sub(gba(this.layer, this.id)).sub(1).ceil().max(1)
-                let c = this.cost(gba(this.layer, this.id).add(tar))
-                if (player[this.layer].Gs.gte(c)) setBuyableAmount(this.layer, this.id, getBuyableAmount(this.layer, this.id).add(tar))
+                if (checkDecimalNaN(tar)) return
+                let next = gba(this.layer, this.id).add(tar)
+                if (checkDecimalNaN(next)) return
+                let c = this.cost(next)
+                if (checkDecimalNaN(c)) return
+                if (player[this.layer].Gs.gte(c)) setBuyableAmount(this.layer, this.id, next)
             },
             buy() { if(!mil('G',27)) {player[this.layer].Gs = player[this.layer].Gs.sub(this.cost())}
                 setBuyableAmount(this.layer, this.id, gba(this.layer, this.id).add(1))},
@@ -1833,8 +1844,12 @@ addLayer('G', {
             bulk(){
                 let tar=n(0)
                 if(mil('G',25))   tar=player[this.layer].Gs.add(10).log(10).div(5).max(1).log(3).pow(this.sce().pow(-1)).sub(gba(this.layer, this.id)).sub(1).ceil().max(1)
-                let c = this.cost(gba(this.layer, this.id).add(tar))
-                if (player[this.layer].Gs.gte(c)) setBuyableAmount(this.layer, this.id, getBuyableAmount(this.layer, this.id).add(tar))
+                if (checkDecimalNaN(tar)) return
+                let next = gba(this.layer, this.id).add(tar)
+                if (checkDecimalNaN(next)) return
+                let c = this.cost(next)
+                if (checkDecimalNaN(c)) return
+                if (player[this.layer].Gs.gte(c)) setBuyableAmount(this.layer, this.id, next)
             },
             buy() { if(!mil('G',27)) {player[this.layer].Gs = player[this.layer].Gs.sub(this.cost())}
                 setBuyableAmount(this.layer, this.id, gba(this.layer, this.id).add(1))},
